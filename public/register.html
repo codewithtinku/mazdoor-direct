@@ -3,194 +3,193 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Worker Registration | Mazdoor Direct</title>
+  <title>Worker Registration | MazdoorDirect</title>
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    .form-container {
-      max-width: 580px;
-      margin: 30px auto;
-      background: #ffffff;
-      padding: 30px;
-      border-radius: 14px;
-      border: 1px solid var(--border-color);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
-    .form-title {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: #1e293b;
-      margin-bottom: 6px;
-    }
-    .form-subtitle {
-      color: #64748b;
-      font-size: 0.9rem;
-      margin-bottom: 22px;
-    }
-    .form-group {
-      margin-bottom: 18px;
-    }
-    .form-group label {
-      display: block;
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: #334155;
-      margin-bottom: 6px;
-    }
-    .form-group input, .form-group select {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1.5px solid #cbd5e1;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .form-group input:focus, .form-group select:focus {
-      border-color: var(--primary);
-    }
-    .photo-input-wrap {
-      background: #f8fafc;
-      border: 1.5px dashed #cbd5e1;
-      padding: 14px;
-      border-radius: 8px;
-      text-align: center;
-    }
-    .btn-submit {
-      width: 100%;
-      background: var(--primary);
+    .geo-btn {
+      background-color: #2563eb;
       color: #ffffff;
-      padding: 12px;
       border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 600;
+      padding: 10px 14px;
+      border-radius: 6px;
       cursor: pointer;
-      margin-top: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
     }
-    .btn-submit:hover {
-      background: var(--primary-dark);
+    .geo-btn:hover {
+      background-color: #1d4ed8;
     }
-    .alert-msg {
-      padding: 12px;
-      border-radius: 8px;
-      margin-bottom: 16px;
-      display: none;
-      font-size: 0.9rem;
+    .geo-btn:disabled {
+      background-color: #94a3b8;
+      cursor: not-allowed;
     }
-    .alert-success { background: #dcfce7; color: #15803d; }
-    .alert-error { background: #fee2e2; color: #b91c1c; }
   </style>
 </head>
 <body>
-
-  <!-- Top Navigation -->
-  <header class="navbar">
-    <div class="brand">
-      <i class="fa-solid fa-person-digging logo-icon"></i>
-      <span class="brand-name">Mazdoor<span>Direct</span></span>
-    </div>
-    <a href="index.html" class="btn-register-link"><i class="fa-solid fa-arrow-left"></i> Directory me Wapas Jayein</a>
+  <header class="top-nav">
+    <div class="logo">👷 MazdoorDirect</div>
+    <a href="index.html" class="nav-btn">← Directory me Wapas Jayein</a>
   </header>
 
-  <!-- Registration Form Box -->
   <main class="form-container">
-    <h2 class="form-title">Naye Karigar / Helper Ka Registration</h2>
-    <p class="form-subtitle">Apni details bharein taaki direct phone calls aur WhatsApp par kaam mil sake.</p>
+    <h2>Naye Karigar / Helper Ka Registration</h2>
+    <p class="subtitle">Apni details bharein taaki direct phone calls aur WhatsApp par kaam mil sake</p>
 
-    <div id="alertBox" class="alert-msg"></div>
-
-    <form id="workerRegisterForm" enctype="multipart/form-data">
-      
-      <!-- Profile Photo Box Card Ke Andar -->
+    <form id="registerForm" enctype="multipart/form-data">
       <div class="form-group">
-        <label><i class="fa-solid fa-camera"></i> Apni Photo Upload Karein (Optional)</label>
-        <div class="photo-input-wrap">
-          <input type="file" id="profile_photo" name="profile_photo" accept="image/*">
-        </div>
+        <label>📷 Apni Photo Upload Karein (Optional)</label>
+        <input type="file" name="photo" accept="image/*">
       </div>
 
       <div class="form-group">
-        <label for="full_name">Pura Naam (Full Name) *</label>
-        <input type="text" id="full_name" name="full_name" placeholder="e.g. Ramesh Kumar" required>
+        <label for="name">Pura Naam (Full Name) *</label>
+        <input type="text" id="name" name="name" placeholder="e.g. Ramesh Kumar" required>
       </div>
 
       <div class="form-group">
-        <label for="phone_number">Mobile / WhatsApp Number *</label>
-        <input type="tel" id="phone_number" name="phone_number" placeholder="10-digit mobile number" required pattern="[0-9]{10}">
+        <label for="phone">Mobile / WhatsApp Number *</label>
+        <input type="tel" id="phone" name="phone" placeholder="10-digit mobile number" required pattern="[0-9]{10}">
       </div>
 
       <div class="form-group">
-        <label for="category_id">Kaam Ka Prakar (Skill / Trade) *</label>
-        <select id="category_id" name="category_id" required>
+        <label for="categorySelect">Kaam Ka Prakar (Skill / Trade) *</label>
+        <select id="categorySelect" name="category_id" required>
           <option value="">Category Chunein</option>
         </select>
       </div>
 
       <div class="form-group">
-        <label for="locality_id">Mohalla / Local Area *</label>
-        <select id="locality_id" name="locality_id" required>
+        <label for="localitySelect">Mohalla / Local Area *</label>
+        <select id="localitySelect" name="locality_id" required>
           <option value="">Area Chunein</option>
         </select>
       </div>
-<!-- Mohalla / Local Area Dropdown -->
-<div class="form-group">
-  <label for="localitySelect">Mohalla / Local Area *</label>
-  <select id="localitySelect" name="locality_id" required>
-    <option value="">Area Chunein</option>
-  </select>
-</div>
 
-<!-- Current Location GPS Button -->
-<div class="form-group">
-  <button type="button" id="geoBtn" onclick="getLocation()" style="background:#2563eb; color:white; border:none; padding:8px 12px; border-radius:6px; cursor:pointer; font-size:14px;">
-    📍 Use My Current Location
-  </button>
-  <span id="geoStatus" style="font-size: 13px; color: #555; margin-left: 8px;"></span>
-  <input type="hidden" id="latitude" name="latitude">
-  <input type="hidden" id="longitude" name="longitude">
-</div>
+      <!-- Current Location Button -->
+      <div class="form-group" style="margin: 15px 0;">
+        <label style="display:block; font-weight:600; margin-bottom:6px;">Current Location</label>
+        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+          <button type="button" id="geoBtn" class="geo-btn" onclick="getLocation()">
+            📍 Use My Current Location
+          </button>
+          <span id="geoStatus" style="font-size: 13px; font-weight: 500;"></span>
+        </div>
+        <input type="hidden" id="latitude" name="latitude">
+        <input type="hidden" id="longitude" name="longitude">
+      </div>
 
       <div class="form-group">
         <label for="daily_rate">Daily Rate (₹)</label>
-        <input type="number" id="daily_rate" name="daily_rate" placeholder="e.g. 600" min="0">
+        <input type="number" id="daily_rate" name="daily_rate" placeholder="e.g. 600">
       </div>
 
       <div class="form-group">
         <label for="visiting_charge">Visiting Charge (₹)</label>
-        <input type="number" id="visiting_charge" name="visiting_charge" placeholder="e.g. 150" min="0">
+        <input type="number" id="visiting_charge" name="visiting_charge" placeholder="e.g. 150">
       </div>
 
       <div class="form-group">
         <label for="experience_years">Experience (Saal)</label>
-        <input type="number" id="experience_years" name="experience_years" placeholder="e.g. 5" min="0">
+        <input type="number" id="experience_years" name="experience_years" placeholder="e.g. 5">
       </div>
 
-      <button type="submit" class="btn-submit">
-        <i class="fa-solid fa-circle-check"></i> Profile Banayein & Register Karein
+      <button type="submit" class="submit-btn" style="background:#059669; color:white; padding:12px; border:none; border-radius:6px; font-size:16px; cursor:pointer; width:100%; font-weight:600;">
+        ✅ Profile Banayein & Register Karein
       </button>
     </form>
   </main>
 
-  <script src="js/register.js">function getLocation() {
-  const status = document.getElementById('geoStatus');
-  if (!navigator.geolocation) {
-    status.innerText = 'Geolocation aapke browser me support nahi karta.';
-    return;
-  }
-  status.innerText = 'Locating...';
-  navigator.geolocation.getCurrentPosition(
-    (position) => {
-      document.getElementById('latitude').value = position.coords.latitude;
-      document.getElementById('longitude').value = position.coords.longitude;
-      status.innerText = '✅ Location captured!';
-      status.style.color = 'green';
-    },
-    () => {
-      status.innerText = '❌ Location access deny ho gaya.';
-      status.style.color = 'red';
+  <script>
+    // 1. Fetch Categories & Localities on Page Load
+    async function loadDropdowns() {
+      try {
+        const catRes = await fetch('/api/categories');
+        const categories = await catRes.json();
+        const catSelect = document.getElementById('categorySelect');
+        categories.forEach(c => {
+          const opt = document.createElement('option');
+          opt.value = c.id;
+          opt.textContent = c.name;
+          catSelect.appendChild(opt);
+        });
+
+        const locRes = await fetch('/api/localities');
+        const localities = await locRes.json();
+        const locSelect = document.getElementById('localitySelect');
+        localities.forEach(l => {
+          const opt = document.createElement('option');
+          opt.value = l.id;
+          opt.textContent = l.name;
+          locSelect.appendChild(opt);
+        });
+      } catch (err) {
+        console.error('Dropdown load error:', err);
+      }
     }
-  );
-}</script>
+
+    loadDropdowns();
+
+    // 2. Geolocation Function
+    function getLocation() {
+      const status = document.getElementById('geoStatus');
+      const btn = document.getElementById('geoBtn');
+
+      if (!navigator.geolocation) {
+        status.innerText = 'Geolocation browser me supported nahi hai.';
+        status.style.color = '#dc2626';
+        return;
+      }
+
+      status.innerText = 'Locating... Kripya wait karein';
+      status.style.color = '#2563eb';
+      btn.disabled = true;
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          document.getElementById('latitude').value = position.coords.latitude;
+          document.getElementById('longitude').value = position.coords.longitude;
+          status.innerText = `✅ Location captured! (${position.coords.latitude.toFixed(4)}, ${position.coords.longitude.toFixed(4)})`;
+          status.style.color = '#16a34a';
+          btn.disabled = false;
+        },
+        (error) => {
+          btn.disabled = false;
+          if (error.code === error.PERMISSION_DENIED) {
+            status.innerText = '❌ Permission denied. Browser me location allow karein.';
+          } else {
+            status.innerText = '❌ Location fetch nahi ho saki.';
+          }
+          status.style.color = '#dc2626';
+        },
+        { enableHighAccuracy: true, timeout: 10000 }
+      );
+    }
+
+    // 3. Form Submit Handler
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+
+      try {
+        const res = await fetch('/api/workers', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+        if (res.ok) {
+          alert('Worker successfully register ho gaya!');
+          window.location.href = 'index.html';
+        } else {
+          alert('Registration failed: ' + (data.message || 'Error occurred'));
+        }
+      } catch (err) {
+        alert('Server se connect nahi ho saka.');
+      }
+    });
+  </script>
 </body>
 </html>
