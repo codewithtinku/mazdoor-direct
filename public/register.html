@@ -133,6 +133,23 @@
           <option value="">Area Chunein</option>
         </select>
       </div>
+<!-- Mohalla / Local Area Dropdown -->
+<div class="form-group">
+  <label for="localitySelect">Mohalla / Local Area *</label>
+  <select id="localitySelect" name="locality_id" required>
+    <option value="">Area Chunein</option>
+  </select>
+</div>
+
+<!-- Current Location GPS Button -->
+<div class="form-group">
+  <button type="button" id="geoBtn" onclick="getLocation()" style="background:#2563eb; color:white; border:none; padding:8px 12px; border-radius:6px; cursor:pointer; font-size:14px;">
+    📍 Use My Current Location
+  </button>
+  <span id="geoStatus" style="font-size: 13px; color: #555; margin-left: 8px;"></span>
+  <input type="hidden" id="latitude" name="latitude">
+  <input type="hidden" id="longitude" name="longitude">
+</div>
 
       <div class="form-group">
         <label for="daily_rate">Daily Rate (₹)</label>
@@ -155,6 +172,25 @@
     </form>
   </main>
 
-  <script src="js/register.js"></script>
+  <script src="js/register.js">function getLocation() {
+  const status = document.getElementById('geoStatus');
+  if (!navigator.geolocation) {
+    status.innerText = 'Geolocation aapke browser me support nahi karta.';
+    return;
+  }
+  status.innerText = 'Locating...';
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      document.getElementById('latitude').value = position.coords.latitude;
+      document.getElementById('longitude').value = position.coords.longitude;
+      status.innerText = '✅ Location captured!';
+      status.style.color = 'green';
+    },
+    () => {
+      status.innerText = '❌ Location access deny ho gaya.';
+      status.style.color = 'red';
+    }
+  );
+}</script>
 </body>
 </html>
