@@ -69,7 +69,7 @@
         </select>
       </div>
 
-      <!-- Current Location Button -->
+      <!-- Current Location GPS Feature -->
       <div class="form-group" style="margin: 15px 0;">
         <label style="display:block; font-weight:600; margin-bottom:6px;">Current Location</label>
         <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
@@ -104,11 +104,13 @@
   </main>
 
   <script>
-    // 1. Fetch Categories & Localities on Page Load
+    // 1. Fetch Categories & Localities (handles both array and { success: true, data: [...] })
     async function loadDropdowns() {
       try {
         const catRes = await fetch('/api/categories');
-        const categories = await catRes.json();
+        const catJson = await catRes.json();
+        const categories = Array.isArray(catJson) ? catJson : (catJson.data || []);
+        
         const catSelect = document.getElementById('categorySelect');
         categories.forEach(c => {
           const opt = document.createElement('option');
@@ -118,7 +120,9 @@
         });
 
         const locRes = await fetch('/api/localities');
-        const localities = await locRes.json();
+        const locJson = await locRes.json();
+        const localities = Array.isArray(locJson) ? locJson : (locJson.data || []);
+        
         const locSelect = document.getElementById('localitySelect');
         localities.forEach(l => {
           const opt = document.createElement('option');
