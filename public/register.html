@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Worker Registration | Mazdoor Direct</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .form-container {
+      max-width: 580px;
+      margin: 30px auto;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 14px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .form-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 6px;
+    }
+    .form-subtitle {
+      color: #64748b;
+      font-size: 0.9rem;
+      margin-bottom: 22px;
+    }
+    .form-group {
+      margin-bottom: 18px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus, .form-group select:focus {
+      border-color: var(--primary);
+    }
+    .photo-input-wrap {
+      background: #f8fafc;
+      border: 1.5px dashed #cbd5e1;
+      padding: 14px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .btn-submit {
+      width: 100%;
+      background: var(--primary);
+      color: #ffffff;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .btn-submit:hover {
+      background: var(--primary-dark);
+    }
+    .alert-msg {
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      display: none;
+      font-size: 0.9rem;
+    }
+    .alert-success { background: #dcfce7; color: #15803d; }
+    .alert-error { background: #fee2e2; color: #b91c1c; }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="navbar">
+    <div class="brand">
+      <i class="fa-solid fa-person-digging logo-icon"></i>
+      <span class="brand-name">Mazdoor<span>Direct</span></span>
+    </div>
+    <a href="index.html" class="btn-register-link"><i class="fa-solid fa-arrow-left"></i> Directory me Wapas Jayein</a>
+  </header>
+
+  <!-- Registration Form Box -->
+  <main class="form-container">
+    <h2 class="form-title">Naye Karigar / Helper Ka Registration</h2>
+    <p class="form-subtitle">Apni details bharein taaki direct phone calls aur WhatsApp par kaam mil sake.</p>
+
+    <div id="alertBox" class="alert-msg"></div>
+
+    <form id="workerRegisterForm" enctype="multipart/form-data">
+      
+      <!-- Profile Photo Box Card Ke Andar -->
+      <div class="form-group">
+        <label><i class="fa-solid fa-camera"></i> Apni Photo Upload Karein (Optional)</label>
+        <div class="photo-input-wrap">
+          <input type="file" id="profile_photo" name="profile_photo" accept="image/*">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="full_name">Pura Naam (Full Name) *</label>
+        <input type="text" id="full_name" name="full_name" placeholder="e.g. Ramesh Kumar" required>
+      </div>
+
+      <div class="form-group">
+        <label for="phone_number">Mobile / WhatsApp Number *</label>
+        <input type="tel" id="phone_number" name="phone_number" placeholder="10-digit mobile number" required pattern="[0-9]{10}">
+      </div>
+
+      <div class="form-group">
+        <label for="category_id">Kaam Ka Prakar (Skill / Trade) *</label>
+        <select id="category_id" name="category_id" required>
+          <option value="">Category Chunein</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="locality_id">Mohalla / Local Area *</label>
+        <select id="locality_id" name="locality_id" required>
+          <option value="">Area Chunein</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="daily_rate">Daily Rate (₹)</label>
+        <input type="number" id="daily_rate" name="daily_rate" placeholder="e.g. 600" min="0">
+      </div>
+
+      <div class="form-group">
+        <label for="visiting_charge">Visiting Charge (₹)</label>
+        <input type="number" id="visiting_charge" name="visiting_charge" placeholder="e.g. 150" min="0">
+      </div>
+
+      <div class="form-group">
+        <label for="experience_years">Experience (Saal)</label>
+        <input type="number" id="experience_years" name="experience_years" placeholder="e.g. 5" min="0">
+      </div>
+
+      <button type="submit" class="btn-submit">
+        <i class="fa-solid fa-circle-check"></i> Profile Banayein & Register Karein
+      </button>
+    </form>
+  </main>
+
+  <script src="js/register.js"></script>
+</body>
+</html>

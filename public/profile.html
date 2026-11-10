@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Karigar Profile | Mazdoor Direct</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .profile-wrap {
+      max-width: 650px;
+      margin: 20px auto;
+      padding: 0 16px;
+    }
+    .profile-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    }
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 18px;
+      margin-bottom: 20px;
+    }
+    .profile-avatar-box {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: #ecfdf5;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: 700;
+      border: 2px solid #a7f3d0;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .profile-avatar-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 16px 0;
+      background: #f8fafc;
+      padding: 14px;
+      border-radius: 10px;
+    }
+    .price-box {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .price-box b {
+      display: block;
+      font-size: 1.15rem;
+      color: #047857;
+      margin-top: 2px;
+    }
+    .review-item {
+      border-bottom: 1px solid #f1f5f9;
+      padding: 12px 0;
+    }
+    .review-item:last-child {
+      border-bottom: none;
+    }
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="brand">
+      <i class="fa-solid fa-person-digging logo-icon"></i>
+      <span class="brand-name">Mazdoor<span>Direct</span></span>
+    </div>
+    <a href="index.html" class="btn-register-link"><i class="fa-solid fa-arrow-left"></i> Wapas Jayein</a>
+  </header>
+
+  <main class="profile-wrap">
+    <div id="loading" class="loading-state">Profile load ho rahi hai...</div>
+
+    <div id="profileContainer" class="profile-card" style="display: none;">
+      <div class="profile-header">
+        <div class="profile-avatar-box" id="avatarBox">M</div>
+        <div>
+          <h2 id="workerName" style="font-size: 1.35rem; margin-bottom: 4px;">-</h2>
+          <span class="worker-category" id="workerCategory">-</span>
+          <span id="verifiedBadge" style="margin-left: 6px;"></span>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <span id="starRating" style="color: #f59e0b; font-size: 1.1rem; font-weight: 700;"></span>
+        <span id="reviewCount" style="color: var(--text-muted); font-size: 0.88rem;"></span>
+      </div>
+
+      <div class="pricing-grid">
+        <div class="price-box">
+          Pura Din (Daily Rate)
+          <b id="dailyRate">₹0</b>
+        </div>
+        <div class="price-box">
+          Visiting / Inspection
+          <b id="visitingRate">₹0</b>
+        </div>
+      </div>
+
+      <div class="worker-details" style="font-size: 0.95rem; margin: 18px 0;">
+        <span><i class="fa-solid fa-location-dot"></i> <span id="workerArea">-</span></span>
+        <span><i class="fa-solid fa-briefcase"></i> <span id="workerExp">-</span> saal ka anubhav</span>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="card-actions" style="margin-top: 24px;">
+        <a id="btnCall" href="#" class="btn-action btn-call" style="font-size: 1rem; padding: 12px 0;">
+          <i class="fa-solid fa-phone"></i> Call Karein
+        </a>
+        <button id="btnWhatsApp" class="btn-action btn-whatsapp" style="border:none; cursor:pointer; font-size: 1rem; padding: 12px 0;">
+          <i class="fa-brands fa-whatsapp"></i> WhatsApp Location
+        </button>
+      </div>
+
+      <!-- Reviews Section -->
+      <div style="margin-top: 30px; border-top: 1px solid var(--border-color); padding-top: 20px;">
+        <h3 style="font-size: 1.05rem; margin-bottom: 12px;">Customer Reviews & Feedback</h3>
+        <div id="reviewsList">
+          <p style="color: var(--text-muted); font-size: 0.88rem;">Abhi tak koi review nahi mila.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const workerId = urlParams.get('id');
+
+      if (!workerId) {
+        alert('Karigar ki ID nahi mili.');
+        window.location.href = 'index.html';
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/workers/${workerId}/profile`);
+        const result = await res.json();
+
+        if (!result.success || !result.data) {
+          alert('Profile data load nahi ho saka.');
+          return;
+        }
+
+        const w = result.data;
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('profileContainer').style.display = 'block';
+
+        // Profile Photo ya Initials
+        const avatarBox = document.getElementById('avatarBox');
+        if (w.profile_photo) {
+          avatarBox.innerHTML = `<img src="${w.profile_photo}" alt="${w.full_name}">`;
+        } else {
+          avatarBox.textContent = (w.full_name || 'K').charAt(0).toUpperCase();
+        }
+
+        document.getElementById('workerName').textContent = w.full_name;
+        document.getElementById('workerCategory').textContent = w.category_name;
+        document.getElementById('workerArea').textContent = `${w.locality_name} (${w.pincode})`;
+        document.getElementById('workerExp').textContent = w.experience_years;
+        document.getElementById('dailyRate').textContent = `₹${w.daily_rate}`;
+        document.getElementById('visitingRate').textContent = `₹${w.visiting_charge}`;
+
+        if (w.is_verified) {
+          document.getElementById('verifiedBadge').innerHTML = '<span class="worker-badge-verified"><i class="fa-solid fa-circle-check"></i> Verified</span>';
+        }
+
+        // Ratings
+        if (w.avg_rating) {
+          document.getElementById('starRating').innerHTML = `<i class="fa-solid fa-star"></i> ${w.avg_rating}`;
+          document.getElementById('reviewCount').textContent = ` (${w.review_count} ratings)`;
+        } else {
+          document.getElementById('starRating').textContent = 'Naya Karigar';
+        }
+
+        // Call button
+        document.getElementById('btnCall').href = `tel:${w.phone_number}`;
+
+        // WhatsApp with Location
+        document.getElementById('btnWhatsApp').onclick = () => {
+          const cleanPhone = (w.phone_number || '').replace(/\D/g, '');
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              (pos) => {
+                const mapsLink = `https://maps.google.com/?q=${pos.coords.latitude},${pos.coords.longitude}`;
+                const msg = `Namaste ${w.full_name}, maine aapki Mazdoor Direct profile dekhi. Mujhe kaam ke liye baat karni hai.\n\n📍 Mera Current Location: ${mapsLink}`;
+                window.open(`https://wa.me/91${cleanPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+              },
+              () => {
+                window.open(`https://wa.me/91${cleanPhone}?text=${encodeURIComponent(`Namaste ${w.full_name}, mujhe kaam ke liye baat karni hai.`)}`, '_blank');
+              },
+              { timeout: 3000 }
+            );
+          } else {
+            window.open(`https://wa.me/91${cleanPhone}?text=${encodeURIComponent(`Namaste ${w.full_name}, mujhe kaam ke liye baat karni hai.`)}`, '_blank');
+          }
+        };
+
+        // Render Reviews
+        const reviewsBox = document.getElementById('reviewsList');
+        if (w.reviews && w.reviews.length > 0) {
+          reviewsBox.innerHTML = w.reviews.map(r => `
+            <div class="review-item">
+              <div class="review-header">
+                <b>${r.customer_name}</b>
+                <span style="color:#f59e0b;">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>
+              </div>
+              <p style="font-size:0.86rem; color:#4b5563;">${r.comment || 'Feedback diya gaya.'}</p>
+            </div>
+          `).join('');
+        }
+      } catch (err) {
+        console.error('Profile fetch failed:', err);
+        document.getElementById('loading').textContent = 'Profile load karne me error aayi. Browser console check karein.';
+      }
+    });
+  </script>
+</body>
+</html>

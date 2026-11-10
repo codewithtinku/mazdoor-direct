@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mazdoor Direct | Local Handyman & Labour Directory</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header class="navbar">
+    <div class="brand">
+      <i class="fa-solid fa-person-digging logo-icon"></i>
+      <span class="brand-name">Mazdoor<span>Direct</span></span>
+    </div>
+    <a href="register.html" class="btn-register-link">+ Worker Register Karein</a>
+  </header>
+
+  <!-- Hero & Search Section -->
+  <section class="hero-section">
+    <h1>Local Karigar aur Helpers, <span class="highlight">Bina Middleman</span></h1>
+    <p>Electrician, Plumber, Painter ya Daily Helpers ko direct phone ya WhatsApp karein.</p>
+    
+    <div class="search-box">
+      <i class="fa-solid fa-magnifying-glass search-icon"></i>
+      <input type="text" id="searchInput" placeholder="Electrician, Plumber ya naam search karein...">
+    </div>
+  </section>
+
+  <!-- Filters Container -->
+  <div class="filter-container">
+    <div class="filter-group">
+      <label for="categoryFilter"><i class="fa-solid fa-wrench"></i> Kaam (Category)</label>
+      <select id="categoryFilter">
+        <option value="">Sabhi Kaam (All)</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <label for="localityFilter"><i class="fa-solid fa-location-dot"></i> Area / Mohalla</label>
+        <button id="btnGeoLocation" type="button" style="background: none; border: none; color: var(--primary-dark); font-size: 0.75rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+          <i class="fa-solid fa-crosshairs"></i> Auto-Detect
+        </button>
+      </div>
+      <select id="localityFilter">
+        <option value="">Sabhi Area</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Workers Grid Section -->
+  <main class="container">
+    <div class="section-title-wrap">
+      <h2>Available Karigar</h2>
+      <span id="workerCount" class="badge">0 Workers Found</span>
+    </div>
+
+    <div id="workersList" class="workers-grid">
+      <div class="loading-state">Workers load ho rahe hain...</div>
+    </div>
+  </main>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
