@@ -8,8 +8,9 @@ router.get('/', workerController.getWorkers);
 // 2. Specific worker profile by ID
 router.get('/:id/profile', workerController.getWorkerProfile);
 
-// 3. Register worker (with Multer photo upload)
+// 3. Register worker (Dono routes support karein taaki 404 na aaye)
 router.post('/register', workerController.upload.single('profile_photo'), workerController.registerWorker);
+router.post('/', workerController.upload.single('profile_photo'), workerController.registerWorker);
 
 // 4. Admin Toggle Verification & Delete
 router.patch('/:id/verify', workerController.toggleVerify);

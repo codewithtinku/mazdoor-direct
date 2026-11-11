@@ -184,7 +184,7 @@
     <form id="registerForm" enctype="multipart/form-data">
       <div class="form-group">
         <label>📷 Apni Photo Upload Karein (Optional)</label>
-        <input type="file" name="photo" accept="image/*">
+        <input type="file" name="profile_photo" accept="image/*">
       </div>
 
       <div class="form-group">
@@ -314,14 +314,13 @@
         { enableHighAccuracy: true, timeout: 10000 }
       );
     }
-
-    // 3. Form Submit Handler
+// 3. Form Submit Handler
     document.getElementById('registerForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const formData = new FormData(e.target);
 
       try {
-        const res = await fetch('/api/workers', {
+        const res = await fetch('/api/workers/register', {
           method: 'POST',
           body: formData
         });
@@ -335,7 +334,7 @@
       } catch (err) {
         alert('Server se connect nahi ho saka.');
       }
-    });
+    }); 
   </script>
 </body>
 </html>
