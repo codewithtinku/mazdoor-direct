@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db'); // ya '../config/db'
+const db = require('../config/db');// ya '../config/db'
 
 // Admin Middleware (Simple password / secret key check)
 const adminAuth = (req, res, next) => {
