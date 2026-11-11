@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Available Jobs | MazdoorDirect</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      background-color: #f8fafc;
+      color: #1e293b;
+      min-height: 100vh;
+      padding-bottom: 50px;
+    }
+
+    .top-nav {
+      background: #ffffff;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: #059669;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 12px;
+    }
+
+    .nav-btn {
+      text-decoration: none;
+      color: #059669;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 8px 14px;
+      border: 1px solid #059669;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .nav-btn.primary {
+      background: #059669;
+      color: white;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 28px auto;
+      padding: 0 16px;
+    }
+
+    .filter-card {
+      background: #ffffff;
+      padding: 18px 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .filter-card select {
+      flex: 1;
+      min-width: 200px;
+      padding: 10px 12px;
+      font-size: 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+    }
+
+    .jobs-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .job-card {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      border-left: 4px solid #059669;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .job-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .job-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 4px;
+      background: #ecfdf5;
+      color: #059669;
+    }
+
+    .job-meta {
+      font-size: 14px;
+      color: #64748b;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .job-desc {
+      font-size: 14px;
+      color: #334155;
+      line-height: 1.5;
+    }
+
+    .job-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 6px;
+      padding-top: 10px;
+      border-top: 1px solid #f1f5f9;
+    }
+
+    .contact-btn {
+      background: #2563eb;
+      color: white;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Modal Styling */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      max-width: 500px;
+      width: 100%;
+      border-radius: 12px;
+      padding: 24px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <header class="top-nav">
+    <div class="logo">👷 MazdoorDirect Jobs</div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-btn">Find Workers</a>
+      <a href="employer-register.html" class="nav-btn">Employer Register</a>
+      <button onclick="openModal()" class="nav-btn primary" style="cursor:pointer; border:none;">+ Post A Job</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="filter-card">
+      <select id="filterCategory" onchange="fetchJobs()">
+        <option value="">All Categories (Sabhi Kaam)</option>
+      </select>
+      <select id="filterLocality" onchange="fetchJobs()">
+        <option value="">All Areas (Sabhi Mohalle)</option>
+      </select>
+    </div>
+
+    <div id="jobsList" class="jobs-grid">
+      <p style="text-align: center; color: #64748b;">Jobs load ho rahi hain...</p>
+    </div>
+  </div>
+
+  <!-- Post Job Modal -->
+  <div id="jobModal" class="modal">
+    <div class="modal-content">
+      <h3 style="margin-bottom: 12px;">Nayi Job Post Karein</h3>
+      <form id="postJobForm">
+        <div style="margin-bottom: 12px;">
+          <label style="font-size: 13px; font-weight: 600;">Employer Mobile Number *</label>
+          <input type="tel" id="employerPhone" required placeholder="Registered mobile number" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px;">
+        </div>
+
+        <div style="margin-bottom: 12px;">
+          <label style="font-size: 13px; font-weight: 600;">Kaam Ka Title *</label>
+          <input type="text" id="jobTitle" required placeholder="e.g. 2 Painter ki zaroorat 3 din ke liye" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px;">
+        </div>
+
+        <div style="margin-bottom: 12px;">
+          <label style="font-size: 13px; font-weight: 600;">Category *</label>
+          <select id="modalCategory" required style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px;"></select>
+        </div>
+
+        <div style="margin-bottom: 12px;">
+          <label style="font-size: 13px; font-weight: 600;">Locality / Area *</label>
+          <select id="modalLocality" required style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px;"></select>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+          <div style="flex: 1;">
+            <label style="font-size: 13px; font-weight: 600;">Paisa / Wage (₹)</label>
+            <input type="number" id="jobWage" placeholder="600" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px;">
+          </div>
+          <div style="flex: 1;">
+            <label style="font-size: 13px; font-weight: 600;">Rate Type</label>
+            <select id="jobWageType" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px;">
+              <option value="daily">Per Day</option>
+              <option value="fixed">Fixed Total</option>
+              <option value="hourly">Per Hour</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 12px;">
+          <label style="font-size: 13px; font-weight: 600;">Workers Needed</label>
+          <input type="number" id="workersNeeded" value="1" min="1" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px;">
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <label style="font-size: 13px; font-weight: 600;">Kaam Ka Description</label>
+          <textarea id="jobDesc" rows="3" placeholder="Timing, address details, ya special instructions" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px;"></textarea>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" onclick="closeModal()" style="padding: 8px 14px; border: 1px solid #cbd5e1; background: white; border-radius: 6px; cursor: pointer;">Cancel</button>
+          <button type="submit" style="padding: 8px 14px; background: #059669; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">Post Job</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    async function initFilters() {
+      try {
+        const [catRes, locRes] = await Promise.all([
+          fetch('/api/categories'),
+          fetch('/api/localities')
+        ]);
+        const catJson = await catRes.json();
+        const locJson = await locRes.json();
+
+        const categories = Array.isArray(catJson) ? catJson : (catJson.data || []);
+        const localities = Array.isArray(locJson) ? locJson : (locJson.data || []);
+
+        const filterCat = document.getElementById('filterCategory');
+        const modalCat = document.getElementById('modalCategory');
+        categories.forEach(c => {
+          filterCat.innerHTML += `<option value="${c.id}">${c.name}</option>`;
+          modalCat.innerHTML += `<option value="${c.id}">${c.name}</option>`;
+        });
+
+        const filterLoc = document.getElementById('filterLocality');
+        const modalLoc = document.getElementById('modalLocality');
+        localities.forEach(l => {
+          filterLoc.innerHTML += `<option value="${l.id}">${l.name}</option>`;
+          modalLoc.innerHTML += `<option value="${l.id}">${l.name}</option>`;
+        });
+
+        fetchJobs();
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    async function fetchJobs() {
+      const categoryId = document.getElementById('filterCategory').value;
+      const localityId = document.getElementById('filterLocality').value;
+      const listContainer = document.getElementById('jobsList');
+
+      let url = '/api/jobs/search?';
+      if (categoryId) url += `category_id=${categoryId}&`;
+      if (localityId) url += `locality_id=${localityId}&`;
+
+      try {
+        const res = await fetch(url);
+        const json = await res.json();
+        const jobs = json.data || [];
+
+        if (jobs.length === 0) {
+          listContainer.innerHTML = '<p style="text-align: center; color: #64748b; padding: 20px;">Koi job uplabdh nahi mili.</p>';
+          return;
+        }
+
+        listContainer.innerHTML = jobs.map(j => `
+          <div class="job-card">
+            <div class="job-header">
+              <div class="job-title">${j.title}</div>
+              <span class="badge">${j.category_name}</span>
+            </div>
+            <div class="job-meta">
+              <span>📍 ${j.locality_name}</span>
+              <span>💰 ₹${j.wage_offered || 'Negotiable'} (${j.wage_type})</span>
+              <span>👥 ${j.workers_needed} Workers Needed</span>
+            </div>
+            ${j.description ? `<p class="job-desc">${j.description}</p>` : ''}
+            <div class="job-actions">
+              <span style="font-size: 13px; color: #64748b;">Post kiya: <strong>${j.employer_name}</strong></span>
+              <a href="tel:${j.employer_phone}" class="contact-btn">📞 Call: ${j.employer_phone}</a>
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        listContainer.innerHTML = '<p style="text-align: center; color: red;">Jobs load nahi ho payin.</p>';
+      }
+    }
+
+    function openModal() {
+      document.getElementById('jobModal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('jobModal').classList.remove('active');
+    }
+
+    document.getElementById('postJobForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const phone = document.getElementById('employerPhone').value.trim();
+
+      // 1. Check employer exists
+      try {
+        const checkRes = await fetch(`/api/employers/check/${phone}`);
+        const checkJson = await checkRes.json();
+
+        if (!checkRes.ok || !checkJson.data) {
+          alert('Yeh phone number registered nahi hai. Kripya pehle "Employer Register" karein!');
+          window.location.href = 'employer-register.html';
+          return;
+        }
+
+        const employerId = checkJson.data.id;
+
+        // 2. Post Job
+        const payload = {
+          employer_id: employerId,
+          category_id: document.getElementById('modalCategory').value,
+          locality_id: document.getElementById('modalLocality').value,
+          title: document.getElementById('jobTitle').value.trim(),
+          description: document.getElementById('jobDesc').value.trim(),
+          wage_offered: document.getElementById('jobWage').value || null,
+          wage_type: document.getElementById('jobWageType').value,
+          workers_needed: document.getElementById('workersNeeded').value || 1
+        };
+
+        const postRes = await fetch('/api/jobs/create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (postRes.ok) {
+          alert('Job post ho gayi!');
+          closeModal();
+          e.target.reset();
+          fetchJobs();
+        } else {
+          alert('Job post nahi ho saki.');
+        }
+      } catch (err) {
+        alert('Request fail ho gayi.');
+      }
+    });
+
+    initFilters();
+  </script>
+</body>
+</html>

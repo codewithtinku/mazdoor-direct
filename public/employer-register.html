@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employer Registration | MazdoorDirect</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      background-color: #f1f5f9;
+      color: #1e293b;
+      min-height: 100vh;
+      padding-bottom: 40px;
+    }
+
+    .top-nav {
+      background: #ffffff;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: #059669;
+    }
+
+    .nav-btn {
+      text-decoration: none;
+      color: #059669;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 8px 12px;
+      border: 1px solid #059669;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover {
+      background: #059669;
+      color: #ffffff;
+    }
+
+    .form-container {
+      max-width: 580px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 32px 28px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: 15px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background-color: #fff;
+      color: #1e293b;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: #059669;
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+    }
+
+    .submit-btn {
+      width: 100%;
+      background-color: #059669;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background-color 0.2s;
+    }
+
+    .submit-btn:hover {
+      background-color: #047857;
+    }
+  </style>
+</head>
+<body>
+  <header class="top-nav">
+    <div class="logo">👷 MazdoorDirect</div>
+    <a href="index.html" class="nav-btn">← Directory me Wapas Jayein</a>
+  </header>
+
+  <main class="form-container">
+    <h2>Kaam Dene Wale (Employer) Ka Registration</h2>
+    <p class="subtitle">Apna account banayein taaki aasani se karigar aur mazdoor hire kar sakein</p>
+
+    <form id="employerForm">
+      <div class="form-group">
+        <label for="name">Aapka Naam (Full Name) *</label>
+        <input type="text" id="name" name="name" placeholder="e.g. Amit Sharma" required>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Mobile / WhatsApp Number *</label>
+        <input type="tel" id="phone" name="phone" placeholder="10-digit mobile number" required pattern="[0-9]{10}">
+      </div>
+
+      <div class="form-group">
+        <label for="business_name">Business / Company / Contractor Name (Optional)</label>
+        <input type="text" id="business_name" name="business_name" placeholder="e.g. Sharma Construction ya Ghar ka kaam">
+      </div>
+
+      <div class="form-group">
+        <label for="localitySelect">Mohalla / Local Area *</label>
+        <select id="localitySelect" name="locality_id" required>
+          <option value="">Area Chunein</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="address">Pura Pata (Detailed Address / Site Location)</label>
+        <textarea id="address" name="address" rows="3" placeholder="Plot No., Landmark, Gali No."></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">
+        ✅ Register Karein
+      </button>
+    </form>
+  </main>
+
+  <script>
+    async function loadLocalities() {
+      try {
+        const res = await fetch('/api/localities');
+        const json = await res.json();
+        const localities = Array.isArray(json) ? json : (json.data || []);
+        const select = document.getElementById('localitySelect');
+        localities.forEach(l => {
+          const opt = document.createElement('option');
+          opt.value = l.id;
+          opt.textContent = l.name;
+          select.appendChild(opt);
+        });
+      } catch (err) {
+        console.error('Localities load error:', err);
+      }
+    }
+    loadLocalities();
+
+    document.getElementById('employerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const payload = {
+        name: form.name.value.trim(),
+        phone: form.phone.value.trim(),
+        business_name: form.business_name.value.trim(),
+        locality_id: form.locality_id.value,
+        address: form.address.value.trim()
+      };
+
+      try {
+        const res = await fetch('/api/employers/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          alert('Employer registration safal raha!');
+          localStorage.setItem('employer_id', data.employerId);
+          window.location.href = 'jobs.html';
+        } else {
+          alert(data.message || 'Registration fail ho gaya.');
+        }
+      } catch (err) {
+        alert('Server se connect nahi ho saka.');
+      }
+    });
+  </script>
+</body>
+</html>

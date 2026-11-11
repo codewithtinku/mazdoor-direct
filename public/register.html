@@ -4,28 +4,170 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Worker Registration | MazdoorDirect</title>
-  <link rel="stylesheet" href="css/style.css">
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      background-color: #f1f5f9;
+      color: #1e293b;
+      min-height: 100vh;
+      padding-bottom: 40px;
+    }
+
+    .top-nav {
+      background: #ffffff;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: #059669;
+    }
+
+    .nav-btn {
+      text-decoration: none;
+      color: #059669;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 8px 12px;
+      border: 1px solid #059669;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover {
+      background: #059669;
+      color: #ffffff;
+    }
+
+    .form-container {
+      max-width: 580px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 32px 28px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="tel"],
+    .form-group input[type="number"],
+    .form-group select {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: 15px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background-color: #fff;
+      color: #1e293b;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: #059669;
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+    }
+
+    .form-group input[type="file"] {
+      width: 100%;
+      padding: 8px 0;
+      font-size: 14px;
+    }
+
+    .geo-box {
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
     .geo-btn {
       background-color: #2563eb;
       color: #ffffff;
       border: none;
-      padding: 10px 14px;
+      padding: 9px 15px;
       border-radius: 6px;
       cursor: pointer;
-      font-size: 14px;
-      font-weight: 500;
+      font-size: 13px;
+      font-weight: 600;
       display: inline-flex;
       align-items: center;
       gap: 6px;
       transition: background 0.2s;
     }
+
     .geo-btn:hover {
       background-color: #1d4ed8;
     }
+
     .geo-btn:disabled {
       background-color: #94a3b8;
       cursor: not-allowed;
+    }
+
+    #geoStatus {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background-color: #059669;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background-color 0.2s;
+    }
+
+    .submit-btn:hover {
+      background-color: #047857;
     }
   </style>
 </head>
@@ -69,14 +211,14 @@
         </select>
       </div>
 
-      <!-- Current Location GPS Feature -->
-      <div class="form-group" style="margin: 15px 0;">
-        <label style="display:block; font-weight:600; margin-bottom:6px;">Current Location</label>
-        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+      <!-- Current Location Box -->
+      <div class="form-group">
+        <label>Current Location</label>
+        <div class="geo-box">
           <button type="button" id="geoBtn" class="geo-btn" onclick="getLocation()">
             📍 Use My Current Location
           </button>
-          <span id="geoStatus" style="font-size: 13px; font-weight: 500;"></span>
+          <span id="geoStatus"></span>
         </div>
         <input type="hidden" id="latitude" name="latitude">
         <input type="hidden" id="longitude" name="longitude">
@@ -97,14 +239,14 @@
         <input type="number" id="experience_years" name="experience_years" placeholder="e.g. 5">
       </div>
 
-      <button type="submit" class="submit-btn" style="background:#059669; color:white; padding:12px; border:none; border-radius:6px; font-size:16px; cursor:pointer; width:100%; font-weight:600;">
+      <button type="submit" class="submit-btn">
         ✅ Profile Banayein & Register Karein
       </button>
     </form>
   </main>
 
   <script>
-    // 1. Fetch Categories & Localities (handles both array and { success: true, data: [...] })
+    // 1. Fetch Categories & Localities on Load
     async function loadDropdowns() {
       try {
         const catRes = await fetch('/api/categories');
@@ -143,7 +285,7 @@
       const btn = document.getElementById('geoBtn');
 
       if (!navigator.geolocation) {
-        status.innerText = 'Geolocation browser me supported nahi hai.';
+        status.innerText = 'Geolocation browser me support nahi karta.';
         status.style.color = '#dc2626';
         return;
       }
@@ -156,14 +298,14 @@
         (position) => {
           document.getElementById('latitude').value = position.coords.latitude;
           document.getElementById('longitude').value = position.coords.longitude;
-          status.innerText = `✅ Location captured! (${position.coords.latitude.toFixed(4)}, ${position.coords.longitude.toFixed(4)})`;
+          status.innerText = `✅ Captured (${position.coords.latitude.toFixed(4)}, ${position.coords.longitude.toFixed(4)})`;
           status.style.color = '#16a34a';
           btn.disabled = false;
         },
         (error) => {
           btn.disabled = false;
           if (error.code === error.PERMISSION_DENIED) {
-            status.innerText = '❌ Permission denied. Browser me location allow karein.';
+            status.innerText = '❌ Permission deny hui. Browser me allow karein.';
           } else {
             status.innerText = '❌ Location fetch nahi ho saki.';
           }

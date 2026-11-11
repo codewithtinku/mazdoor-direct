@@ -2,7 +2,10 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-
+const employerRoutes = require('./routes/employerRoutes');
+const jobRoutes = require('./routes/jobRoutes');
+const adminRoutes = require('./routes/adminRoutes');
+app.use('/api/admin', adminRoutes);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -10,7 +13,8 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use('/api/employers', employerRoutes);
+app.use('/api/jobs', jobRoutes);
 // 2. Serve static frontend files
 app.use(express.static(path.join(__dirname, 'public')));
 
