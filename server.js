@@ -2,23 +2,35 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const employerRoutes = require('./routes/employerRoutes');
-const jobRoutes = require('./routes/jobRoutes');
-const adminRoutes = require('./routes/adminRoutes');
-app.use('/api/admin', adminRoutes);
+
+// 1. Initialize Express App
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// 1. Body Parser Middlewares (Sabse pehle zaroori hain)
+// 2. Body Parser & Global Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// 3. Serve Static Files & Uploads
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// 4. Import Route Handlers
+const employerRoutes = require('./routes/employerRoutes');
+const jobRoutes = require('./routes/jobRoutes');
+const adminRoutes = require('./routes/adminRoutes');
+const metaRoutes = require('./routes/metaRoutes');
+const workerRoutes = require('./routes/workerRoutes');
+
+// 5. Mount API Routes
 app.use('/api/employers', employerRoutes);
 app.use('/api/jobs', jobRoutes);
-// 2. Serve static frontend files
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/api/admin', adminRoutes);
+app.use('/api/workers', workerRoutes);
+app.use('/api', metaRoutes);
 
-// 3. Admin Login Route (Body parsers ke baad)
+// 6. Admin Login Route
 app.post('/api/admin/login', (req, res) => {
     const { password } = req.body || {};
     const adminPass = process.env.ADMIN_SECRET_KEY || 'admin123';
@@ -29,19 +41,12 @@ app.post('/api/admin/login', (req, res) => {
     return res.status(401).json({ success: false, message: 'Galat password! Dobara koshish karein.' });
 });
 
-// 4. Modular Routes
-const metaRoutes = require('./routes/metaRoutes');
-const workerRoutes = require('./routes/workerRoutes');
-
-app.use('/api', metaRoutes);
-app.use('/api/workers', workerRoutes);
-
-// Fallback for root
+// 7. Fallback for Root
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Start Server
+// 8. Start Server
 app.listen(PORT, () => {
     console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
