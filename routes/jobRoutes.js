@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db');
+const db = require('../config/db');
 
 // 1. Post a new Job
 router.post('/create', async (req, res) => {
