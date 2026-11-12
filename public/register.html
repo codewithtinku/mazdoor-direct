@@ -1,559 +1,460 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MazdoorDirect | Koderma District Worker Directory</title>
+  <title>Worker Registration | Koderma Work Finder</title>
   <style>
+    :root {
+      --primary: #6d28d9;
+      --primary-light: #ede9fe;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
     body {
-      background-color: #f8fafc;
-      color: #1e293b;
-      min-height: 100vh;
-      padding-bottom: 50px;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
     }
 
-    .top-nav {
-      background: #ffffff;
+    /* NAVBAR */
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
       padding: 14px 24px;
+    }
+
+    .nav-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-      position: sticky;
-      top: 0;
-      z-index: 50;
+      gap: 16px;
+      flex-wrap: wrap;
     }
 
     .logo {
-      font-size: 20px;
-      font-weight: 700;
-      color: #059669;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       text-decoration: none;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .logo-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #6d28d9, #8b5cf6);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
     }
 
     .nav-links {
       display: flex;
-      gap: 10px;
+      align-items: center;
+      gap: 20px;
       flex-wrap: wrap;
     }
 
-    .nav-btn {
+    .nav-links a {
       text-decoration: none;
-      color: #059669;
+      color: #334155;
+      font-size: 14px;
       font-weight: 600;
+    }
+
+    .nav-links a:hover { color: var(--primary); }
+
+    .btn-outline {
+      background: #ffffff;
+      color: var(--text);
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 10px;
       font-size: 13px;
-      padding: 8px 12px;
-      border: 1px solid #059669;
-      border-radius: 6px;
-      transition: all 0.2s;
+      font-weight: 700;
+      border: 1px solid var(--border);
     }
 
-    .nav-btn:hover {
-      background: #059669;
-      color: white;
-    }
-
-    .nav-btn.primary {
-      background: #059669;
-      color: white;
-    }
-
-    .nav-btn.primary:hover {
-      background: #047857;
-    }
-
-    .hero-section {
-      background: linear-gradient(135deg, #059669, #0d9488);
-      color: white;
+    /* HERO */
+    .page-hero {
+      background: linear-gradient(180deg, #ffffff 0%, #f5f3ff 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 40px 24px 64px;
       text-align: center;
-      padding: 40px 16px 50px;
     }
 
-    .hero-section h1 {
-      font-size: 28px;
-      font-weight: 800;
+    .page-hero h1 {
+      font-size: 32px;
+      font-weight: 900;
       margin-bottom: 8px;
     }
 
-    .hero-section p {
+    .page-hero p {
+      color: var(--muted);
       font-size: 15px;
-      opacity: 0.95;
-      max-width: 600px;
+      max-width: 580px;
       margin: 0 auto;
     }
 
-    .container {
-      max-width: 1100px;
-      margin: -25px auto 0;
-      padding: 0 16px;
+    /* FORM CARD */
+    .form-wrap {
+      max-width: 740px;
+      margin: -40px auto 60px;
+      padding: 0 20px;
     }
 
-    .filter-card {
+    .card {
       background: #ffffff;
-      padding: 18px 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+    }
+
+    .grid-2 {
       display: grid;
-      grid-template-columns: 2fr 1.2fr 1.2fr auto auto;
-      gap: 12px;
-      align-items: center;
-      margin-bottom: 28px;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
     }
 
-    @media (max-width: 850px) {
-      .filter-card {
-        grid-template-columns: 1fr;
-      }
+    @media (max-width: 650px) {
+      .grid-2 { grid-template-columns: 1fr; }
     }
 
-    .filter-card input,
-    .filter-card select {
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #1e293b;
+    }
+
+    .form-group input,
+    .form-group select {
       width: 100%;
-      padding: 10px 14px;
-      font-size: 14px;
+      padding: 11px 14px;
       border: 1px solid #cbd5e1;
-      border-radius: 8px;
+      border-radius: 10px;
+      font-size: 14px;
       outline: none;
       background: #ffffff;
     }
 
-    .filter-card input:focus,
-    .filter-card select:focus {
-      border-color: #059669;
-      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.12);
     }
 
-    .near-btn {
-      padding: 10px 14px;
-      background: #2563eb;
-      border: none;
-      border-radius: 8px;
-      color: #ffffff;
-      font-weight: 600;
-      font-size: 13px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      white-space: nowrap;
-      transition: background 0.2s;
-    }
-
-    .near-btn:hover {
-      background: #1d4ed8;
-    }
-
-    .reset-btn {
-      padding: 10px 16px;
-      background: #f1f5f9;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      color: #475569;
-      font-weight: 600;
-      font-size: 13px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .reset-btn:hover {
-      background: #e2e8f0;
-    }
-
-    .section-title {
-      font-size: 18px;
-      font-weight: 700;
-      color: #1e293b;
-      margin-bottom: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .workers-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-      gap: 20px;
-    }
-
-    .worker-card {
-      background: #ffffff;
+    .permission-box {
+      background: #f5f3ff;
+      border: 1px solid #ddd6fe;
       border-radius: 12px;
-      border: 1px solid #e2e8f0;
-      padding: 18px;
+      padding: 14px 16px;
       display: flex;
-      flex-direction: column;
-      gap: 14px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
-      transition: transform 0.2s, box-shadow 0.2s;
-      position: relative;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 18px;
+      cursor: pointer;
     }
 
-    .worker-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 12px rgba(0,0,0,0.08);
-    }
-
-    .worker-head {
-      display: flex;
-      gap: 14px;
-      align-items: center;
-    }
-
-    .avatar-wrapper {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      overflow: hidden;
-      background: #e2e8f0;
+    .permission-box input {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      accent-color: var(--primary);
       flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid #059669;
     }
 
-    .avatar-wrapper img {
+    .permission-box span {
+      font-size: 13px;
+      font-weight: 600;
+      color: #3b0764;
+    }
+
+    .btn-submit {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .default-avatar {
-      font-size: 26px;
-      line-height: 1;
-    }
-
-    .worker-info h3 {
-      font-size: 16px;
-      font-weight: 700;
-      color: #0f172a;
-      margin-bottom: 4px;
-    }
-
-    .badge-category {
-      background: #ecfdf5;
-      color: #059669;
-      padding: 3px 8px;
-      font-size: 12px;
-      font-weight: 600;
-      border-radius: 4px;
-      display: inline-block;
-    }
-
-    .distance-tag {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      background: #eff6ff;
-      color: #1d4ed8;
-      border: 1px solid #bfdbfe;
-      padding: 3px 8px;
-      font-size: 11px;
-      font-weight: 700;
+      background: linear-gradient(135deg, #6d28d9, #7c3aed);
+      color: #ffffff;
+      border: none;
+      padding: 14px;
       border-radius: 12px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
     }
 
-    .worker-details {
-      font-size: 13px;
-      color: #64748b;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      background: #f8fafc;
-      padding: 10px 12px;
-      border-radius: 6px;
+    .btn-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(109, 40, 217, 0.25);
     }
 
-    .worker-details div {
-      display: flex;
-      justify-content: space-between;
+    .alert-box {
+      display: none;
+      padding: 14px;
+      border-radius: 12px;
+      margin-bottom: 18px;
+      font-size: 14px;
+      font-weight: 700;
     }
 
-    .worker-details strong {
-      color: #334155;
+    .alert-success {
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
     }
 
-    .worker-actions {
-      display: flex;
-      gap: 8px;
-      margin-top: auto;
+    .alert-error {
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
     }
 
-    .action-btn {
-      flex: 1;
+    .footer {
+      background: #0f172a;
+      color: #94a3b8;
       text-align: center;
-      text-decoration: none;
-      padding: 9px;
-      border-radius: 6px;
+      padding: 28px 24px;
       font-size: 13px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
     }
 
-    .call-btn {
-      background: #0284c7;
-      color: white;
-    }
-
-    .call-btn:hover {
-      background: #0369a1;
-    }
-
-    .whatsapp-btn {
-      background: #16a34a;
-      color: white;
-    }
-
-    .whatsapp-btn:hover {
-      background: #15803d;
+    .footer a {
+      color: #e2e8f0;
+      text-decoration: none;
+      margin: 0 10px;
     }
   </style>
 </head>
 <body>
-  <header class="top-nav">
-    <a href="index.html" class="logo">👷 MazdoorDirect</a>
-    <div class="nav-links">
-      <a href="jobs.html" class="nav-btn">💼 Search Jobs</a>
-      <a href="employer-register.html" class="nav-btn">🏢 Kaam Den (Employer)</a>
-      <a href="register.html" class="nav-btn primary">➕ Karigar Register</a>
-      <a href="admin.html" class="nav-btn" style="border-color:#94a3b8; color:#64748b;">⚙️ Admin</a>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-wrap">
+      <a href="index.html" class="logo">
+        <span class="logo-badge">🛠️</span>
+        <span>KodermaWork</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="jobs.html">Find Jobs</a>
+        <a href="workers.html">Find Workers</a>
+        <a href="categories.html">Categories</a>
+        <a href="post-job.html">Post a Job</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <a href="employer-register.html" class="btn-outline">🏢 Employer Register</a>
     </div>
   </header>
 
-  <div class="hero-section">
-    <h1>कोडरमा जिले के कारीगर व मजदूर खोजें</h1>
-    <p>डायरेक्ट फोन कॉल या व्हाट्सएप पर बात करें - 0% कमीशन</p>
+  <!-- HERO -->
+  <section class="page-hero">
+    <h1>Worker Registration (कारीगर पंजीकरण)</h1>
+    <p>Apna free worker profile banayein. Koderma jile ke employers aapse seedhe Call ya WhatsApp par sampark karenge.</p>
+  </section>
+
+  <!-- FORM -->
+  <div class="form-wrap">
+    <div class="card">
+      <div id="statusAlert" class="alert-box"></div>
+
+      <form id="workerForm" onsubmit="submitWorker(event)" enctype="multipart/form-data">
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Full Name (Pura Naam) *</label>
+            <input type="text" name="full_name" required placeholder="e.g. Rahul Kumar">
+          </div>
+
+          <div class="form-group">
+            <label>Mobile Number (WhatsApp) *</label>
+            <input type="tel" name="phone_number" required pattern="[0-9]{10}" placeholder="10-digit mobile number">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Work Category (Kaam ki Shreni) *</label>
+            <select name="category_id" id="category_id" required>
+              <option value="">-- Apna Kaam Chunein --</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Experience (Anubhav - Saal mein) *</label>
+            <input type="number" name="experience_years" min="0" max="50" value="1" required placeholder="e.g. 3">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>District (Jila) *</label>
+            <input type="text" name="district" value="Koderma" readonly style="background:#f8fafc; font-weight:700;">
+          </div>
+
+          <div class="form-group">
+            <label>Block (Prakhand) *</label>
+            <select name="locality_id" id="locality_id" required>
+              <option value="">-- Apna Block Chunein --</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Village / Mohalla Name *</label>
+            <input type="text" name="village" required placeholder="e.g. Jainagar / Domchanch">
+          </div>
+
+          <div class="form-group">
+            <label>Work Availability *</label>
+            <select name="is_available" required>
+              <option value="1">🟢 Available (Kaam ke liye taiyar)</option>
+              <option value="0">🔴 Busy (Abhi vyast hoon)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Expected Daily Rate (₹ mein - Optional)</label>
+            <input type="number" name="daily_rate" min="0" placeholder="e.g. 500">
+          </div>
+
+          <div class="form-group">
+            <label>Profile Photo (Optional)</label>
+            <input type="file" name="profile_photo" accept="image/*">
+          </div>
+        </div>
+
+        <label class="permission-box">
+          <input type="checkbox" name="contact_permission" value="1" required>
+          <span>Main apna mobile number aur profile Koderma Work Finder website par public karne ki anumati (permission) deta hoon taaki kaam dene wale mujhse sampark kar sakein. *</span>
+        </label>
+
+        <button type="submit" class="btn-submit" id="submitBtn">✅ Register Worker Account</button>
+      </form>
+    </div>
   </div>
 
-  <div class="container">
-    <div class="filter-card">
-      <input type="text" id="searchInput" placeholder="🔍 नाम या काम खोजें (उदा. Painting, Tractor)..." oninput="filterWorkers()">
-      
-      <select id="categoryFilter" onchange="filterWorkers()">
-        <option value="">सभी काम (All Trades)</option>
-      </select>
-
-      <select id="localityFilter" onchange="filterWorkers()">
-        <option value="">सभी क्षेत्र (Koderma District)</option>
-      </select>
-
-      <button type="button" class="near-btn" onclick="sortByNearMe()">📍 Near Me</button>
-      <button type="button" class="reset-btn" onclick="resetFilters()">Reset</button>
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div style="margin-bottom:10px;">
+      <a href="index.html">Home</a>
+      <a href="jobs.html">Find Jobs</a>
+      <a href="workers.html">Find Workers</a>
+      <a href="categories.html">Categories</a>
+      <a href="contact.html">Contact Us</a>
     </div>
-
-    <div class="section-title">
-      <span>उपलब्ध कारीगर / मजदूर (Available Workers)</span>
-      <span id="workerCount" style="font-size: 13px; color: #64748b; font-weight: normal;"></span>
-    </div>
-
-    <div id="workersGrid" class="workers-grid">
-      <p style="text-align:center; grid-column: 1/-1; color: #64748b; padding: 30px;">Workers load ho rahe hain...</p>
-    </div>
-  </div>
+    <p>© 2026 Koderma Work Finder — Koderma District (Jharkhand)</p>
+  </footer>
 
   <script>
-    let allWorkers = [];
-    let userCoords = null;
-
-    function calculateDistance(lat1, lon1, lat2, lon2) {
-      const R = 6371;
-      const dLat = (lat2 - lat1) * (Math.PI / 180);
-      const dLon = (lon2 - lon1) * (Math.PI / 180);
-      const a = 
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * 
-        Math.sin(dLon / 2) * Math.sin(dLon / 2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      return R * c;
-    }
-
-    async function loadFilters() {
+    async function loadDropdowns() {
       try {
         const [catRes, locRes] = await Promise.all([
           fetch('/api/categories'),
           fetch('/api/localities')
         ]);
-        const catJson = await catRes.json();
-        const locJson = await locRes.json();
 
-        const categories = Array.isArray(catJson) ? catJson : (catJson.data || []);
-        const localities = Array.isArray(locJson) ? locJson : (locJson.data || []);
+        const cats = (await catRes.json()).data || [];
+        const locs = (await locRes.json()).data || [];
 
-        const catSelect = document.getElementById('categoryFilter');
-        categories.forEach(c => {
-          const opt = document.createElement('option');
-          opt.value = c.id;
-          opt.textContent = c.name;
-          catSelect.appendChild(opt);
+        const catSelect = document.getElementById('category_id');
+        const groups = {};
+        cats.forEach(c => {
+          if (!groups[c.group_name]) groups[c.group_name] = [];
+          groups[c.group_name].push(c);
         });
 
-        const locSelect = document.getElementById('localityFilter');
-        localities.forEach(l => {
+        Object.keys(groups).forEach(gName => {
+          const optgroup = document.createElement('optgroup');
+          optgroup.label = gName;
+          groups[gName].forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c.id;
+            opt.textContent = c.name;
+            optgroup.appendChild(opt);
+          });
+          catSelect.appendChild(optgroup);
+        });
+
+        const locSelect = document.getElementById('locality_id');
+        locs.forEach(l => {
           const opt = document.createElement('option');
           opt.value = l.id;
           opt.textContent = l.name;
           locSelect.appendChild(opt);
         });
       } catch (err) {
-        console.error('Filter dropdown error:', err);
+        console.error('Dropdown error:', err);
       }
     }
 
-    async function fetchWorkers() {
+    async function submitWorker(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      const alertBox = document.getElementById('statusAlert');
+      btn.disabled = true;
+      btn.innerText = 'Registering...';
+
+      const formData = new FormData(document.getElementById('workerForm'));
+
       try {
-        const res = await fetch('/api/workers');
-        const json = await res.json();
-        allWorkers = Array.isArray(json) ? json : (json.data || []);
-        renderWorkers(allWorkers);
+        const res = await fetch('/api/workers/register', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+
+        alertBox.style.display = 'block';
+        if (data.success) {
+          alertBox.className = 'alert-box alert-success';
+          alertBox.innerText = '✅ ' + data.message;
+          document.getElementById('workerForm').reset();
+        } else {
+          alertBox.className = 'alert-box alert-error';
+          alertBox.innerText = '❌ ' + (data.message || 'Registration failed');
+        }
       } catch (err) {
-        document.getElementById('workersGrid').innerHTML = '<p style="text-align:center; grid-column: 1/-1; color: red;">Workers load nahi ho sake.</p>';
+        alertBox.style.display = 'block';
+        alertBox.className = 'alert-box alert-error';
+        alertBox.innerText = '❌ Server connection error!';
+      } finally {
+        btn.disabled = false;
+        btn.innerText = '✅ Register Worker Account';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }
 
-    function renderWorkers(workers) {
-      const grid = document.getElementById('workersGrid');
-      const countLabel = document.getElementById('workerCount');
-
-      countLabel.textContent = `कुल: ${workers.length}`;
-
-      if (workers.length === 0) {
-        grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1; color: #64748b; padding: 30px;">कोई कारीगर नहीं मिला। फ़िल्टर बदल कर देखें।</p>';
-        return;
-      }
-
-      grid.innerHTML = workers.map(w => {
-        const displayName = w.full_name || w.name || 'Worker';
-        const displayPhone = w.phone_number || w.phone || '';
-        const rawPhoto = w.profile_photo || w.photo_url || null;
-
-        const photoSrc = rawPhoto ? (rawPhoto.startsWith('/') || rawPhoto.startsWith('http') ? rawPhoto : `/${rawPhoto}`) : null;
-        const avatarHtml = photoSrc 
-          ? `<img src="${photoSrc}" alt="${displayName}">` 
-          : `<span class="default-avatar">👤</span>`;
-
-        const cleanPhone = displayPhone.replace(/[^0-9]/g, '');
-        const whatsappMsg = encodeURIComponent(`नमस्ते ${displayName}, मैंने आपकी प्रोफाइल MazdoorDirect पर देखी। मुझे काम के सिलसिले में बात करनी है।`);
-
-        const distanceBadge = (w.distance !== undefined && w.distance !== Infinity)
-          ? `<div class="distance-tag">📍 ${w.distance.toFixed(1)} km दूर</div>`
-          : '';
-
-        return `
-          <div class="worker-card">
-            ${distanceBadge}
-            <div class="worker-head">
-              <div class="avatar-wrapper">
-                ${avatarHtml}
-              </div>
-              <div class="worker-info">
-                <h3>${displayName}</h3>
-                <span class="badge-category">${w.category_name || 'Helper'}</span>
-              </div>
-            </div>
-
-            <div class="worker-details">
-              <div>
-                <span>📍 क्षेत्र (Area):</span>
-                <strong>${w.locality_name || 'Koderma'}</strong>
-              </div>
-              <div>
-                <span>💰 Daily Rate:</span>
-                <strong>₹${w.daily_rate || 'Negotiable'}</strong>
-              </div>
-              <div>
-                <span>🚗 Visiting Charge:</span>
-                <strong>₹${w.visiting_charge || 'Free'}</strong>
-              </div>
-              <div>
-                <span>⏱️ अनुभव (Experience):</span>
-                <strong>${w.experience_years ? w.experience_years + ' साल' : 'Experienced'}</strong>
-              </div>
-            </div>
-
-            <div class="worker-actions">
-              <a href="tel:${cleanPhone}" class="action-btn call-btn">📞 Call</a>
-              <a href="https://wa.me/91${cleanPhone}?text=${whatsappMsg}" target="_blank" class="action-btn whatsapp-btn">💬 WhatsApp</a>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function filterWorkers() {
-      const search = document.getElementById('searchInput').value.toLowerCase().trim();
-      const catId = document.getElementById('categoryFilter').value;
-      const locId = document.getElementById('localityFilter').value;
-
-      const filtered = allWorkers.filter(w => {
-        const wName = (w.full_name || w.name || '').toLowerCase();
-        const matchesName = wName.includes(search) || (w.category_name || '').toLowerCase().includes(search);
-        const matchesCat = !catId || String(w.category_id) === String(catId);
-        const matchesLoc = !locId || String(w.locality_id) === String(locId);
-
-        return matchesName && matchesCat && matchesLoc;
-      });
-
-      renderWorkers(filtered);
-    }
-
-    function sortByNearMe() {
-      if (!navigator.geolocation) {
-        alert('Geolocation aapke browser me support nahi karta.');
-        return;
-      }
-
-      const nearBtn = document.querySelector('.near-btn');
-      nearBtn.innerText = 'Locating...';
-
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          userCoords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-          nearBtn.innerText = '✅ Sorted Near You';
-
-          allWorkers.forEach(w => {
-            if (w.latitude && w.longitude) {
-              w.distance = calculateDistance(userCoords.lat, userCoords.lng, parseFloat(w.latitude), parseFloat(w.longitude));
-            } else {
-              w.distance = Infinity;
-            }
-          });
-
-          allWorkers.sort((a, b) => a.distance - b.distance);
-          filterWorkers();
-        },
-        (err) => {
-          nearBtn.innerText = '📍 Near Me';
-          alert('Location allow kijiye paas ke karigar dekhne ke liye.');
-        },
-        { enableHighAccuracy: true, timeout: 8000 }
-      );
-    }
-
-    function resetFilters() {
-      document.getElementById('searchInput').value = '';
-      document.getElementById('categoryFilter').value = '';
-      document.getElementById('localityFilter').value = '';
-      document.querySelector('.near-btn').innerText = '📍 Near Me';
-      allWorkers.forEach(w => delete w.distance);
-      renderWorkers(allWorkers);
-    }
-
-    loadFilters();
-    fetchWorkers();
+    loadDropdowns();
   </script>
 </body>
 </html>

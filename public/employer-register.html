@@ -1,76 +1,146 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Employer Registration | MazdoorDirect</title>
+  <title>Employer Registration | Koderma Work Finder</title>
   <style>
+    :root {
+      --primary: #6d28d9;
+      --primary-light: #ede9fe;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
     body {
-      background-color: #f1f5f9;
-      color: #1e293b;
-      min-height: 100vh;
-      padding-bottom: 40px;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
     }
 
-    .top-nav {
-      background: #ffffff;
-      padding: 16px 24px;
+    /* NAVBAR */
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 14px 24px;
+    }
+
+    .nav-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      margin-bottom: 30px;
+      gap: 16px;
+      flex-wrap: wrap;
     }
 
     .logo {
-      font-size: 20px;
-      font-weight: 700;
-      color: #059669;
-    }
-
-    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
       text-decoration: none;
-      color: #059669;
-      font-weight: 600;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .logo-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #6d28d9, #8b5cf6);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #334155;
       font-size: 14px;
-      padding: 8px 12px;
-      border: 1px solid #059669;
-      border-radius: 6px;
-      transition: all 0.2s;
+      font-weight: 600;
     }
 
-    .nav-btn:hover {
-      background: #059669;
+    .nav-links a:hover { color: var(--primary); }
+
+    .btn-gradient {
+      background: linear-gradient(135deg, #6d28d9, #7c3aed);
       color: #ffffff;
+      text-decoration: none;
+      padding: 9px 18px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
     }
 
-    .form-container {
+    /* HERO */
+    .page-hero {
+      background: linear-gradient(180deg, #ffffff 0%, #f5f3ff 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 40px 24px 64px;
+      text-align: center;
+    }
+
+    .page-hero h1 {
+      font-size: 32px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .page-hero p {
+      color: var(--muted);
+      font-size: 15px;
       max-width: 580px;
       margin: 0 auto;
+    }
+
+    /* FORM CARD */
+    .form-wrap {
+      max-width: 680px;
+      margin: -40px auto 60px;
+      padding: 0 20px;
+    }
+
+    .card {
       background: #ffffff;
-      padding: 32px 28px;
-      border-radius: 12px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.06);
     }
 
-    h2 {
-      font-size: 22px;
-      font-weight: 700;
-      color: #0f172a;
-      margin-bottom: 6px;
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
     }
 
-    .subtitle {
-      font-size: 14px;
-      color: #64748b;
-      margin-bottom: 24px;
+    @media (max-width: 650px) {
+      .grid-2 { grid-template-columns: 1fr; }
     }
 
     .form-group {
@@ -79,124 +149,210 @@
 
     .form-group label {
       display: block;
-      font-size: 14px;
-      font-weight: 600;
-      color: #334155;
+      font-size: 13px;
+      font-weight: 700;
       margin-bottom: 6px;
+      color: #1e293b;
     }
 
     .form-group input,
-    .form-group select,
-    .form-group textarea {
+    .form-group select {
       width: 100%;
-      padding: 10px 14px;
-      font-size: 15px;
+      padding: 11px 14px;
       border: 1px solid #cbd5e1;
-      border-radius: 6px;
-      background-color: #fff;
-      color: #1e293b;
+      border-radius: 10px;
+      font-size: 14px;
       outline: none;
-      transition: border-color 0.2s;
+      background: #ffffff;
     }
 
     .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-      border-color: #059669;
-      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+    .form-group select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.12);
     }
 
-    .submit-btn {
+    .btn-submit {
       width: 100%;
-      background-color: #059669;
+      background: linear-gradient(135deg, #6d28d9, #7c3aed);
       color: #ffffff;
-      font-size: 16px;
-      font-weight: 600;
-      padding: 12px;
       border: none;
-      border-radius: 8px;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 800;
       cursor: pointer;
-      margin-top: 10px;
-      transition: background-color 0.2s;
+      margin-top: 6px;
+      transition: transform 0.15s, box-shadow 0.15s;
     }
 
-    .submit-btn:hover {
-      background-color: #047857;
+    .btn-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(109, 40, 217, 0.25);
+    }
+
+    .alert-box {
+      display: none;
+      padding: 14px;
+      border-radius: 12px;
+      margin-bottom: 18px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .alert-success {
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+
+    .alert-error {
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    .footer {
+      background: #0f172a;
+      color: #94a3b8;
+      text-align: center;
+      padding: 28px 24px;
+      font-size: 13px;
+    }
+
+    .footer a {
+      color: #e2e8f0;
+      text-decoration: none;
+      margin: 0 10px;
     }
   </style>
 </head>
 <body>
-  <header class="top-nav">
-    <div class="logo">👷 MazdoorDirect</div>
-    <a href="index.html" class="nav-btn">← Directory me Wapas Jayein</a>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-wrap">
+      <a href="index.html" class="logo">
+        <span class="logo-badge">🛠️</span>
+        <span>KodermaWork</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="jobs.html">Find Jobs</a>
+        <a href="workers.html">Find Workers</a>
+        <a href="categories.html">Categories</a>
+        <a href="post-job.html">Post a Job</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <a href="post-job.html" class="btn-gradient">+ Post a Job</a>
+    </div>
   </header>
 
-  <main class="form-container">
-    <h2>Kaam Dene Wale (Employer) Ka Registration</h2>
-    <p class="subtitle">Apna account banayein taaki aasani se karigar aur mazdoor hire kar sakein</p>
+  <!-- HERO -->
+  <section class="page-hero">
+    <h1>Employer Registration (काम देने वाले)</h1>
+    <p>Apna employer account banayein. Koderma ke sabhi 8 blocks mein naya kaam post karein aur bharosemand workers se judein.</p>
+  </section>
 
-    <form id="employerForm">
-      <div class="form-group">
-        <label for="name">Aapka Naam (Full Name) *</label>
-        <input type="text" id="name" name="name" placeholder="e.g. Amit Sharma" required>
-      </div>
+  <!-- FORM -->
+  <div class="form-wrap">
+    <div class="card">
+      <div id="statusAlert" class="alert-box"></div>
 
-      <div class="form-group">
-        <label for="phone">Mobile / WhatsApp Number *</label>
-        <input type="tel" id="phone" name="phone" placeholder="10-digit mobile number" required pattern="[0-9]{10}">
-      </div>
+      <form id="employerForm" onsubmit="submitEmployer(event)">
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Full Name (Aapka Naam) *</label>
+            <input type="text" id="full_name" required placeholder="e.g. Suresh Prasad">
+          </div>
 
-      <div class="form-group">
-        <label for="business_name">Business / Company / Contractor Name (Optional)</label>
-        <input type="text" id="business_name" name="business_name" placeholder="e.g. Sharma Construction ya Ghar ka kaam">
-      </div>
+          <div class="form-group">
+            <label>Mobile Number *</label>
+            <input type="tel" id="phone_number" required pattern="[0-9]{10}" placeholder="10-digit mobile number">
+          </div>
+        </div>
 
-      <div class="form-group">
-        <label for="localitySelect">Mohalla / Local Area *</label>
-        <select id="localitySelect" name="locality_id" required>
-          <option value="">Area Chunein</option>
-        </select>
-      </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Business / Farm / Shop Name (Optional)</label>
+            <input type="text" id="business_name" placeholder="e.g. Maa Durga Traders / Kisan Farm">
+          </div>
 
-      <div class="form-group">
-        <label for="address">Pura Pata (Detailed Address / Site Location)</label>
-        <textarea id="address" name="address" rows="3" placeholder="Plot No., Landmark, Gali No."></textarea>
-      </div>
+          <div class="form-group">
+            <label>Employer Type *</label>
+            <select id="employer_type" required>
+              <option value="Individual / Homeowner">Individual / Homeowner (Ghar ke kaam ke liye)</option>
+              <option value="Farmer / Kisan">Farmer / Kisan (Kheti-badi ke kaam ke liye)</option>
+              <option value="Contractor / Builder">Contractor / Builder (Thekedar)</option>
+              <option value="Shop / Business Owner">Shop / Business Owner (Dukan / Vyapar)</option>
+              <option value="Company / Organization">Company / Organization</option>
+            </select>
+          </div>
+        </div>
 
-      <button type="submit" class="submit-btn">
-        ✅ Register Karein
-      </button>
-    </form>
-  </main>
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Location - Block (Koderma District) *</label>
+            <select id="locality_id" required>
+              <option value="">-- Block Chunein --</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Village / Town / Mohalla Name</label>
+            <input type="text" id="village" placeholder="e.g. Jhumri Telaiya / Jainagar">
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">🏢 Register Employer Account</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div style="margin-bottom:10px;">
+      <a href="index.html">Home</a>
+      <a href="jobs.html">Find Jobs</a>
+      <a href="workers.html">Find Workers</a>
+      <a href="post-job.html">Post a Job</a>
+      <a href="contact.html">Contact Us</a>
+    </div>
+    <p>© 2026 Koderma Work Finder — Koderma District (Jharkhand)</p>
+  </footer>
 
   <script>
     async function loadLocalities() {
       try {
         const res = await fetch('/api/localities');
-        const json = await res.json();
-        const localities = Array.isArray(json) ? json : (json.data || []);
-        const select = document.getElementById('localitySelect');
-        localities.forEach(l => {
+        const locs = (await res.json()).data || [];
+        const select = document.getElementById('locality_id');
+        locs.forEach(l => {
           const opt = document.createElement('option');
           opt.value = l.id;
-          opt.textContent = l.name;
+          opt.textContent = `${l.name}, Koderma`;
           select.appendChild(opt);
         });
       } catch (err) {
-        console.error('Localities load error:', err);
+        console.error('Error loading localities:', err);
       }
     }
-    loadLocalities();
 
-    document.getElementById('employerForm').addEventListener('submit', async (e) => {
+    async function submitEmployer(e) {
       e.preventDefault();
-      const form = e.target;
+      const btn = document.getElementById('submitBtn');
+      const alertBox = document.getElementById('statusAlert');
+      btn.disabled = true;
+      btn.innerText = 'Registering...';
+
       const payload = {
-        name: form.name.value.trim(),
-        phone: form.phone.value.trim(),
-        business_name: form.business_name.value.trim(),
-        locality_id: form.locality_id.value,
-        address: form.address.value.trim()
+        full_name: document.getElementById('full_name').value,
+        phone_number: document.getElementById('phone_number').value,
+        business_name: document.getElementById('business_name').value,
+        employer_type: document.getElementById('employer_type').value,
+        locality_id: document.getElementById('locality_id').value,
+        village: document.getElementById('village').value
       };
 
       try {
@@ -207,17 +363,27 @@
         });
         const data = await res.json();
 
-        if (res.ok) {
-          alert('Employer registration safal raha!');
-          localStorage.setItem('employer_id', data.employerId);
-          window.location.href = 'jobs.html';
+        alertBox.style.display = 'block';
+        if (data.success) {
+          alertBox.className = 'alert-box alert-success';
+          alertBox.innerHTML = `✅ ${data.message} <a href="post-job.html" style="color:#065f46; text-decoration:underline; margin-left:8px;">Abhi Job Post Karein →</a>`;
+          document.getElementById('employerForm').reset();
         } else {
-          alert(data.message || 'Registration fail ho gaya.');
+          alertBox.className = 'alert-box alert-error';
+          alertBox.innerText = '❌ ' + (data.message || 'Registration failed');
         }
       } catch (err) {
-        alert('Server se connect nahi ho saka.');
+        alertBox.style.display = 'block';
+        alertBox.className = 'alert-box alert-error';
+        alertBox.innerText = '❌ Server connection error!';
+      } finally {
+        btn.disabled = false;
+        btn.innerText = '🏢 Register Employer Account';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
-    });
+    }
+
+    loadLocalities();
   </script>
 </body>
 </html>

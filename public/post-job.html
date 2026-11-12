@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post a Job | Koderma Work Finder</title>
+  <style>
+    :root {
+      --primary: #6d28d9;
+      --primary-light: #ede9fe;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 14px 24px;
+    }
+
+    .nav-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .logo-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #6d28d9, #8b5cf6);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #334155;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+
+    .btn-outline {
+      background: #ffffff;
+      color: var(--text);
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      border: 1px solid var(--border);
+    }
+
+    /* HEADER */
+    .page-hero {
+      background: linear-gradient(180deg, #ffffff 0%, #f5f3ff 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 40px 24px 64px;
+      text-align: center;
+    }
+
+    .page-hero h1 {
+      font-size: 32px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .page-hero p {
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 580px;
+      margin: 0 auto;
+    }
+
+    /* FORM CARD */
+    .form-wrap {
+      max-width: 720px;
+      margin: -40px auto 60px;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 650px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #1e293b;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
+      background: #ffffff;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.12);
+    }
+
+    .radio-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 550px) {
+      .radio-cards { grid-template-columns: 1fr; }
+    }
+
+    .radio-option {
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .radio-option input {
+      width: auto;
+      accent-color: var(--primary);
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #6d28d9, #7c3aed);
+      color: #ffffff;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(109, 40, 217, 0.25);
+    }
+
+    .alert-box {
+      display: none;
+      padding: 14px;
+      border-radius: 12px;
+      margin-bottom: 18px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .alert-success {
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+
+    .alert-error {
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    .footer {
+      background: #0f172a;
+      color: #94a3b8;
+      text-align: center;
+      padding: 28px 24px;
+      font-size: 13px;
+    }
+
+    .footer a {
+      color: #e2e8f0;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-wrap">
+      <a href="index.html" class="logo">
+        <span class="logo-badge">🛠️</span>
+        <span>KodermaWork</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="jobs.html">Find Jobs</a>
+        <a href="workers.html">Find Workers</a>
+        <a href="categories.html">Categories</a>
+        <a href="post-job.html" class="active">Post a Job</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <a href="employer-register.html" class="btn-outline">🏢 Employer Register</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="page-hero">
+    <h1>Post a New Job</h1>
+    <p>Apne khet, ghar, dukan ya site ke kaam ki details bharein. Koderma ke workers aapse seedhe judenge.</p>
+  </section>
+
+  <!-- FORM -->
+  <div class="form-wrap">
+    <div class="card">
+      <div id="statusAlert" class="alert-box"></div>
+
+      <form id="postJobForm" onsubmit="submitJob(event)">
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Job Title (Kaam ka Naam) *</label>
+            <input type="text" id="title" required placeholder="e.g. Hal Jutai / Rajmistri">
+          </div>
+
+          <div class="form-group">
+            <label>Category (Kaam ki Shreni) *</label>
+            <select id="category_id" required>
+              <option value="">-- Category Chunein --</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Location - Block (Koderma District) *</label>
+            <select id="locality_id" required>
+              <option value="">-- Block Chunein --</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Village / Mohalla Name</label>
+            <input type="text" id="village" placeholder="e.g. Jainagar / Jhumri Telaiya">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Payment Type *</label>
+            <select id="payment_type" required>
+              <option value="Per Day">Per Day (Rozana)</option>
+              <option value="Per Bigha">Per Bigha (Bigha ke hisab se)</option>
+              <option value="Per Hour">Per Hour (Ghante ke hisab se)</option>
+              <option value="Fixed / Contract">Fixed / Contract</option>
+              <option value="Monthly">Monthly (Mahina)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Majduri / Rate (₹ mein - Optional)</label>
+            <input type="text" id="wage" placeholder="e.g. 600 ya Negotiable">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Work Description (Kaam ki Puri Jankari) *</label>
+          <textarea id="description" rows="3" required placeholder="e.g. Khet ki jutai karwani hai. Subah 7 baje pahunchna hoga."></textarea>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Aapka Naam (Employer Name) *</label>
+            <input type="text" id="employer_name" required placeholder="e.g. Ramesh Yadav">
+          </div>
+
+          <div class="form-group">
+            <label>Mobile Number *</label>
+            <input type="tel" id="employer_phone" required pattern="[0-9]{10}" placeholder="10-digit mobile number">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Contact Preference (Workers kaise sampark karein?)</label>
+          <div class="radio-cards">
+            <label class="radio-option">
+              <input type="radio" name="contact_mode" value="website" checked>
+              <span>📩 Contact through website (Number Hidden)</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="contact_mode" value="direct">
+              <span>📞 Direct Phone & WhatsApp</span>
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">🚀 Post Job Now</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div style="margin-bottom:10px;">
+      <a href="index.html">Home</a>
+      <a href="jobs.html">Find Jobs</a>
+      <a href="workers.html">Find Workers</a>
+      <a href="categories.html">Categories</a>
+      <a href="contact.html">Contact Us</a>
+    </div>
+    <p>© 2026 Koderma Work Finder — Koderma District (Jharkhand)</p>
+  </footer>
+
+  <script>
+    async function loadDropdowns() {
+      try {
+        const [catRes, locRes] = await Promise.all([
+          fetch('/api/categories'),
+          fetch('/api/localities')
+        ]);
+
+        const cats = (await catRes.json()).data || [];
+        const locs = (await locRes.json()).data || [];
+
+        const catSelect = document.getElementById('category_id');
+        const groups = {};
+        cats.forEach(c => {
+          if (!groups[c.group_name]) groups[c.group_name] = [];
+          groups[c.group_name].push(c);
+        });
+
+        Object.keys(groups).forEach(gName => {
+          const optgroup = document.createElement('optgroup');
+          optgroup.label = gName;
+          groups[gName].forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c.id;
+            opt.textContent = c.name;
+            optgroup.appendChild(opt);
+          });
+          catSelect.appendChild(optgroup);
+        });
+
+        const locSelect = document.getElementById('locality_id');
+        locs.forEach(l => {
+          const opt = document.createElement('option');
+          opt.value = l.id;
+          opt.textContent = `${l.name}, Koderma`;
+          locSelect.appendChild(opt);
+        });
+      } catch (err) {
+        console.error('Dropdown load error:', err);
+      }
+    }
+
+    async function submitJob(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      const alertBox = document.getElementById('statusAlert');
+      btn.disabled = true;
+      btn.innerText = 'Posting Job...';
+
+      const contactMode = document.querySelector('input[name="contact_mode"]:checked').value;
+
+      const payload = {
+        title: document.getElementById('title').value,
+        category_id: document.getElementById('category_id').value,
+        locality_id: document.getElementById('locality_id').value,
+        village: document.getElementById('village').value,
+        payment_type: document.getElementById('payment_type').value,
+        wage: document.getElementById('wage').value || 'Negotiable',
+        description: document.getElementById('description').value,
+        employer_name: document.getElementById('employer_name').value,
+        employer_phone: document.getElementById('employer_phone').value,
+        contact_mode: contactMode
+      };
+
+      try {
+        const res = await fetch('/api/jobs', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        alertBox.style.display = 'block';
+        if (data.success) {
+          alertBox.className = 'alert-box alert-success';
+          alertBox.innerText = '✅ ' + data.message;
+          document.getElementById('postJobForm').reset();
+        } else {
+          alertBox.className = 'alert-box alert-error';
+          alertBox.innerText = '❌ ' + (data.message || 'Error posting job');
+        }
+      } catch (err) {
+        alertBox.style.display = 'block';
+        alertBox.className = 'alert-box alert-error';
+        alertBox.innerText = '❌ Server connection error!';
+      } finally {
+        btn.disabled = false;
+        btn.innerText = '🚀 Post Job Now';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    loadDropdowns();
+  </script>
+</body>
+</html>

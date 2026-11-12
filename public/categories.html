@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Work Categories (41+ Trades) | Koderma Work Finder</title>
+  <style>
+    :root {
+      --primary: #6d28d9;
+      --primary-light: #ede9fe;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 14px 24px;
+    }
+
+    .nav-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .logo-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #6d28d9, #8b5cf6);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #334155;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+
+    .btn-gradient {
+      background: linear-gradient(135deg, #6d28d9, #7c3aed);
+      color: #ffffff;
+      text-decoration: none;
+      padding: 9px 18px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* PAGE HEADER */
+    .page-hero {
+      background: linear-gradient(180deg, #ffffff 0%, #f5f3ff 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 44px 24px;
+      text-align: center;
+    }
+
+    .page-hero h1 {
+      font-size: 34px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .page-hero p {
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto 20px;
+      font-size: 15px;
+    }
+
+    .search-input {
+      max-width: 480px;
+      width: 100%;
+      padding: 12px 18px;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 15px;
+      outline: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+    }
+
+    /* GROUP FILTER TABS */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 36px 24px 60px;
+    }
+
+    .group-tabs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+
+    .group-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .group-card:hover, .group-card.active {
+      background: linear-gradient(135deg, #6d28d9, #7c3aed);
+      color: #ffffff;
+      border-color: transparent;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(109, 40, 217, 0.2);
+    }
+
+    .group-card .g-icon {
+      font-size: 28px;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .group-card .g-title {
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .group-card .g-count {
+      font-size: 12px;
+      opacity: 0.8;
+      margin-top: 2px;
+      display: block;
+    }
+
+    /* GROUP SECTIONS */
+    .group-section {
+      margin-bottom: 40px;
+    }
+
+    .group-heading {
+      font-size: 21px;
+      font-weight: 800;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .sub-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 16px;
+    }
+
+    .trade-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .trade-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+      border-color: #c4b5fd;
+    }
+
+    .trade-card h3 {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .trade-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-sm-primary, .btn-sm-outline {
+      flex: 1;
+      text-align: center;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .btn-sm-primary {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .btn-sm-outline {
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    /* FOOTER */
+    .footer {
+      background: #0f172a;
+      color: #94a3b8;
+      text-align: center;
+      padding: 28px 24px;
+      font-size: 13px;
+    }
+
+    .footer a {
+      color: #e2e8f0;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-wrap">
+      <a href="index.html" class="logo">
+        <span class="logo-badge">🛠️</span>
+        <span>KodermaWork</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="jobs.html">Find Jobs</a>
+        <a href="workers.html">Find Workers</a>
+        <a href="categories.html" class="active">Categories</a>
+        <a href="post-job.html">Post a Job</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <a href="register.html" class="btn-gradient">+ Worker Register</a>
+    </div>
+  </header>
+
+  <!-- HEADER -->
+  <section class="page-hero">
+    <h1>WORK CATEGORIES</h1>
+    <p>Koderma District ke sabhi 5 mukhya sectors aur 41+ kaam ki shreniyan. Apne kaam ke mutabiq Worker ya Job chunein.</p>
+    <input type="text" id="catSearch" class="search-input" placeholder="🔍 Kaam khojein (e.g. Rajmistri, Dhan Ropai, AC Repairing, Driver)..." oninput="renderCategories()">
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <div class="container">
+    <div class="group-tabs" id="groupTabs"></div>
+    <div id="categoriesContainer">
+      <p style="text-align:center; color:var(--muted);">Categories load ho rahi hain...</p>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div style="margin-bottom:10px;">
+      <a href="index.html">Home</a>
+      <a href="jobs.html">Find Jobs</a>
+      <a href="workers.html">Find Workers</a>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact Us</a>
+    </div>
+    <p>© 2026 Koderma Work Finder — All 8 Blocks of Koderma District</p>
+  </footer>
+
+  <script>
+    let allCategories = [];
+    let selectedGroup = 'ALL';
+
+    const groupIcons = {
+      'Construction Work': '🏗️',
+      'Agriculture Work': '🌾',
+      'Technical Work': '🔧',
+      'Other Work': '🧹',
+      'Business & Shop Work': '🏪'
+    };
+
+    // Check URL parameter ?group=...
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('group')) {
+      selectedGroup = urlParams.get('group');
+    }
+
+    async function fetchCategories() {
+      try {
+        const res = await fetch('/api/categories');
+        const json = await res.json();
+        allCategories = json.data || [];
+        buildTabs();
+        renderCategories();
+      } catch (err) {
+        document.getElementById('categoriesContainer').innerHTML = '<p style="color:red; text-align:center;">Categories load nahi ho sakin.</p>';
+      }
+    }
+
+    function buildTabs() {
+      const groups = ['ALL', ...new Set(allCategories.map(c => c.group_name))];
+      const tabsEl = document.getElementById('groupTabs');
+
+      tabsEl.innerHTML = groups.map(g => {
+        const count = g === 'ALL' ? allCategories.length : allCategories.filter(c => c.group_name === g).length;
+        const icon = g === 'ALL' ? '📋' : (groupIcons[g] || '🛠️');
+        const label = g === 'ALL' ? 'All Categories' : g.replace(' Work', '');
+        const activeClass = selectedGroup === g ? 'active' : '';
+
+        return `
+          <div class="group-card ${activeClass}" onclick="selectGroup('${g}')">
+            <span class="g-icon">${icon}</span>
+            <span class="g-title">${label}</span>
+            <span class="g-count">${count} Trades</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function selectGroup(grp) {
+      selectedGroup = grp;
+      buildTabs();
+      renderCategories();
+    }
+
+    function renderCategories() {
+      const query = document.getElementById('catSearch').value.toLowerCase().trim();
+      const container = document.getElementById('categoriesContainer');
+
+      const filtered = allCategories.filter(c => {
+        const matchGroup = selectedGroup === 'ALL' || c.group_name === selectedGroup;
+        const matchQuery = !query || c.name.toLowerCase().includes(query) || c.group_name.toLowerCase().includes(query);
+        return matchGroup && matchQuery;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<p style="text-align:center; color:var(--muted); padding:30px;">Koi category nahi mili.</p>';
+        return;
+      }
+
+      // Group items by group_name
+      const grouped = {};
+      filtered.forEach(item => {
+        if (!grouped[item.group_name]) grouped[item.group_name] = [];
+        grouped[item.group_name].push(item);
+      });
+
+      container.innerHTML = Object.keys(grouped).map(gName => {
+        const icon = groupIcons[gName] || '🛠️';
+        const cards = grouped[gName].map(cat => `
+          <div class="trade-card">
+            <div>
+              <span style="font-size:11px; font-weight:700; color:#6d28d9; background:#ede9fe; padding:3px 8px; border-radius:6px;">${gName}</span>
+              <h3 style="margin-top:8px;">${cat.name}</h3>
+            </div>
+            <div class="trade-actions">
+              <a href="workers.html?category_id=${cat.id}" class="btn-sm-primary">👷 Find Workers</a>
+              <a href="jobs.html?category_id=${cat.id}" class="btn-sm-outline">💼 Find Jobs</a>
+            </div>
+          </div>
+        `).join('');
+
+        return `
+          <div class="group-section">
+            <h2 class="group-heading">${icon} ${gName}</h2>
+            <div class="sub-grid">${cards}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    fetchCategories();
+  </script>
+</body>
+</html>

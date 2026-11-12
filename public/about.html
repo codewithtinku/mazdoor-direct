@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us | Koderma Work Finder</title>
+  <style>
+    :root {
+      --primary: #6d28d9;
+      --primary-light: #ede9fe;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 14px 24px;
+    }
+
+    .nav-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .logo-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #6d28d9, #8b5cf6);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #334155;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+
+    .btn-gradient {
+      background: linear-gradient(135deg, #6d28d9, #7c3aed);
+      color: #ffffff;
+      text-decoration: none;
+      padding: 9px 18px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    /* HERO */
+    .page-hero {
+      background: linear-gradient(180deg, #ffffff 0%, #f5f3ff 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 52px 24px;
+      text-align: center;
+    }
+
+    .hero-pill {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    .page-hero h1 {
+      font-size: 36px;
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+
+    .page-hero p {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* CONTENT */
+    .container {
+      max-width: 1100px;
+      margin: 40px auto 60px;
+      padding: 0 24px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 768px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    .info-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.03);
+    }
+
+    .info-card h2 {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      color: var(--primary);
+    }
+
+    .info-card ul {
+      padding-left: 20px;
+      color: #475569;
+      font-size: 15px;
+    }
+
+    .info-card li {
+      margin-bottom: 8px;
+    }
+
+    .blocks-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px;
+      margin-bottom: 40px;
+    }
+
+    .blocks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .block-pill {
+      background: #f5f3ff;
+      color: #4c1d95;
+      border: 1px solid #ddd6fe;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, #5b21b6, #7c3aed);
+      border-radius: 20px;
+      padding: 36px;
+      color: #ffffff;
+      text-align: center;
+    }
+
+    .cta-box h2 {
+      font-size: 26px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .cta-box p {
+      opacity: 0.9;
+      margin-bottom: 20px;
+    }
+
+    .btn-white {
+      background: #ffffff;
+      color: var(--primary);
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 14px;
+      text-decoration: none;
+      display: inline-block;
+      margin: 4px;
+    }
+
+    .footer {
+      background: #0f172a;
+      color: #94a3b8;
+      text-align: center;
+      padding: 28px 24px;
+      font-size: 13px;
+    }
+
+    .footer a {
+      color: #e2e8f0;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-wrap">
+      <a href="index.html" class="logo">
+        <span class="logo-badge">🛠️</span>
+        <span>KodermaWork</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="jobs.html">Find Jobs</a>
+        <a href="workers.html">Find Workers</a>
+        <a href="categories.html">Categories</a>
+        <a href="post-job.html">Post a Job</a>
+        <a href="about.html" class="active">About Us</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <a href="register.html" class="btn-gradient">Get Started →</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="page-hero">
+    <span class="hero-pill">ABOUT KODERMA WORK FINDER</span>
+    <h1>Koderma Jile Ka Apna Digital Rozgar Platform</h1>
+    <p>Hamara uddeshya Koderma jile ke har gaon aur prakhand ke karigaron, kisanon aur daily wage workers ko seedhe kaam dene walon se jodna hai—bina kisi commission ya dalali ke.</p>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <div class="container">
+    <div class="grid-2">
+      <div class="info-card">
+        <h2>👷 Workers (काम करने वाले) Ke Liye</h2>
+        <ul>
+          <li>Bilkul free mein apna Worker Profile banayein.</li>
+          <li>41+ kaam ki shreniyon (Rajmistri, Tractor Driver, Dhan Ropai, AC Repairing, Shop Work) mein apna hunar dikhayein.</li>
+          <li>Apni marzi se contact permission aur work availability set karein.</li>
+          <li>Apne gaon aur block ke naye jobs dekhein aur turant apply karein.</li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <h2>🏢 Employers (काम देने वाले) Ke Liye</h2>
+        <ul>
+          <li>Ghar, kheti, dukan ya construction site ke liye turant naya kaam post karein.</li>
+          <li>GPS "Near Me" aur block filter se apne paas ke bharosemand workers khojein.</li>
+          <li>Seedhe Phone Call, WhatsApp ya Website ke zariye sampark karein.</li>
+          <li>0% Commission — poora paisa seedhe kaam karne wale ko milta hai.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="blocks-card">
+      <h2 style="font-size:22px; font-weight:800; margin-bottom:6px;">📍 Hamara Coverage Area (Koderma District)</h2>
+      <p style="color:var(--muted); font-size:14px;">Koderma jile ke sabhi 8 mukhya prakhando aur unke aas-paas ke gaon mein hamari seva uplabdh hai:</p>
+      <div class="blocks-grid">
+        <div class="block-pill">1. Koderma</div>
+        <div class="block-pill">2. Jhumri Telaiya</div>
+        <div class="block-pill">3. Domchanch</div>
+        <div class="block-pill">4. Markacho</div>
+        <div class="block-pill">5. Jainagar</div>
+        <div class="block-pill">6. Chandwara</div>
+        <div class="block-pill">7. Satgawan</div>
+        <div class="block-pill">8. Dhanwar</div>
+      </div>
+    </div>
+
+    <div class="cta-box">
+      <h2>Aaj Hi Koderma Work Finder Se Judein</h2>
+      <p>Chahe aapko kaam chahiye ya bharosemand karigar—sab kuch ek hi jagah par.</p>
+      <a href="register.html" class="btn-white">👷 Worker Register Karein</a>
+      <a href="post-job.html" class="btn-white" style="background:rgba(255,255,255,0.2); color:#fff;">💼 Naya Kaam Post Karein</a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div style="margin-bottom:10px;">
+      <a href="index.html">Home</a>
+      <a href="jobs.html">Find Jobs</a>
+      <a href="workers.html">Find Workers</a>
+      <a href="categories.html">Categories</a>
+      <a href="contact.html">Contact Us</a>
+    </div>
+    <p>© 2026 Koderma Work Finder — Koderma District (Jharkhand)</p>
+  </footer>
+
+</body>
+</html>

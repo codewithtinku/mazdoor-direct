@@ -1,246 +1,623 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard | Mazdoor Direct</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Admin Dashboard | Koderma Work Finder</title>
   <style>
-    /* Login Overlay Modal */
-    #loginModal {
-      position: fixed;
+    :root {
+      --primary: #6d28d9;
+      --primary-light: #ede9fe;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      position: sticky;
       top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(15, 23, 42, 0.85);
-      backdrop-filter: blur(4px);
+      z-index: 100;
+    }
+
+    .nav-wrap {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .logo-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #6d28d9, #8b5cf6);
+      color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 9999;
+      font-size: 16px;
     }
-    .login-box {
-      background: #ffffff;
-      padding: 32px;
-      border-radius: 12px;
-      width: 90%;
-      max-width: 380px;
-      text-align: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    }
-    .login-box input {
-      width: 100%;
-      padding: 10px 14px;
-      margin: 16px 0;
-      border: 1.5px solid #cbd5e1;
-      border-radius: 8px;
-      font-size: 1rem;
-      outline: none;
-    }
-    .login-box button {
-      width: 100%;
-      background: var(--primary);
-      color: white;
-      padding: 10px;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 600;
+
+    .btn-outline {
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--text);
       cursor: pointer;
     }
-    .admin-table {
+
+    /* LOGIN SCREEN */
+    .login-wrap {
+      max-width: 420px;
+      margin: 80px auto;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+      text-align: center;
+    }
+
+    .login-wrap input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 15px;
+      margin: 16px 0;
+    }
+
+    .btn-gradient {
+      width: 100%;
+      background: linear-gradient(135deg, #6d28d9, #7c3aed);
+      color: #ffffff;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* DASHBOARD */
+    .dashboard {
+      display: none;
+      max-width: 1240px;
+      margin: 28px auto 60px;
+      padding: 0 24px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+
+    .stat-card span {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .stat-card h2 {
+      font-size: 28px;
+      font-weight: 900;
+      margin-top: 6px;
+      color: var(--primary);
+    }
+
+    /* TABS */
+    .tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .tab-btn {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #334155;
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    .panel {
+      display: none;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      overflow-x: auto;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 20px;
-      background: white;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      font-size: 13px;
     }
-    .admin-table th, .admin-table td {
-      padding: 12px 16px;
+
+    th, td {
       text-align: left;
+      padding: 12px 10px;
       border-bottom: 1px solid #f1f5f9;
-      font-size: 0.9rem;
     }
-    .admin-table th {
+
+    th {
       background: #f8fafc;
+      font-weight: 800;
       color: #475569;
-      font-weight: 600;
     }
-    .btn-del {
-      background: #fee2e2;
-      color: #dc2626;
+
+    .badge {
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .b-pending { background: #fef3c7; color: #b45309; }
+    .b-approved, .b-verified { background: #dcfce7; color: #15803d; }
+    .b-unverified { background: #f1f5f9; color: #475569; }
+
+    .act-btn {
       border: none;
       padding: 6px 10px;
-      border-radius: 6px;
+      border-radius: 7px;
+      font-size: 12px;
+      font-weight: 700;
       cursor: pointer;
+      margin-right: 4px;
     }
-    .btn-toggle {
-      border: none;
-      padding: 6px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 0.8rem;
+
+    .btn-green { background: #16a34a; color: #fff; }
+    .btn-blue { background: #2563eb; color: #fff; }
+    .btn-red { background: #dc2626; color: #fff; }
+
+    .add-cat-bar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
     }
-    .status-verified { background: #dcfce7; color: #15803d; }
-    .status-unverified { background: #fef3c7; color: #b45309; }
+
+    .add-cat-bar select, .add-cat-bar input {
+      padding: 10px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Lock Modal -->
-  <div id="loginModal">
-    <div class="login-box">
-      <i class="fa-solid fa-shield-halved" style="font-size: 2.5rem; color: var(--primary);"></i>
-      <h3 style="margin-top: 12px; color: #1e293b;">Admin Access</h3>
-      <p style="font-size: 0.85rem; color: #64748b; margin-top: 4px;">Dashboard open karne ke liye secret PIN dalein.</p>
-      
-      <input type="password" id="adminPassword" placeholder="Admin PIN/Password">
-      <button id="btnLogin"><i class="fa-solid fa-lock-open"></i> Unlock Dashboard</button>
-      <div id="loginErr" style="color: #dc2626; font-size: 0.85rem; margin-top: 10px; display: none;"></div>
-    </div>
-  </div>
-
-  <!-- Main Admin Dashboard Content -->
+  <!-- NAVBAR -->
   <header class="navbar">
-    <div class="brand">
-      <i class="fa-solid fa-person-digging logo-icon"></i>
-      <span class="brand-name">Mazdoor<span>Direct</span> [Admin]</span>
-    </div>
-    <div style="display: flex; gap: 10px;">
-      <a href="index.html" class="btn-register-link"><i class="fa-solid fa-arrow-left"></i> Directory</a>
-      <button onclick="logoutAdmin()" style="background:#ef4444; color:white; border:none; padding:6px 14px; border-radius:6px; cursor:pointer; font-weight:600;">Logout</button>
+    <div class="nav-wrap">
+      <a href="index.html" class="logo">
+        <span class="logo-badge">⚙️</span>
+        <span>KodermaWork Admin</span>
+      </a>
+      <div style="display:flex; gap:10px;">
+        <a href="index.html" class="btn-outline">← View Website</a>
+        <button type="button" class="btn-outline" id="logoutBtn" style="display:none; color:#dc2626;" onclick="logoutAdmin()">Logout</button>
+      </div>
     </div>
   </header>
 
-  <main class="container" style="margin-top: 24px;">
-    <h2>Workers Management</h2>
-    <p style="color: #64748b; font-size: 0.9rem;">Yahan se aap kisi bhi karigar ko Verify ya Delete kar sakte hain.</p>
+  <!-- LOGIN BOX -->
+  <div class="login-wrap" id="loginBox">
+    <h2 style="font-size:24px; font-weight:900;">Admin Control Login</h2>
+    <p style="font-size:13px; color:var(--muted); margin-top:4px;">Website manage karne ke liye admin password dalein.</p>
+    <form onsubmit="loginAdmin(event)">
+      <input type="password" id="adminPass" placeholder="Enter Admin Password" required>
+      <button type="submit" class="btn-gradient">Unlock Dashboard →</button>
+    </form>
+  </div>
 
-    <div style="overflow-x: auto;">
-      <table class="admin-table">
+  <!-- DASHBOARD -->
+  <div class="dashboard" id="dashboardBox">
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card"><span>Total Workers</span><h2 id="stWorkers">0</h2></div>
+      <div class="stat-card"><span>Total Employers</span><h2 id="stEmployers">0</h2></div>
+      <div class="stat-card"><span>Total Jobs</span><h2 id="stJobs">0</h2></div>
+      <div class="stat-card"><span>Pending Jobs</span><h2 id="stPending" style="color:#d97706;">0</h2></div>
+      <div class="stat-card"><span>Approved Jobs</span><h2 id="stApproved" style="color:#16a34a;">0</h2></div>
+      <div class="stat-card"><span>Open Complaints</span><h2 id="stComplaints" style="color:#dc2626;">0</h2></div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('jobsPanel', this)">💼 Manage Jobs</button>
+      <button class="tab-btn" onclick="switchTab('workersPanel', this)">👷 Manage Workers</button>
+      <button class="tab-btn" onclick="switchTab('employersPanel', this)">🏢 Manage Employers</button>
+      <button class="tab-btn" onclick="switchTab('categoriesPanel', this)">📂 Manage Categories</button>
+      <button class="tab-btn" onclick="switchTab('complaintsPanel', this)">📩 Complaints & Applications</button>
+    </div>
+
+    <!-- 1. JOBS PANEL -->
+    <div class="panel active" id="jobsPanel">
+      <h3 style="margin-bottom:14px;">All Posted Jobs (Pending & Approved)</h3>
+      <table>
         <thead>
           <tr>
-            <th>Photo</th>
-            <th>Naam</th>
-            <th>Phone</th>
+            <th>Title</th>
             <th>Category</th>
-            <th>Area</th>
-            <th>Verification</th>
+            <th>Location</th>
+            <th>Payment</th>
+            <th>Employer</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="jobsTableBody"></tbody>
+      </table>
+    </div>
+
+    <!-- 2. WORKERS PANEL -->
+    <div class="panel" id="workersPanel">
+      <h3 style="margin-bottom:14px;">Registered Workers</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Mobile</th>
+            <th>Category</th>
+            <th>Location</th>
+            <th>Exp</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="workersTableBody"></tbody>
+      </table>
+    </div>
+
+    <!-- 3. EMPLOYERS PANEL -->
+    <div class="panel" id="employersPanel">
+      <h3 style="margin-bottom:14px;">Registered Employers</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Mobile</th>
+            <th>Business</th>
+            <th>Type</th>
+            <th>Location</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="employersTableBody"></tbody>
+      </table>
+    </div>
+
+    <!-- 4. CATEGORIES PANEL -->
+    <div class="panel" id="categoriesPanel">
+      <h3 style="margin-bottom:14px;">Manage Work Categories</h3>
+      <form class="add-cat-bar" onsubmit="addCategory(event)">
+        <select id="newCatGroup" required>
+          <option value="Construction Work">Construction Work</option>
+          <option value="Agriculture Work">Agriculture Work</option>
+          <option value="Technical Work">Technical Work</option>
+          <option value="Other Work">Other Work</option>
+          <option value="Business & Shop Work">Business & Shop Work</option>
+        </select>
+        <input type="text" id="newCatName" placeholder="Nayi Category ka naam..." required>
+        <button type="submit" class="act-btn btn-blue" style="padding:10px 16px;">+ Add Category</button>
+      </form>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Main Group</th>
+            <th>Category Name</th>
             <th>Action</th>
           </tr>
         </thead>
-        <tbody id="adminWorkersTable">
-          <tr><td colspan="7" style="text-align:center;">Loading...</td></tr>
-        </tbody>
+        <tbody id="categoriesTableBody"></tbody>
       </table>
     </div>
-  </main>
+
+    <!-- 5. COMPLAINTS & APPLICATIONS PANEL -->
+    <div class="panel" id="complaintsPanel">
+      <h3 style="margin-bottom:14px;">User Complaints & Support Messages</h3>
+      <table style="margin-bottom:32px;">
+        <thead>
+          <tr>
+            <th>Sender</th>
+            <th>Mobile</th>
+            <th>Subject</th>
+            <th>Message</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="complaintsTableBody"></tbody>
+      </table>
+
+      <h3 style="margin-bottom:14px;">Website Job Applications</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Job Title</th>
+            <th>Employer</th>
+            <th>Applicant Name</th>
+            <th>Applicant Mobile</th>
+            <th>Message</th>
+          </tr>
+        </thead>
+        <tbody id="appsTableBody"></tbody>
+      </table>
+    </div>
+
+  </div>
 
   <script>
-    const loginModal = document.getElementById('loginModal');
-    const adminPassword = document.getElementById('adminPassword');
-    const btnLogin = document.getElementById('btnLogin');
-    const loginErr = document.getElementById('loginErr');
-    const tableBody = document.getElementById('adminWorkersTable');
-
-    // Check if already logged in (sessionStorage)
-    if (sessionStorage.getItem('mazdoor_admin_auth') === 'true') {
-      loginModal.style.display = 'none';
-      loadAdminWorkers();
+    if (sessionStorage.getItem('kw_admin') === 'true') {
+      showDashboard();
     }
 
-    btnLogin.addEventListener('click', async () => {
-      const pass = adminPassword.value.trim();
-      if (!pass) return;
-
-      try {
-        const res = await fetch('/api/admin/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ password: pass })
-        });
-        const data = await res.json();
-
-        if (data.success) {
-          sessionStorage.setItem('mazdoor_admin_auth', 'true');
-          loginModal.style.display = 'none';
-          loadAdminWorkers();
-        } else {
-          loginErr.textContent = data.message;
-          loginErr.style.display = 'block';
-        }
-      } catch (err) {
-        loginErr.textContent = 'Server se connect nahi ho saka.';
-        loginErr.style.display = 'block';
-      }
-    });
-
-    async function loadAdminWorkers() {
-      try {
-        const res = await fetch('/api/workers');
-        const result = await res.json();
-
-        if (!result.success || result.data.length === 0) {
-          tableBody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Koi worker nahi hai.</td></tr>';
-          return;
-        }
-
-        tableBody.innerHTML = result.data.map(w => {
-          const photo = w.profile_photo 
-            ? `<img src="${w.profile_photo}" style="width:36px; height:36px; border-radius:50%; object-fit:cover;">`
-            : `<div style="width:36px; height:36px; border-radius:50%; background:#ecfdf5; color:#047857; display:flex; align-items:center; justify-content:center; font-weight:700;">${w.full_name.charAt(0)}</div>`;
-
-          const verifyBtn = w.is_verified 
-            ? `<button onclick="toggleVerify(${w.id})" class="btn-toggle status-verified"><i class="fa-solid fa-check"></i> Verified</button>`
-            : `<button onclick="toggleVerify(${w.id})" class="btn-toggle status-unverified"><i class="fa-regular fa-clock"></i> Unverified</button>`;
-
-          return `
-            <tr>
-              <td>${photo}</td>
-              <td><b>${w.full_name}</b></td>
-              <td>${w.phone_number}</td>
-              <td>${w.category_name}</td>
-              <td>${w.locality_name}</td>
-              <td>${verifyBtn}</td>
-              <td>
-                <button onclick="deleteWorker(${w.id})" class="btn-del" title="Delete Worker"><i class="fa-solid fa-trash"></i></button>
-              </td>
-            </tr>
-          `;
-        }).join('');
-      } catch (err) {
-        tableBody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:red;">Workers load nahi ho sake.</td></tr>';
+    async function loginAdmin(e) {
+      e.preventDefault();
+      const password = document.getElementById('adminPass').value;
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password })
+      });
+      const data = await res.json();
+      if (data.success) {
+        sessionStorage.setItem('kw_admin', 'true');
+        showDashboard();
+      } else {
+        alert(data.message || 'Galat password!');
       }
     }
 
-    window.toggleVerify = async (id) => {
-      try {
-        await fetch(`/api/workers/${id}/verify`, { method: 'PATCH' });
-        loadAdminWorkers();
-      } catch (err) {
-        alert('Status update nahi ho saka.');
-      }
-    };
+    function logoutAdmin() {
+      sessionStorage.removeItem('kw_admin');
+      location.reload();
+    }
 
-    window.deleteWorker = async (id) => {
-      if (!confirm('Kya aap sach me is worker ko delete karna chahte hain?')) return;
-      try {
-        await fetch(`/api/workers/${id}`, { method: 'DELETE' });
-        loadAdminWorkers();
-      } catch (err) {
-        alert('Delete nahi ho saka.');
-      }
-    };
+    function showDashboard() {
+      document.getElementById('loginBox').style.display = 'none';
+      document.getElementById('dashboardBox').style.display = 'block';
+      document.getElementById('logoutBtn').style.display = 'inline-block';
+      loadAllAdminData();
+    }
 
-    window.logoutAdmin = () => {
-      sessionStorage.removeItem('mazdoor_admin_auth');
-      window.location.reload();
-    };
+    function switchTab(panelId, btn) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(panelId).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    async function loadAllAdminData() {
+      try {
+        const [stRes, jRes, wRes, eRes, cRes, compRes, appRes] = await Promise.all([
+          fetch('/api/admin/stats'),
+          fetch('/api/jobs?all=true'),
+          fetch('/api/workers?all=true'),
+          fetch('/api/employers'),
+          fetch('/api/categories'),
+          fetch('/api/admin/complaints'),
+          fetch('/api/admin/applications')
+        ]);
+
+        const stats = (await stRes.json()).data || {};
+        document.getElementById('stWorkers').innerText = stats.total_workers || 0;
+        document.getElementById('stEmployers').innerText = stats.total_employers || 0;
+        document.getElementById('stJobs').innerText = stats.total_jobs || 0;
+        document.getElementById('stPending').innerText = stats.pending_jobs || 0;
+        document.getElementById('stApproved').innerText = stats.approved_jobs || 0;
+        document.getElementById('stComplaints').innerText = stats.open_complaints || 0;
+
+        // Jobs
+        const jobs = (await jRes.json()).data || [];
+        document.getElementById('jobsTableBody').innerHTML = jobs.map(j => `
+          <tr>
+            <td><strong>${j.title}</strong></td>
+            <td>${j.category_name || '-'}</td>
+            <td>${j.village ? j.village + ', ' : ''}${j.locality_name || '-'}</td>
+            <td>${j.payment_type} (${j.wage})</td>
+            <td>${j.employer_name}<br><small>${j.employer_phone}</small></td>
+            <td><span class="badge ${j.status === 'approved' ? 'b-approved' : 'b-pending'}">${j.status}</span></td>
+            <td>
+              ${j.status !== 'approved' ? `<button class="act-btn btn-green" onclick="approveJob(${j.id})">Approve</button>` : ''}
+              <button class="act-btn btn-red" onclick="deleteJob(${j.id})">Delete</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="7">Koi job nahi hai.</td></tr>';
+
+        // Workers
+        const workers = (await wRes.json()).data || [];
+        document.getElementById('workersTableBody').innerHTML = workers.map(w => `
+          <tr>
+            <td><strong>${w.full_name}</strong></td>
+            <td>${w.phone_number}</td>
+            <td>${w.category_name || '-'}</td>
+            <td>${w.village ? w.village + ', ' : ''}${w.locality_name || '-'}</td>
+            <td>${w.experience_years || 0} Yrs</td>
+            <td><span class="badge ${w.is_verified ? 'b-verified' : 'b-unverified'}">${w.is_verified ? 'Verified' : 'Unverified'}</span></td>
+            <td>
+              <button class="act-btn btn-blue" onclick="toggleVerify(${w.id})">${w.is_verified ? 'Unverify' : 'Verify'}</button>
+              <button class="act-btn btn-red" onclick="deleteWorker(${w.id})">Delete</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="7">Koi worker nahi hai.</td></tr>';
+
+        // Employers
+        const employers = (await eRes.json()).data || [];
+        document.getElementById('employersTableBody').innerHTML = employers.map(em => `
+          <tr>
+            <td><strong>${em.full_name}</strong></td>
+            <td>${em.phone_number}</td>
+            <td>${em.business_name || '-'}</td>
+            <td>${em.employer_type || '-'}</td>
+            <td>${em.village ? em.village + ', ' : ''}${em.locality_name || '-'}</td>
+            <td><button class="act-btn btn-red" onclick="deleteEmployer(${em.id})">Delete</button></td>
+          </tr>
+        `).join('') || '<tr><td colspan="6">Koi employer nahi hai.</td></tr>';
+
+        // Categories
+        const cats = (await cRes.json()).data || [];
+        document.getElementById('categoriesTableBody').innerHTML = cats.map(c => `
+          <tr>
+            <td>${c.id}</td>
+            <td>${c.group_name}</td>
+            <td><strong>${c.name}</strong></td>
+            <td><button class="act-btn btn-red" onclick="deleteCategory(${c.id})">Delete</button></td>
+          </tr>
+        `).join('');
+
+        // Complaints
+        const comps = (await compRes.json()).data || [];
+        document.getElementById('complaintsTableBody').innerHTML = comps.map(cm => `
+          <tr>
+            <td><strong>${cm.sender_name}</strong></td>
+            <td>${cm.phone_number}</td>
+            <td>${cm.subject}</td>
+            <td>${cm.message}</td>
+            <td><span class="badge ${cm.status === 'resolved' ? 'b-approved' : 'b-pending'}">${cm.status}</span></td>
+            <td>
+              ${cm.status !== 'resolved' ? `<button class="act-btn btn-green" onclick="resolveComplaint(${cm.id})">Resolve</button>` : 'Done'}
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="6">Koi complaint nahi hai.</td></tr>';
+
+        // Job Applications
+        const apps = (await appRes.json()).data || [];
+        document.getElementById('appsTableBody').innerHTML = apps.map(a => `
+          <tr>
+            <td><strong>${a.job_title || '-'}</strong></td>
+            <td>${a.employer_name || '-'} (${a.employer_phone || '-'})</td>
+            <td>${a.applicant_name}</td>
+            <td>${a.applicant_phone}</td>
+            <td>${a.message || '-'}</td>
+          </tr>
+        `).join('') || '<tr><td colspan="5">Abhi koi application nahi aayi hai.</td></tr>';
+
+      } catch (err) {
+        console.error('Admin data load error:', err);
+      }
+    }
+
+    async function approveJob(id) {
+      await fetch(`/api/jobs/${id}/approve`, { method: 'PATCH' });
+      loadAllAdminData();
+    }
+
+    async function deleteJob(id) {
+      if (!confirm('Is fake/unwanted job ko delete karein?')) return;
+      await fetch(`/api/jobs/${id}`, { method: 'DELETE' });
+      loadAllAdminData();
+    }
+
+    async function toggleVerify(id) {
+      await fetch(`/api/workers/${id}/verify`, { method: 'PATCH' });
+      loadAllAdminData();
+    }
+
+    async function deleteWorker(id) {
+      if (!confirm('Is worker ko delete karein?')) return;
+      await fetch(`/api/workers/${id}`, { method: 'DELETE' });
+      loadAllAdminData();
+    }
+
+    async function deleteEmployer(id) {
+      if (!confirm('Is employer ko delete karein?')) return;
+      await fetch(`/api/employers/${id}`, { method: 'DELETE' });
+      loadAllAdminData();
+    }
+
+    async function addCategory(e) {
+      e.preventDefault();
+      const group_name = document.getElementById('newCatGroup').value;
+      const name = document.getElementById('newCatName').value;
+      await fetch('/api/admin/categories', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ group_name, name })
+      });
+      document.getElementById('newCatName').value = '';
+      loadAllAdminData();
+    }
+
+    async function deleteCategory(id) {
+      if (!confirm('Category delete karein?')) return;
+      const res = await fetch(`/api/admin/categories/${id}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (!data.success) alert(data.message);
+      loadAllAdminData();
+    }
+
+    async function resolveComplaint(id) {
+      await fetch(`/api/admin/complaints/${id}/resolve`, { method: 'PATCH' });
+      loadAllAdminData();
+    }
   </script>
 </body>
 </html>

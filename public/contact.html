@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us & Help | Koderma Work Finder</title>
+  <style>
+    :root {
+      --primary: #6d28d9;
+      --primary-light: #ede9fe;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 14px 24px;
+    }
+
+    .nav-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .logo-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #6d28d9, #8b5cf6);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #334155;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+
+    .btn-gradient {
+      background: linear-gradient(135deg, #6d28d9, #7c3aed);
+      color: #ffffff;
+      text-decoration: none;
+      padding: 9px 18px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    /* HERO */
+    .page-hero {
+      background: linear-gradient(180deg, #ffffff 0%, #f5f3ff 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 44px 24px 64px;
+      text-align: center;
+    }
+
+    .page-hero h1 {
+      font-size: 34px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .page-hero p {
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* CONTAINER */
+    .container {
+      max-width: 1040px;
+      margin: -36px auto 60px;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 800px) {
+      .container { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.05);
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .c-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--primary);
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #6d28d9, #7c3aed);
+      color: #ffffff;
+      border: none;
+      padding: 13px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .alert-box {
+      display: none;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .alert-success { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+    .alert-error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+
+    .footer {
+      background: #0f172a;
+      color: #94a3b8;
+      text-align: center;
+      padding: 28px 24px;
+      font-size: 13px;
+    }
+
+    .footer a {
+      color: #e2e8f0;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-wrap">
+      <a href="index.html" class="logo">
+        <span class="logo-badge">🛠️</span>
+        <span>KodermaWork</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="jobs.html">Find Jobs</a>
+        <a href="workers.html">Find Workers</a>
+        <a href="categories.html">Categories</a>
+        <a href="post-job.html">Post a Job</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html" class="active">Contact</a>
+      </nav>
+      <a href="register.html" class="btn-gradient">Get Started →</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="page-hero">
+    <h1>Contact Us & Support</h1>
+    <p>Kisi bhi madad, sujhav ya fake profile/listing ki shikayat ke liye hamein sandesh bhejein.</p>
+  </section>
+
+  <!-- MAIN -->
+  <div class="container">
+    <div class="card">
+      <h2 style="font-size:20px; font-weight:800; margin-bottom:18px;">📍 Direct Sampark</h2>
+
+      <div class="contact-item">
+        <div class="c-icon">🏢</div>
+        <div>
+          <h4 style="font-size:15px; font-weight:800;">District Office</h4>
+          <p style="font-size:13px; color:var(--muted);">Jhumri Telaiya & Koderma HQ, Jharkhand - 825409</p>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <div class="c-icon">📞</div>
+        <div>
+          <h4 style="font-size:15px; font-weight:800;">Helpline Number</h4>
+          <p style="font-size:13px; color:var(--muted);">+91 99051 35707 (Subah 9:00 se Shaam 7:00 baje tak)</p>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <div class="c-icon">💬</div>
+        <div>
+          <h4 style="font-size:15px; font-weight:800;">WhatsApp Support</h4>
+          <p style="font-size:13px; color:var(--muted);">Registration ya Job Post mein madad ke liye WhatsApp karein.</p>
+        </div>
+      </div>
+
+      <div style="background:#f5f3ff; padding:14px; border-radius:12px; font-size:13px; color:#4c1d95;">
+        <strong>Note:</strong> Agar koi vyakti kaam ke naam par advance paisa mangta hai, to turant bagal ke form se uski complaint darj karein.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 style="font-size:20px; font-weight:800; margin-bottom:16px;">📩 Sandesh / Complaint Bhejein</h2>
+      <div id="statusAlert" class="alert-box"></div>
+
+      <form id="contactForm" onsubmit="submitComplaint(event)">
+        <div class="form-group">
+          <label>Aapka Naam *</label>
+          <input type="text" id="sender_name" required placeholder="Apna pura naam likhein">
+        </div>
+
+        <div class="form-group">
+          <label>Mobile Number *</label>
+          <input type="tel" id="phone_number" required pattern="[0-9]{10}" placeholder="10-digit mobile number">
+        </div>
+
+        <div class="form-group">
+          <label>Vishay (Subject) *</label>
+          <select id="subject">
+            <option value="General Help / Query">General Help / Query (Madad chahiye)</option>
+            <option value="Report Fake Listing">Report Fake Worker / Fake Job (Shikayat)</option>
+            <option value="Category Request">Nayi Category Add Karne Ke Liye</option>
+            <option value="Feedback">Website Suggestion / Feedback</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Pura Sandesh (Message) *</label>
+          <textarea id="message" rows="4" required placeholder="Apni baat ya shikayat vistar se likhein..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">🚀 Send Message</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div style="margin-bottom:10px;">
+      <a href="index.html">Home</a>
+      <a href="jobs.html">Find Jobs</a>
+      <a href="workers.html">Find Workers</a>
+      <a href="categories.html">Categories</a>
+      <a href="about.html">About Us</a>
+    </div>
+    <p>© 2026 Koderma Work Finder — Koderma District (Jharkhand)</p>
+  </footer>
+
+  <script>
+    async function submitComplaint(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      const alertBox = document.getElementById('statusAlert');
+      btn.disabled = true;
+      btn.innerText = 'Sending...';
+
+      const payload = {
+        sender_name: document.getElementById('sender_name').value,
+        phone_number: document.getElementById('phone_number').value,
+        subject: document.getElementById('subject').value,
+        message: document.getElementById('message').value
+      };
+
+      try {
+        const res = await fetch('/api/complaints', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        alertBox.style.display = 'block';
+        if (data.success) {
+          alertBox.className = 'alert-box alert-success';
+          alertBox.innerText = '✅ ' + data.message;
+          document.getElementById('contactForm').reset();
+        } else {
+          alertBox.className = 'alert-box alert-error';
+          alertBox.innerText = '❌ ' + (data.message || 'Error sending message');
+        }
+      } catch (err) {
+        alertBox.style.display = 'block';
+        alertBox.className = 'alert-box alert-error';
+        alertBox.innerText = '❌ Server connection error!';
+      } finally {
+        btn.disabled = false;
+        btn.innerText = '🚀 Send Message';
+      }
+    }
+  </script>
+</body>
+</html>

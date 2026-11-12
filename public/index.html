@@ -1,287 +1,539 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MazdoorDirect | Koderma District Worker Directory</title>
+  <title>Koderma Work Finder | Apne Area Mein Kaam Khojein</title>
   <style>
+    :root {
+      --primary: #6d28d9;
+      --primary-dark: #5b21b6;
+      --primary-light: #ede9fe;
+      --accent: #7c3aed;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
     body {
-      background-color: #f8fafc;
-      color: #1e293b;
-      min-height: 100vh;
-      padding-bottom: 50px;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
     }
 
-    .top-nav {
-      background: #ffffff;
+    /* TOP NAVBAR */
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
       padding: 14px 24px;
+    }
+
+    .nav-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-      position: sticky;
-      top: 0;
-      z-index: 50;
+      gap: 16px;
+      flex-wrap: wrap;
     }
 
     .logo {
-      font-size: 20px;
-      font-weight: 700;
-      color: #059669;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       text-decoration: none;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .logo-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #6d28d9, #8b5cf6);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
     }
 
     .nav-links {
       display: flex;
-      gap: 10px;
+      align-items: center;
+      gap: 20px;
       flex-wrap: wrap;
     }
 
-    .nav-btn {
+    .nav-links a {
       text-decoration: none;
-      color: #059669;
-      font-weight: 600;
-      font-size: 13px;
-      padding: 8px 12px;
-      border: 1px solid #059669;
-      border-radius: 6px;
-      transition: all 0.2s;
-    }
-
-    .nav-btn:hover {
-      background: #059669;
-      color: white;
-    }
-
-    .nav-btn.primary {
-      background: #059669;
-      color: white;
-    }
-
-    .nav-btn.primary:hover {
-      background: #047857;
-    }
-
-    .hero-section {
-      background: linear-gradient(135deg, #059669, #0d9488);
-      color: white;
-      text-align: center;
-      padding: 40px 16px 50px;
-    }
-
-    .hero-section h1 {
-      font-size: 28px;
-      font-weight: 800;
-      margin-bottom: 8px;
-    }
-
-    .hero-section p {
-      font-size: 15px;
-      opacity: 0.95;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: -25px auto 0;
-      padding: 0 16px;
-    }
-
-    .filter-card {
-      background: #ffffff;
-      padding: 18px 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-      display: grid;
-      grid-template-columns: 2fr 1.2fr 1.2fr auto auto;
-      gap: 12px;
-      align-items: center;
-      margin-bottom: 28px;
-    }
-
-    @media (max-width: 850px) {
-      .filter-card {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .filter-card input,
-    .filter-card select {
-      width: 100%;
-      padding: 10px 14px;
+      color: #334155;
       font-size: 14px;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      outline: none;
-      background: #ffffff;
-    }
-
-    .filter-card input:focus,
-    .filter-card select:focus {
-      border-color: #059669;
-      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
-    }
-
-    .near-btn {
-      padding: 10px 14px;
-      background: #2563eb;
-      border: none;
-      border-radius: 8px;
-      color: #ffffff;
       font-weight: 600;
-      font-size: 13px;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--primary);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .lang-pill {
+      display: inline-flex;
+      background: #f1f5f9;
+      padding: 3px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .lang-btn {
+      border: none;
+      background: transparent;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 6px;
       cursor: pointer;
+      color: var(--muted);
+    }
+
+    .lang-btn.active {
+      background: var(--surface);
+      color: var(--primary);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+    }
+
+    .btn-gradient {
+      background: linear-gradient(135deg, #6d28d9, #7c3aed);
+      color: #ffffff;
+      text-decoration: none;
+      padding: 9px 18px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
       display: inline-flex;
       align-items: center;
-      justify-content: center;
       gap: 6px;
-      white-space: nowrap;
-      transition: background 0.2s;
-    }
-
-    .near-btn:hover {
-      background: #1d4ed8;
-    }
-
-    .reset-btn {
-      padding: 10px 16px;
-      background: #f1f5f9;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      color: #475569;
-      font-weight: 600;
-      font-size: 13px;
+      border: none;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: transform 0.15s, box-shadow 0.15s;
     }
 
-    .reset-btn:hover {
-      background: #e2e8f0;
+    .btn-gradient:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(109, 40, 217, 0.28);
     }
 
-    .section-title {
-      font-size: 18px;
+    .btn-outline {
+      background: #ffffff;
+      color: var(--text);
+      text-decoration: none;
+      padding: 9px 18px;
+      border-radius: 10px;
+      font-size: 14px;
       font-weight: 700;
-      color: #1e293b;
+      border: 1px solid var(--border);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* HERO SECTION (CourseHub Style Split Layout) */
+    .hero {
+      background: radial-gradient(circle at 85% 20%, rgba(139, 92, 246, 0.16), transparent 45%),
+                  linear-gradient(180deg, #ffffff 0%, #f5f3ff 100%);
+      padding: 56px 24px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; }
+    }
+
+    .hero-pill {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      padding: 6px 12px;
+      border-radius: 20px;
       margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      font-weight: 900;
+      line-height: 1.15;
+      color: #0f172a;
+      margin-bottom: 14px;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, #6d28d9, #9333ea);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 16px;
+      color: #475569;
+      margin-bottom: 24px;
+      max-width: 540px;
+    }
+
+    .search-bar-box {
+      display: flex;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 6px;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+      margin-bottom: 22px;
+      max-width: 540px;
+    }
+
+    .search-bar-box input {
+      flex: 1;
+      border: none;
+      outline: none;
+      padding: 10px 14px;
+      font-size: 15px;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .stat-item h3 {
+      font-size: 24px;
+      font-weight: 900;
+      color: #0f172a;
+    }
+
+    .stat-item span {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    /* HERO RIGHT CARD */
+    .hero-visual {
+      background: linear-gradient(135deg, #6d28d9, #8b5cf6);
+      border-radius: 24px;
+      padding: 28px;
+      color: #ffffff;
+      box-shadow: 0 20px 35px rgba(109, 40, 217, 0.22);
+      position: relative;
+    }
+
+    .floating-badge {
+      background: rgba(255,255,255,0.16);
+      backdrop-filter: blur(8px);
+      padding: 12px 16px;
+      border-radius: 14px;
+      margin-bottom: 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
+    .floating-card-white {
+      background: #ffffff;
+      color: #0f172a;
+      border-radius: 16px;
+      padding: 18px;
+      margin-top: 16px;
+    }
+
+    /* FEATURE STRIP */
+    .feature-strip {
+      max-width: 1200px;
+      margin: -24px auto 44px;
+      padding: 0 24px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .strip-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 28px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.04);
+    }
+
+    @media (max-width: 850px) {
+      .strip-card { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .strip-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .strip-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .strip-item h4 {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .strip-item p {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* CONTAINER & SECTION HEADERS */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px 56px;
+    }
+
+    .sec-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .sec-head h2 {
+      font-size: 26px;
+      font-weight: 800;
+    }
+
+    .sec-head a {
+      color: var(--primary);
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    /* POPULAR CATEGORIES GRID (CourseHub Square Cards) */
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    @media (max-width: 950px) { .cat-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 550px) { .cat-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .cat-tile {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px 14px;
+      text-align: center;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .cat-tile:hover, .cat-tile.featured {
+      background: linear-gradient(135deg, #6d28d9, #7c3aed);
+      color: #ffffff;
+      border-color: transparent;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 24px rgba(109, 40, 217, 0.22);
+    }
+
+    .cat-tile .icon {
+      font-size: 30px;
+    }
+
+    .cat-tile span {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    /* LATEST JOBS CARDS */
+    .jobs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+
+    .job-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .job-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.06);
+    }
+
+    .job-badge {
+      align-self: flex-start;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 8px;
+    }
+
+    .job-card h3 {
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .job-info {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* PROMO BANNER */
+    .promo-banner {
+      background: linear-gradient(135deg, #5b21b6, #7c3aed);
+      border-radius: 20px;
+      padding: 32px 36px;
+      color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+
+    .promo-banner h3 {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .promo-banner p {
+      opacity: 0.9;
+      font-size: 14px;
+    }
+
+    .btn-white {
+      background: #ffffff;
+      color: var(--primary);
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    /* POPULAR WORKERS GRID */
     .workers-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
       gap: 20px;
     }
 
     .worker-card {
       background: #ffffff;
-      border-radius: 12px;
-      border: 1px solid #e2e8f0;
-      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
       gap: 14px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
-      transition: transform 0.2s, box-shadow 0.2s;
-      position: relative;
     }
 
-    .worker-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 12px rgba(0,0,0,0.08);
-    }
-
-    .worker-head {
+    .worker-top {
       display: flex;
-      gap: 14px;
+      gap: 12px;
       align-items: center;
     }
 
-    .avatar-wrapper {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      overflow: hidden;
-      background: #e2e8f0;
-      flex-shrink: 0;
+    .avatar {
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      background: var(--primary-light);
+      color: var(--primary);
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 2px solid #059669;
+      font-size: 24px;
+      overflow: hidden;
+      flex-shrink: 0;
     }
 
-    .avatar-wrapper img {
+    .avatar img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-    }
-
-    .default-avatar {
-      font-size: 26px;
-      line-height: 1;
-    }
-
-    .worker-info h3 {
-      font-size: 16px;
-      font-weight: 700;
-      color: #0f172a;
-      margin-bottom: 4px;
-    }
-
-    .badge-category {
-      background: #ecfdf5;
-      color: #059669;
-      padding: 3px 8px;
-      font-size: 12px;
-      font-weight: 600;
-      border-radius: 4px;
-      display: inline-block;
-    }
-
-    .distance-tag {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      background: #eff6ff;
-      color: #1d4ed8;
-      border: 1px solid #bfdbfe;
-      padding: 3px 8px;
-      font-size: 11px;
-      font-weight: 700;
-      border-radius: 12px;
-    }
-
-    .worker-details {
-      font-size: 13px;
-      color: #64748b;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      background: #f8fafc;
-      padding: 10px 12px;
-      border-radius: 6px;
-    }
-
-    .worker-details div {
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .worker-details strong {
-      color: #334155;
     }
 
     .worker-actions {
@@ -290,272 +542,386 @@
       margin-top: auto;
     }
 
-    .action-btn {
+    .btn-call, .btn-wa {
       flex: 1;
       text-align: center;
-      text-decoration: none;
       padding: 9px;
-      border-radius: 6px;
+      border-radius: 10px;
       font-size: 13px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
+      font-weight: 700;
+      text-decoration: none;
+      color: #fff;
     }
 
-    .call-btn {
-      background: #0284c7;
-      color: white;
+    .btn-call { background: #6d28d9; }
+    .btn-wa { background: #16a34a; }
+
+    /* FOOTER */
+    .footer {
+      background: #0f172a;
+      color: #cbd5e1;
+      padding: 40px 24px 24px;
     }
 
-    .call-btn:hover {
-      background: #0369a1;
+    .footer-grid {
+      max-width: 1200px;
+      margin: 0 auto 28px;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 28px;
     }
 
-    .whatsapp-btn {
-      background: #16a34a;
-      color: white;
+    @media (max-width: 800px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+
+    .footer h4 {
+      color: #ffffff;
+      font-size: 15px;
+      margin-bottom: 12px;
     }
 
-    .whatsapp-btn:hover {
-      background: #15803d;
+    .footer a {
+      display: block;
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .footer a:hover { color: #ffffff; }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      border-top: 1px solid #1e293b;
+      padding-top: 18px;
+      text-align: center;
+      font-size: 12px;
+      color: #64748b;
     }
   </style>
 </head>
 <body>
-  <header class="top-nav">
-    <a href="index.html" class="logo">👷 MazdoorDirect</a>
-    <div class="nav-links">
-      <a href="jobs.html" class="nav-btn">💼 Search Jobs</a>
-      <a href="employer-register.html" class="nav-btn">🏢 Kaam Den (Employer)</a>
-      <a href="register.html" class="nav-btn primary">➕ Karigar Register</a>
-      <a href="admin.html" class="nav-btn" style="border-color:#94a3b8; color:#64748b;">⚙️ Admin</a>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-wrap">
+      <a href="index.html" class="logo">
+        <span class="logo-badge">🛠️</span>
+        <span>KodermaWork</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html" class="active">Home</a>
+        <a href="jobs.html">Find Jobs</a>
+        <a href="workers.html">Find Workers</a>
+        <a href="categories.html">Categories</a>
+        <a href="post-job.html">Post a Job</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="lang-pill">
+          <button type="button" class="lang-btn active" id="btnHi" onclick="setLang('hi')">Hindi</button>
+          <button type="button" class="lang-btn" id="btnEn" onclick="setLang('en')">English</button>
+        </div>
+        <a href="register.html" class="btn-gradient">Get Started →</a>
+      </div>
     </div>
   </header>
 
-  <div class="hero-section">
-    <h1>कोडरमा जिले के कारीगर व मजदूर खोजें</h1>
-    <p>डायरेक्ट फोन कॉल या व्हाट्सएप पर बात करें - 0% कमीशन</p>
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <span class="hero-pill">KODERMA DISTRICT WORK PLATFORM</span>
+        <h1 id="heroTitle">Apne Area Mein <span>Kaam Khojein</span> & Karigar Bulayein</h1>
+        <p id="heroSub">Koderma, Jhumri Telaiya, Domchanch, Markacho, Jainagar, Chandwara, Satgawan aur Dhanwar mein 41+ categories ke bharosemand workers aur daily jobs—0% Commission.</p>
+
+        <form class="search-bar-box" onsubmit="goSearch(event)">
+          <input type="text" id="heroQuery" placeholder="Search Work Here (e.g. Rajmistri, Hal Jutai, AC Repairing)...">
+          <button type="submit" class="btn-gradient">Search</button>
+        </form>
+
+        <div class="hero-cta-group">
+          <a href="jobs.html" class="btn-gradient">💼 Search Jobs →</a>
+          <a href="workers.html" class="btn-outline">👷 Find Workers</a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-item">
+            <h3>41+</h3>
+            <span>Work Categories</span>
+          </div>
+          <div class="stat-item">
+            <h3>8 Blocks</h3>
+            <span>Koderma District</span>
+          </div>
+          <div class="stat-item">
+            <h3>0%</h3>
+            <span>Commission Fee</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="floating-badge">
+          <span>📍 Live District Coverage</span>
+          <strong>Koderma (JH)</strong>
+        </div>
+        <div class="floating-badge">
+          <span>🌾 Agriculture & Construction</span>
+          <strong>Direct Call / WA</strong>
+        </div>
+        <div class="floating-card-white">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <strong style="font-size:15px;">Quick Registration</strong>
+            <span style="background:#ede9fe; color:#6d28d9; font-size:11px; font-weight:800; padding:3px 8px; border-radius:6px;">FREE</span>
+          </div>
+          <p style="font-size:13px; color:#64748b; margin-bottom:14px;">Apna worker profile banayein ya naya kaam post karein.</p>
+          <div style="display:flex; gap:8px;">
+            <a href="register.html" class="btn-gradient" style="flex:1; justify-content:center; font-size:13px;">Worker Join</a>
+            <a href="employer-register.html" class="btn-outline" style="flex:1; justify-content:center; font-size:13px;">Employer Join</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST FEATURE STRIP -->
+  <div class="feature-strip">
+    <div class="strip-card">
+      <div class="strip-item">
+        <div class="strip-icon">📞</div>
+        <div>
+          <h4>Direct Contact</h4>
+          <p>Seedhe Call ya WhatsApp</p>
+        </div>
+      </div>
+      <div class="strip-item">
+        <div class="strip-icon">✅</div>
+        <div>
+          <h4>Verified Profiles</h4>
+          <p>Admin dwara check kiye gaye</p>
+        </div>
+      </div>
+      <div class="strip-item">
+        <div class="strip-icon">📍</div>
+        <div>
+          <h4>Near Me GPS</h4>
+          <p>Apne gaon/block ke paas</p>
+        </div>
+      </div>
+      <div class="strip-item">
+        <div class="strip-icon">💼</div>
+        <div>
+          <h4>Daily & Contract</h4>
+          <p>Per Day, Per Bigha, Fixed</p>
+        </div>
+      </div>
+    </div>
   </div>
 
+  <!-- MAIN CONTENT -->
   <div class="container">
-    <!-- Filters Bar -->
-    <div class="filter-card">
-      <input type="text" id="searchInput" placeholder="🔍 नाम या काम खोजें (उदा. Painting, Tractor)..." oninput="filterWorkers()">
-      
-      <select id="categoryFilter" onchange="filterWorkers()">
-        <option value="">सभी काम (All Trades)</option>
-      </select>
 
-      <select id="localityFilter" onchange="filterWorkers()">
-        <option value="">सभी क्षेत्र (Koderma District)</option>
-      </select>
-
-      <button type="button" class="near-btn" onclick="sortByNearMe()">📍 Near Me</button>
-      <button type="button" class="reset-btn" onclick="resetFilters()">Reset</button>
+    <!-- EXPLORE TOP CATEGORIES -->
+    <div class="sec-head">
+      <h2>Explore Top Categories</h2>
+      <a href="categories.html">View All 41 Categories →</a>
     </div>
 
-    <div class="section-title">
-      <span>उपलब्ध कारीगर / मजदूर (Available Workers)</span>
-      <span id="workerCount" style="font-size: 13px; color: #64748b; font-weight: normal;"></span>
+    <div class="cat-grid">
+      <a href="categories.html?group=Construction+Work" class="cat-tile featured">
+        <span class="icon">🏗️</span>
+        <span>Construction</span>
+      </a>
+      <a href="categories.html?group=Agriculture+Work" class="cat-tile">
+        <span class="icon">🌾</span>
+        <span>Agriculture</span>
+      </a>
+      <a href="categories.html?group=Technical+Work" class="cat-tile">
+        <span class="icon">🔧</span>
+        <span>Technical</span>
+      </a>
+      <a href="workers.html?search=Tractor" class="cat-tile">
+        <span class="icon">🚜</span>
+        <span>Tractor Work</span>
+      </a>
+      <a href="categories.html?group=Business+%26+Shop+Work" class="cat-tile">
+        <span class="icon">🏪</span>
+        <span>Business & Shop</span>
+      </a>
+      <a href="categories.html?group=Other+Work" class="cat-tile">
+        <span class="icon">🧹</span>
+        <span>Other & Labour</span>
+      </a>
     </div>
 
-    <div id="workersGrid" class="workers-grid">
-      <p style="text-align:center; grid-column: 1/-1; color: #64748b; padding: 30px;">Workers load ho rahe hain...</p>
+    <!-- LATEST JOBS -->
+    <div class="sec-head">
+      <h2>Latest Jobs in Koderma</h2>
+      <a href="jobs.html">View All Jobs →</a>
     </div>
+
+    <div class="jobs-grid" id="latestJobsGrid">
+      <div class="job-card">
+        <span class="job-badge">🌾 Agriculture</span>
+        <h3>Hal Jutai (हल जुताई)</h3>
+        <div class="job-info">📍 Jainagar, Koderma • Per Bigha</div>
+        <a href="jobs.html" class="btn-outline" style="justify-content:center; margin-top:auto;">View Details →</a>
+      </div>
+      <div class="job-card">
+        <span class="job-badge">🏗️ Construction</span>
+        <h3>Rajmistri</h3>
+        <div class="job-info">📍 Koderma • Per Day</div>
+        <a href="jobs.html" class="btn-outline" style="justify-content:center; margin-top:auto;">View Details →</a>
+      </div>
+      <div class="job-card">
+        <span class="job-badge">🏗️ Construction</span>
+        <h3>Painting</h3>
+        <div class="job-info">📍 Domchanch, Koderma • Per Day</div>
+        <a href="jobs.html" class="btn-outline" style="justify-content:center; margin-top:auto;">View Details →</a>
+      </div>
+      <div class="job-card">
+        <span class="job-badge">🚜 Agriculture</span>
+        <h3>Tractor Driver</h3>
+        <div class="job-info">📍 Markacho, Koderma • Per Day</div>
+        <a href="jobs.html" class="btn-outline" style="justify-content:center; margin-top:auto;">View Details →</a>
+      </div>
+    </div>
+
+    <!-- PROMO BANNER -->
+    <div class="promo-banner">
+      <div>
+        <h3>Kaam Chahiye Ya Karigar Dhundh Rahe Hain?</h3>
+        <p>Apne gaon aur block ke bharosemand logo se seedhe judiye. Koi middleman nahi.</p>
+      </div>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="post-job.html" class="btn-white">+ Post a Job →</a>
+        <a href="register.html" class="btn-white" style="background:rgba(255,255,255,0.18); color:#fff;">Worker Register</a>
+      </div>
+    </div>
+
+    <!-- POPULAR WORKERS -->
+    <div class="sec-head">
+      <h2>Available Workers</h2>
+      <a href="workers.html">View All Workers →</a>
+    </div>
+
+    <div class="workers-grid" id="homeWorkersGrid">
+      <p style="color:var(--muted);">Workers load ho rahe hain...</p>
+    </div>
+
   </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div>
+        <h4>🛠️ Koderma Work Finder</h4>
+        <p style="font-size:13px; color:#94a3b8; max-width:320px;">Koderma jile ke sabhi 8 prakhando ke karigaron, kisanon aur employers ko digital roop se jodne ka bharosemand madhyam.</p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <a href="index.html">Home</a>
+        <a href="jobs.html">Find Jobs</a>
+        <a href="workers.html">Find Workers</a>
+        <a href="categories.html">Categories</a>
+      </div>
+      <div>
+        <h4>Registration</h4>
+        <a href="register.html">Worker Registration</a>
+        <a href="employer-register.html">Employer Registration</a>
+        <a href="post-job.html">Post a Job</a>
+        <a href="admin.html">Admin Dashboard</a>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact Us</a>
+        <a href="contact.html">Help & Report</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2026 Koderma Work Finder — Koderma, Jhumri Telaiya, Domchanch, Markacho, Jainagar, Chandwara, Satgawan, Dhanwar
+    </div>
+  </footer>
 
   <script>
-    let allWorkers = [];
-    let userCoords = null;
-
-    // Haversine distance in KM
-    function calculateDistance(lat1, lon1, lat2, lon2) {
-      const R = 6371;
-      const dLat = (lat2 - lat1) * (Math.PI / 180);
-      const dLon = (lon2 - lon1) * (Math.PI / 180);
-      const a = 
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * 
-        Math.sin(dLon / 2) * Math.sin(dLon / 2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      return R * c;
+    function setLang(lang) {
+      document.getElementById('btnHi').classList.toggle('active', lang === 'hi');
+      document.getElementById('btnEn').classList.toggle('active', lang === 'en');
+      if (lang === 'hi') {
+        document.getElementById('heroTitle').innerHTML = 'Apne Area Mein <span>Kaam Khojein</span> & Karigar Bulayein';
+        document.getElementById('heroSub').innerText = 'Koderma ke sabhi 8 blocks mein 41+ categories ke bharosemand workers aur daily jobs—0% Commission.';
+      } else {
+        document.getElementById('heroTitle').innerHTML = 'Find Work in <span>Your Local Area</span> & Hire Trusted Workers';
+        document.getElementById('heroSub').innerText = 'Connect directly with skilled workers and daily jobs across all 8 blocks of Koderma District.';
+      }
     }
 
-    // 1. Load Dropdowns
-    async function loadFilters() {
+    function goSearch(e) {
+      e.preventDefault();
+      const q = document.getElementById('heroQuery').value.trim();
+      window.location.href = q ? `workers.html?search=${encodeURIComponent(q)}` : 'workers.html';
+    }
+
+    async function loadHomeData() {
       try {
-        const [catRes, locRes] = await Promise.all([
-          fetch('/api/categories'),
-          fetch('/api/localities')
+        const [jobsRes, workersRes] = await Promise.all([
+          fetch('/api/jobs'),
+          fetch('/api/workers')
         ]);
-        const catJson = await catRes.json();
-        const locJson = await locRes.json();
 
-        const categories = Array.isArray(catJson) ? catJson : (catJson.data || []);
-        const localities = Array.isArray(locJson) ? locJson : (locJson.data || []);
+        const jobsJson = await jobsRes.json();
+        const jobs = jobsJson.data || [];
+        if (jobs.length > 0) {
+          document.getElementById('latestJobsGrid').innerHTML = jobs.slice(0, 4).map(j => `
+            <div class="job-card">
+              <span class="job-badge">${j.category_name || 'Work'}</span>
+              <h3>${j.title}</h3>
+              <div class="job-info">📍 ${j.village ? j.village + ', ' : ''}${j.locality_name || 'Koderma'} • ${j.payment_type || 'Per Day'} (${j.wage || 'Negotiable'})</div>
+              <a href="jobs.html" class="btn-outline" style="justify-content:center; margin-top:auto;">Apply / Contact →</a>
+            </div>
+          `).join('');
+        }
 
-        const catSelect = document.getElementById('categoryFilter');
-        categories.forEach(c => {
-          const opt = document.createElement('option');
-          opt.value = c.id;
-          opt.textContent = c.name;
-          catSelect.appendChild(opt);
-        });
-
-        const locSelect = document.getElementById('localityFilter');
-        localities.forEach(l => {
-          const opt = document.createElement('option');
-          opt.value = l.id;
-          opt.textContent = l.name;
-          locSelect.appendChild(opt);
-        });
+        const workersJson = await workersRes.json();
+        const workers = workersJson.data || [];
+        const wGrid = document.getElementById('homeWorkersGrid');
+        if (workers.length === 0) {
+          wGrid.innerHTML = '<p style="color:var(--muted);">Abhi koi worker registered nahi hai. Pehle worker banein!</p>';
+        } else {
+          wGrid.innerHTML = workers.slice(0, 4).map(w => {
+            const phone = (w.phone_number || '').replace(/[^0-9]/g, '');
+            const photo = w.profile_photo ? `<img src="${w.profile_photo}" alt="${w.full_name}">` : '👷';
+            return `
+              <div class="worker-card">
+                <div class="worker-top">
+                  <div class="avatar">${photo}</div>
+                  <div>
+                    <h4 style="font-size:16px; font-weight:800;">${w.full_name} ${w.is_verified ? '✅' : ''}</h4>
+                    <span style="font-size:12px; font-weight:700; color:#6d28d9;">${w.category_name || 'Worker'}</span>
+                  </div>
+                </div>
+                <div style="font-size:13px; color:#475569;">
+                  📍 ${w.village ? w.village + ', ' : ''}${w.locality_name || 'Koderma'} • ⏱️ ${w.experience_years || 0} Yrs
+                </div>
+                <div class="worker-actions">
+                  <a href="tel:${phone}" class="btn-call">📞 Call</a>
+                  <a href="https://wa.me/91${phone}" target="_blank" class="btn-wa">💬 WhatsApp</a>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
       } catch (err) {
-        console.error('Filter dropdown error:', err);
+        console.error(err);
       }
     }
 
-    // 2. Fetch Active Workers
-    async function fetchWorkers() {
-      try {
-        const res = await fetch('/api/workers');
-        const json = await res.json();
-        allWorkers = Array.isArray(json) ? json : (json.data || []);
-        renderWorkers(allWorkers);
-      } catch (err) {
-        document.getElementById('workersGrid').innerHTML = '<p style="text-align:center; grid-column: 1/-1; color: red;">Workers load nahi ho sake.</p>';
-      }
-    }
-
-    // 3. Render Cards
-    function renderWorkers(workers) {
-      const grid = document.getElementById('workersGrid');
-      const countLabel = document.getElementById('workerCount');
-
-      countLabel.textContent = `कुल: ${workers.length}`;
-
-      if (workers.length === 0) {
-        grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1; color: #64748b; padding: 30px;">कोई कारीगर नहीं मिला। फ़िल्टर बदल कर देखें।</p>';
-        return;
-      }
-
-      grid.innerHTML = workers.map(w => {
-        const photoSrc = w.photo_url ? (w.photo_url.startsWith('http') ? w.photo_url : `/${w.photo_url}`) : null;
-        const avatarHtml = photoSrc 
-          ? `<img src="${photoSrc}" alt="${w.name}">` 
-          : `<span class="default-avatar">👤</span>`;
-
-        const cleanPhone = (w.phone || '').replace(/[^0-9]/g, '');
-        const whatsappMsg = encodeURIComponent(`नमस्ते ${w.name}, मैंने आपकी प्रोफाइल MazdoorDirect पर देखी। मुझे काम के सिलसिले में बात करनी है।`);
-
-        const distanceBadge = (w.distance !== undefined && w.distance !== Infinity)
-          ? `<div class="distance-tag">📍 ${w.distance.toFixed(1)} km दूर</div>`
-          : '';
-
-        return `
-          <div class="worker-card">
-            ${distanceBadge}
-            <div class="worker-head">
-              <div class="avatar-wrapper">
-                ${avatarHtml}
-              </div>
-              <div class="worker-info">
-                <h3>${w.name}</h3>
-                <span class="badge-category">${w.category_name || 'Helper'}</span>
-              </div>
-            </div>
-
-            <div class="worker-details">
-              <div>
-                <span>📍 क्षेत्र (Area):</span>
-                <strong>${w.locality_name || 'Koderma'}</strong>
-              </div>
-              <div>
-                <span>💰 Daily Rate:</span>
-                <strong>₹${w.daily_rate || 'Negotiable'}</strong>
-              </div>
-              <div>
-                <span>🚗 Visiting Charge:</span>
-                <strong>₹${w.visiting_charge || 'Free'}</strong>
-              </div>
-              <div>
-                <span>⏱️ अनुभव (Experience):</span>
-                <strong>${w.experience_years ? w.experience_years + ' साल' : 'Experienced'}</strong>
-              </div>
-            </div>
-
-            <div class="worker-actions">
-              <a href="tel:${cleanPhone}" class="action-btn call-btn">📞 Call</a>
-              <a href="https://wa.me/91${cleanPhone}?text=${whatsappMsg}" target="_blank" class="action-btn whatsapp-btn">💬 WhatsApp</a>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    // 4. Filter Workers
-    function filterWorkers() {
-      const search = document.getElementById('searchInput').value.toLowerCase().trim();
-      const catId = document.getElementById('categoryFilter').value;
-      const locId = document.getElementById('localityFilter').value;
-
-      const filtered = allWorkers.filter(w => {
-        const matchesName = (w.name || '').toLowerCase().includes(search) || (w.category_name || '').toLowerCase().includes(search);
-        const matchesCat = !catId || String(w.category_id) === String(catId);
-        const matchesLoc = !locId || String(w.locality_id) === String(locId);
-
-        return matchesName && matchesCat && matchesLoc;
-      });
-
-      renderWorkers(filtered);
-    }
-
-    // 5. GPS Sort by Distance
-    function sortByNearMe() {
-      if (!navigator.geolocation) {
-        alert('Geolocation aapke browser me support nahi karta.');
-        return;
-      }
-
-      const nearBtn = document.querySelector('.near-btn');
-      nearBtn.innerText = 'Locating...';
-
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          userCoords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-          nearBtn.innerText = '✅ Sorted Near You';
-
-          allWorkers.forEach(w => {
-            if (w.latitude && w.longitude) {
-              w.distance = calculateDistance(userCoords.lat, userCoords.lng, parseFloat(w.latitude), parseFloat(w.longitude));
-            } else {
-              w.distance = Infinity;
-            }
-          });
-
-          allWorkers.sort((a, b) => a.distance - b.distance);
-          filterWorkers();
-        },
-        (err) => {
-          nearBtn.innerText = '📍 Near Me';
-          alert('Location allow kijiye paas ke karigar dekhne ke liye.');
-        },
-        { enableHighAccuracy: true, timeout: 8000 }
-      );
-    }
-
-    function resetFilters() {
-      document.getElementById('searchInput').value = '';
-      document.getElementById('categoryFilter').value = '';
-      document.getElementById('localityFilter').value = '';
-      document.querySelector('.near-btn').innerText = '📍 Near Me';
-      allWorkers.forEach(w => delete w.distance);
-      renderWorkers(allWorkers);
-    }
-
-    loadFilters();
-    fetchWorkers();
+    loadHomeData();
   </script>
 </body>
 </html>

@@ -23,10 +23,10 @@ const fileFilter = (req, file, cb) => {
 
 exports.upload = multer({ storage: storage, fileFilter: fileFilter });
 
-// 1. Get All Workers
+// 1. Get All Workers (Supports filtering & Admin all=true)
 exports.getWorkers = async (req, res) => {
     try {
-        const { category_id, locality_id, search } = req.query;
+        const { category_id, locality_id, search, all } = req.query;
 
         let query = `
             SELECT 
@@ -34,23 +34,36 @@ exports.getWorkers = async (req, res) => {
                 w.full_name,
                 w.phone_number,
                 w.profile_photo,
+                w.category_id,
+                w.locality_id,
+                w.district,
+                w.village,
                 w.daily_rate,
                 w.visiting_charge,
                 w.experience_years,
                 w.is_verified,
                 w.is_available,
+                w.contact_permission,
+                w.created_at,
                 c.name AS category_name,
+                c.group_name AS category_group,
                 l.name AS locality_name,
                 l.pincode,
+                l.latitude,
+                l.longitude,
                 ROUND(AVG(r.rating), 1) AS avg_rating,
                 COUNT(r.id) AS review_count
             FROM workers w
-            JOIN categories c ON w.category_id = c.id
-            JOIN localities l ON w.locality_id = l.id
+            LEFT JOIN categories c ON w.category_id = c.id
+            LEFT JOIN localities l ON w.locality_id = l.id
             LEFT JOIN reviews r ON w.id = r.worker_id
-            WHERE w.is_available = TRUE
+            WHERE 1=1
         `;
         const params = [];
+
+        if (all !== 'true') {
+            query += ' AND w.is_available = TRUE AND w.contact_permission = 1';
+        }
 
         if (category_id) {
             query += ' AND w.category_id = ?';
@@ -63,11 +76,11 @@ exports.getWorkers = async (req, res) => {
         }
 
         if (search) {
-            query += ' AND (w.full_name LIKE ? OR c.name LIKE ?)';
-            params.push(`%${search}%`, `%${search}%`);
+            query += ' AND (w.full_name LIKE ? OR c.name LIKE ? OR l.name LIKE ? OR w.village LIKE ?)';
+            params.push(`%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`);
         }
 
-        query += ' GROUP BY w.id ORDER BY w.is_verified DESC, avg_rating DESC, w.created_at DESC';
+        query += ' GROUP BY w.id ORDER BY w.is_verified DESC, w.created_at DESC';
 
         const [workers] = await db.query(query, params);
         res.json({ success: true, data: workers });
@@ -77,22 +90,22 @@ exports.getWorkers = async (req, res) => {
     }
 };
 
-// 2. Get Single Worker Profile (MISSING FUNCTION ADDED)
+// 2. Get Single Worker Profile
 exports.getWorkerProfile = async (req, res) => {
     try {
         const { id } = req.params;
-
         const workerQuery = `
             SELECT 
                 w.*,
                 c.name AS category_name,
+                c.group_name AS category_group,
                 l.name AS locality_name,
                 l.pincode,
                 ROUND(AVG(r.rating), 1) AS avg_rating,
                 COUNT(r.id) AS review_count
             FROM workers w
-            JOIN categories c ON w.category_id = c.id
-            JOIN localities l ON w.locality_id = l.id
+            LEFT JOIN categories c ON w.category_id = c.id
+            LEFT JOIN localities l ON w.locality_id = l.id
             LEFT JOIN reviews r ON w.id = r.worker_id
             WHERE w.id = ?
             GROUP BY w.id
@@ -110,10 +123,7 @@ exports.getWorkerProfile = async (req, res) => {
 
         res.json({
             success: true,
-            data: {
-                ...worker[0],
-                reviews
-            }
+            data: { ...worker[0], reviews }
         });
     } catch (error) {
         console.error('Error in profile API:', error);
@@ -121,14 +131,31 @@ exports.getWorkerProfile = async (req, res) => {
     }
 };
 
-// 3. Register Worker
+// 3. Register Worker (With District, Village, Availability & Contact Permission)
 exports.registerWorker = async (req, res) => {
     try {
-        const { full_name, phone_number, category_id, locality_id, daily_rate, visiting_charge, experience_years } = req.body;
+        const {
+            full_name,
+            phone_number,
+            category_id,
+            locality_id,
+            district,
+            village,
+            daily_rate,
+            visiting_charge,
+            experience_years,
+            is_available,
+            contact_permission
+        } = req.body;
+
         const profile_photo = req.file ? `/uploads/${req.file.filename}` : null;
 
         if (!full_name || !phone_number || !category_id || !locality_id) {
-            return res.status(400).json({ success: false, message: 'Sabhi zaroori fields bharna anivarya hai.' });
+            return res.status(400).json({ success: false, message: 'Naam, Mobile, Category aur Block bharna zaroori hai.' });
+        }
+
+        if (contact_permission !== '1' && contact_permission !== 'true' && contact_permission !== 'on' && contact_permission !== true) {
+            return res.status(400).json({ success: false, message: 'Profile public karne ke liye contact permission tick karna zaroori hai.' });
         }
 
         const [existing] = await db.query('SELECT id FROM workers WHERE phone_number = ?', [phone_number.trim()]);
@@ -136,29 +163,36 @@ exports.registerWorker = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Ye mobile number pehle se registered hai.' });
         }
 
+        const availFlag = (is_available === '0' || is_available === 'false' || is_available === 'Busy') ? 0 : 1;
+
         await db.query(
-            `INSERT INTO workers (full_name, phone_number, profile_photo, category_id, locality_id, daily_rate, visiting_charge, experience_years) 
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+            `INSERT INTO workers 
+            (full_name, phone_number, profile_photo, category_id, locality_id, district, village, daily_rate, visiting_charge, experience_years, is_available, contact_permission) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
                 full_name.trim(),
                 phone_number.trim(),
                 profile_photo,
                 category_id,
                 locality_id,
-                daily_rate || 0.00,
-                visiting_charge || 0.00,
-                experience_years || 0
+                (district || 'Koderma').trim(),
+                (village || '').trim(),
+                daily_rate || 0,
+                visiting_charge || 0,
+                experience_years || 0,
+                availFlag,
+                1
             ]
         );
 
-        res.status(201).json({ success: true, message: 'Karigar safaltapoorvak jud gaya!' });
+        res.status(201).json({ success: true, message: 'Karigar safaltapoorvak register ho gaya!' });
     } catch (error) {
         console.error('Registration error:', error);
         res.status(500).json({ success: false, message: 'Server error during registration' });
     }
 };
 
-// 4. Toggle Status
+// 4. Toggle Verification Status
 exports.toggleVerify = async (req, res) => {
     try {
         const { id } = req.params;

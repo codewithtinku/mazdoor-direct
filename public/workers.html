@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find Workers in Koderma | Koderma Work Finder</title>
+  <style>
+    :root {
+      --primary: #6d28d9;
+      --primary-light: #ede9fe;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 14px 24px;
+    }
+
+    .nav-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .logo-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #6d28d9, #8b5cf6);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #334155;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+
+    .btn-gradient {
+      background: linear-gradient(135deg, #6d28d9, #7c3aed);
+      color: #ffffff;
+      text-decoration: none;
+      padding: 9px 18px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* PAGE HEADER */
+    .page-hero {
+      background: linear-gradient(180deg, #ffffff 0%, #f5f3ff 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 40px 24px 54px;
+      text-align: center;
+    }
+
+    .page-hero h1 {
+      font-size: 32px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .page-hero p {
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 620px;
+      margin: 0 auto;
+    }
+
+    /* FILTER BOX */
+    .container {
+      max-width: 1200px;
+      margin: -30px auto 0;
+      padding: 0 24px 60px;
+    }
+
+    .filter-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      display: grid;
+      grid-template-columns: 2fr 1.4fr 1.2fr auto auto;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    @media (max-width: 900px) {
+      .filter-card { grid-template-columns: 1fr; }
+    }
+
+    .filter-card input, .filter-card select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
+      background: #fff;
+    }
+
+    .filter-card input:focus, .filter-card select:focus {
+      border-color: var(--primary);
+    }
+
+    .btn-near {
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      padding: 11px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn-reset {
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+      padding: 11px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .results-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .results-bar h2 {
+      font-size: 19px;
+      font-weight: 800;
+    }
+
+    /* WORKERS GRID */
+    .workers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 20px;
+    }
+
+    .worker-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .worker-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+    }
+
+    .dist-badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: 20px;
+    }
+
+    .worker-head {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      background: var(--primary-light);
+      color: var(--primary);
+      border: 2px solid #ddd6fe;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      flex-shrink: 0;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .worker-title h3 {
+      font-size: 17px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .cat-pill {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 6px;
+    }
+
+    .meta-box {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 13px;
+      color: #475569;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .meta-box div {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .meta-box strong {
+      color: #0f172a;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    .btn-call, .btn-wa {
+      flex: 1;
+      text-align: center;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .btn-call { background: #6d28d9; }
+    .btn-call:hover { background: #5b21b6; }
+    .btn-wa { background: #16a34a; }
+    .btn-wa:hover { background: #15803d; }
+
+    /* FOOTER */
+    .footer {
+      background: #0f172a;
+      color: #94a3b8;
+      text-align: center;
+      padding: 28px 24px;
+      font-size: 13px;
+    }
+
+    .footer a {
+      color: #e2e8f0;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-wrap">
+      <a href="index.html" class="logo">
+        <span class="logo-badge">🛠️</span>
+        <span>KodermaWork</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="jobs.html">Find Jobs</a>
+        <a href="workers.html" class="active">Find Workers</a>
+        <a href="categories.html">Categories</a>
+        <a href="post-job.html">Post a Job</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <a href="register.html" class="btn-gradient">+ Worker Register</a>
+    </div>
+  </header>
+
+  <!-- HEADER -->
+  <section class="page-hero">
+    <h1>Find Trusted Workers in Koderma</h1>
+    <p>Apne block ya gaon ke nazdeeki karigar aur mazdoor khojein. Seedhe phone call ya WhatsApp par baat karein — 0% Commission.</p>
+  </section>
+
+  <!-- MAIN CONTAINER -->
+  <div class="container">
+    <div class="filter-card">
+      <input type="text" id="searchInput" placeholder="🔍 Naam, Kaam ya Gaon khojein..." oninput="filterWorkers()">
+
+      <select id="categoryFilter" onchange="filterWorkers()">
+        <option value="">सभी काम (All 41 Categories)</option>
+      </select>
+
+      <select id="localityFilter" onchange="filterWorkers()">
+        <option value="">सभी क्षेत्र (All 8 Blocks)</option>
+      </select>
+
+      <button type="button" class="btn-near" id="nearBtn" onclick="sortByNearMe()">📍 Near Me</button>
+      <button type="button" class="btn-reset" onclick="resetFilters()">Reset</button>
+    </div>
+
+    <div class="results-bar">
+      <h2>Available Workers</h2>
+      <span id="countText" style="font-size:13px; font-weight:700; color:var(--muted);">Loading...</span>
+    </div>
+
+    <div class="workers-grid" id="workersGrid">
+      <p style="grid-column:1/-1; text-align:center; color:var(--muted); padding:30px;">Workers load ho rahe hain...</p>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div style="margin-bottom:10px;">
+      <a href="index.html">Home</a>
+      <a href="jobs.html">Find Jobs</a>
+      <a href="categories.html">Categories</a>
+      <a href="post-job.html">Post a Job</a>
+      <a href="contact.html">Contact Us</a>
+    </div>
+    <p>© 2026 Koderma Work Finder — Koderma District (Jharkhand)</p>
+  </footer>
+
+  <script>
+    let allWorkers = [];
+    const params = new URLSearchParams(window.location.search);
+    const initialCatId = params.get('category_id') || '';
+    const initialSearch = params.get('search') || '';
+
+    if (initialSearch) {
+      document.getElementById('searchInput').value = initialSearch;
+    }
+
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * (Math.PI / 180);
+      const dLon = (lon2 - lon1) * (Math.PI / 180);
+      const a = Math.sin(dLat / 2) ** 2 +
+                Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+                Math.sin(dLon / 2) ** 2;
+      return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+    }
+
+    async function initPage() {
+      try {
+        const [catRes, locRes, wRes] = await Promise.all([
+          fetch('/api/categories'),
+          fetch('/api/localities'),
+          fetch('/api/workers')
+        ]);
+
+        const cats = (await catRes.json()).data || [];
+        const locs = (await locRes.json()).data || [];
+        allWorkers = (await wRes.json()).data || [];
+
+        // Group categories inside dropdown
+        const catSelect = document.getElementById('categoryFilter');
+        const groups = {};
+        cats.forEach(c => {
+          if (!groups[c.group_name]) groups[c.group_name] = [];
+          groups[c.group_name].push(c);
+        });
+
+        Object.keys(groups).forEach(gName => {
+          const optgroup = document.createElement('optgroup');
+          optgroup.label = gName;
+          groups[gName].forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c.id;
+            opt.textContent = c.name;
+            optgroup.appendChild(opt);
+          });
+          catSelect.appendChild(optgroup);
+        });
+
+        if (initialCatId) catSelect.value = initialCatId;
+
+        const locSelect = document.getElementById('localityFilter');
+        locs.forEach(l => {
+          const opt = document.createElement('option');
+          opt.value = l.id;
+          opt.textContent = l.name;
+          locSelect.appendChild(opt);
+        });
+
+        filterWorkers();
+      } catch (err) {
+        document.getElementById('workersGrid').innerHTML = '<p style="color:red; text-align:center; grid-column:1/-1;">Data load nahi ho saka.</p>';
+      }
+    }
+
+    function filterWorkers() {
+      const q = document.getElementById('searchInput').value.toLowerCase().trim();
+      const catId = document.getElementById('categoryFilter').value;
+      const locId = document.getElementById('localityFilter').value;
+
+      const filtered = allWorkers.filter(w => {
+        const text = `${w.full_name || ''} ${w.category_name || ''} ${w.locality_name || ''} ${w.village || ''}`.toLowerCase();
+        const matchQ = !q || text.includes(q);
+        const matchCat = !catId || String(w.category_id) === String(catId);
+        const matchLoc = !locId || String(w.locality_id) === String(locId);
+        return matchQ && matchCat && matchLoc;
+      });
+
+      renderWorkers(filtered);
+    }
+
+    function renderWorkers(list) {
+      const grid = document.getElementById('workersGrid');
+      document.getElementById('countText').innerText = `Kul Workers: ${list.length}`;
+
+      if (list.length === 0) {
+        grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:var(--muted); padding:35px;">Is filter mein koi worker nahi mila. Filter reset karke dekhein.</p>';
+        return;
+      }
+
+      grid.innerHTML = list.map(w => {
+        const phone = (w.phone_number || '').replace(/[^0-9]/g, '');
+        const photo = w.profile_photo ? `<img src="${w.profile_photo}" alt="${w.full_name}">` : '👷';
+        const waMsg = encodeURIComponent(`Namaste ${w.full_name}, maine aapki profile Koderma Work Finder par dekhi. Mujhe kaam ke liye baat karni hai.`);
+        const distBadge = (w.distance !== undefined && w.distance !== Infinity)
+          ? `<span class="dist-badge">📍 ${w.distance.toFixed(1)} km</span>` : '';
+
+        return `
+          <div class="worker-card">
+            ${distBadge}
+            <div class="worker-head">
+              <div class="avatar">${photo}</div>
+              <div class="worker-title">
+                <h3>${w.full_name} ${w.is_verified ? '✅' : ''}</h3>
+                <span class="cat-pill">${w.category_name || 'Worker'}</span>
+              </div>
+            </div>
+
+            <div class="meta-box">
+              <div><span>📍 Location:</span><strong>${w.village ? w.village + ', ' : ''}${w.locality_name || 'Koderma'}</strong></div>
+              <div><span>⏱️ Experience:</span><strong>${w.experience_years || 0} Years</strong></div>
+              <div><span>💰 Daily Rate:</span><strong>${w.daily_rate ? '₹' + w.daily_rate : 'Negotiable'}</strong></div>
+              <div><span>🟢 Status:</span><strong style="color:#16a34a;">Available</strong></div>
+            </div>
+
+            <div class="card-actions">
+              <a href="tel:${phone}" class="btn-call">📞 Call Now</a>
+              <a href="https://wa.me/91${phone}?text=${waMsg}" target="_blank" class="btn-wa">💬 WhatsApp</a>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function sortByNearMe() {
+      if (!navigator.geolocation) return alert('Browser mein GPS support nahi hai.');
+      const btn = document.getElementById('nearBtn');
+      btn.innerText = 'Locating...';
+
+      navigator.geolocation.getCurrentPosition(pos => {
+        btn.innerText = '✅ Sorted Near You';
+        allWorkers.forEach(w => {
+          if (w.latitude && w.longitude) {
+            w.distance = calculateDistance(pos.coords.latitude, pos.coords.longitude, parseFloat(w.latitude), parseFloat(w.longitude));
+          } else {
+            w.distance = Infinity;
+          }
+        });
+        allWorkers.sort((a, b) => a.distance - b.distance);
+        filterWorkers();
+      }, () => {
+        btn.innerText = '📍 Near Me';
+        alert('Location permission allow karein.');
+      });
+    }
+
+    function resetFilters() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('categoryFilter').value = '';
+      document.getElementById('localityFilter').value = '';
+      document.getElementById('nearBtn').innerText = '📍 Near Me';
+      allWorkers.forEach(w => delete w.distance);
+      filterWorkers();
+    }
+
+    initPage();
+  </script>
+</body>
+</html>
