@@ -9,7 +9,6 @@
       --primary: #6d28d9;
       --primary-dark: #5b21b6;
       --primary-light: #ede9fe;
-      --accent: #7c3aed;
       --bg: #f8fafc;
       --surface: #ffffff;
       --text: #0f172a;
@@ -47,7 +46,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
       flex-wrap: wrap;
     }
 
@@ -76,7 +75,7 @@
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 18px;
       flex-wrap: wrap;
     }
 
@@ -96,6 +95,33 @@
       display: flex;
       align-items: center;
       gap: 10px;
+    }
+
+    .notif-btn {
+      position: relative;
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      text-decoration: none;
+    }
+
+    .notif-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #dc2626;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 5px;
+      border-radius: 10px;
     }
 
     .lang-pill {
@@ -127,30 +153,24 @@
       background: linear-gradient(135deg, #6d28d9, #7c3aed);
       color: #ffffff;
       text-decoration: none;
-      padding: 9px 18px;
+      padding: 9px 16px;
       border-radius: 10px;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
       display: inline-flex;
       align-items: center;
       gap: 6px;
       border: none;
       cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.15s;
-    }
-
-    .btn-gradient:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 16px rgba(109, 40, 217, 0.28);
     }
 
     .btn-outline {
       background: #ffffff;
       color: var(--text);
       text-decoration: none;
-      padding: 9px 18px;
+      padding: 9px 16px;
       border-radius: 10px;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
       border: 1px solid var(--border);
       display: inline-flex;
@@ -159,16 +179,11 @@
       cursor: pointer;
     }
 
-    .btn-outline:hover {
-      border-color: var(--primary);
-      color: var(--primary);
-    }
-
-    /* HERO SECTION (CourseHub Style Split Layout) */
+    /* HERO SECTION */
     .hero {
       background: radial-gradient(circle at 85% 20%, rgba(139, 92, 246, 0.16), transparent 45%),
                   linear-gradient(180deg, #ffffff 0%, #f5f3ff 100%);
-      padding: 56px 24px 48px;
+      padding: 52px 24px 48px;
       border-bottom: 1px solid var(--border);
     }
 
@@ -181,9 +196,7 @@
       align-items: center;
     }
 
-    @media (max-width: 900px) {
-      .hero-grid { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } }
 
     .hero-pill {
       display: inline-block;
@@ -194,12 +207,11 @@
       letter-spacing: 0.6px;
       padding: 6px 12px;
       border-radius: 20px;
-      margin-bottom: 16px;
-      text-transform: uppercase;
+      margin-bottom: 14px;
     }
 
     .hero h1 {
-      font-size: 42px;
+      font-size: 40px;
       font-weight: 900;
       line-height: 1.15;
       color: #0f172a;
@@ -209,40 +221,63 @@
     .hero h1 span {
       background: linear-gradient(135deg, #6d28d9, #9333ea);
       -webkit-background-clip: text;
+      background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     .hero p {
-      font-size: 16px;
+      font-size: 15px;
       color: #475569;
-      margin-bottom: 24px;
+      margin-bottom: 22px;
       max-width: 540px;
     }
 
     .search-bar-box {
       display: flex;
+      align-items: center;
       background: #ffffff;
       border: 1px solid #cbd5e1;
       border-radius: 12px;
       padding: 6px;
       box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
-      margin-bottom: 22px;
-      max-width: 540px;
+      margin-bottom: 20px;
+      max-width: 550px;
+      gap: 6px;
     }
 
     .search-bar-box input {
       flex: 1;
       border: none;
       outline: none;
-      padding: 10px 14px;
-      font-size: 15px;
+      padding: 10px 12px;
+      font-size: 14px;
+    }
+
+    .mic-btn {
+      background: #f5f3ff;
+      color: var(--primary);
+      border: 1px solid #ddd6fe;
+      width: 38px;
+      height: 38px;
+      border-radius: 9px;
+      font-size: 17px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mic-btn.listening {
+      background: #fee2e2;
+      color: #dc2626;
+      border-color: #fecaca;
     }
 
     .hero-cta-group {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
-      margin-bottom: 30px;
+      margin-bottom: 26px;
     }
 
     .hero-stats {
@@ -251,37 +286,27 @@
       flex-wrap: wrap;
     }
 
-    .stat-item h3 {
-      font-size: 24px;
-      font-weight: 900;
-      color: #0f172a;
-    }
-
-    .stat-item span {
-      font-size: 13px;
-      color: var(--muted);
-      font-weight: 600;
-    }
+    .stat-item h3 { font-size: 23px; font-weight: 900; }
+    .stat-item span { font-size: 12px; color: var(--muted); font-weight: 600; }
 
     /* HERO RIGHT CARD */
     .hero-visual {
       background: linear-gradient(135deg, #6d28d9, #8b5cf6);
       border-radius: 24px;
-      padding: 28px;
+      padding: 26px;
       color: #ffffff;
       box-shadow: 0 20px 35px rgba(109, 40, 217, 0.22);
-      position: relative;
     }
 
     .floating-badge {
       background: rgba(255,255,255,0.16);
-      backdrop-filter: blur(8px);
-      padding: 12px 16px;
-      border-radius: 14px;
-      margin-bottom: 14px;
+      padding: 11px 15px;
+      border-radius: 13px;
+      margin-bottom: 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      font-size: 13px;
     }
 
     .floating-card-white {
@@ -289,13 +314,13 @@
       color: #0f172a;
       border-radius: 16px;
       padding: 18px;
-      margin-top: 16px;
+      margin-top: 14px;
     }
 
     /* FEATURE STRIP */
     .feature-strip {
       max-width: 1200px;
-      margin: -24px auto 44px;
+      margin: -24px auto 36px;
       padding: 0 24px;
       position: relative;
       z-index: 10;
@@ -305,23 +330,16 @@
       background: #ffffff;
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 20px 28px;
+      padding: 20px 26px;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
+      gap: 18px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.04);
     }
 
-    @media (max-width: 850px) {
-      .strip-card { grid-template-columns: repeat(2, 1fr); }
-    }
+    @media (max-width: 850px) { .strip-card { grid-template-columns: repeat(2, 1fr); } }
 
-    .strip-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
+    .strip-item { display: flex; align-items: center; gap: 12px; }
     .strip-icon {
       width: 42px;
       height: 42px;
@@ -335,17 +353,31 @@
       flex-shrink: 0;
     }
 
-    .strip-item h4 {
-      font-size: 14px;
-      font-weight: 700;
+    /* ADVERTISEMENT BANNER */
+    .ad-banner {
+      background: linear-gradient(90deg, #fffbeb, #fef3c7);
+      border: 1px solid #fde68a;
+      border-radius: 16px;
+      padding: 16px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 38px;
     }
 
-    .strip-item p {
-      font-size: 12px;
-      color: var(--muted);
+    .ad-tag {
+      background: #d97706;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 5px;
+      margin-right: 8px;
     }
 
-    /* CONTAINER & SECTION HEADERS */
+    /* CONTAINER & SECTIONS */
     .container {
       max-width: 1200px;
       margin: 0 auto;
@@ -356,27 +388,18 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 24px;
+      margin-bottom: 22px;
     }
 
-    .sec-head h2 {
-      font-size: 26px;
-      font-weight: 800;
-    }
+    .sec-head h2 { font-size: 24px; font-weight: 800; }
+    .sec-head a { color: var(--primary); font-size: 14px; font-weight: 700; text-decoration: none; }
 
-    .sec-head a {
-      color: var(--primary);
-      font-size: 14px;
-      font-weight: 700;
-      text-decoration: none;
-    }
-
-    /* POPULAR CATEGORIES GRID (CourseHub Square Cards) */
+    /* CATEGORIES GRID */
     .cat-grid {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
       gap: 16px;
-      margin-bottom: 48px;
+      margin-bottom: 44px;
     }
 
     @media (max-width: 950px) { .cat-grid { grid-template-columns: repeat(3, 1fr); } }
@@ -386,7 +409,7 @@
       background: #ffffff;
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 24px 14px;
+      padding: 22px 14px;
       text-align: center;
       text-decoration: none;
       color: var(--text);
@@ -402,27 +425,20 @@
       color: #ffffff;
       border-color: transparent;
       transform: translateY(-3px);
-      box-shadow: 0 12px 24px rgba(109, 40, 217, 0.22);
     }
 
-    .cat-tile .icon {
-      font-size: 30px;
-    }
+    .cat-tile .icon { font-size: 28px; }
+    .cat-tile span { font-size: 13px; font-weight: 700; }
 
-    .cat-tile span {
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    /* LATEST JOBS CARDS */
-    .jobs-grid {
+    /* JOBS & WORKERS CARDS */
+    .grid-cards {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
       gap: 20px;
-      margin-bottom: 48px;
+      margin-bottom: 44px;
     }
 
-    .job-card {
+    .card-box {
       background: #ffffff;
       border: 1px solid var(--border);
       border-radius: 16px;
@@ -430,92 +446,9 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
-      transition: transform 0.2s, box-shadow 0.2s;
     }
 
-    .job-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 24px rgba(0,0,0,0.06);
-    }
-
-    .job-badge {
-      align-self: flex-start;
-      background: var(--primary-light);
-      color: var(--primary);
-      font-size: 12px;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 8px;
-    }
-
-    .job-card h3 {
-      font-size: 17px;
-      font-weight: 800;
-    }
-
-    .job-info {
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    /* PROMO BANNER */
-    .promo-banner {
-      background: linear-gradient(135deg, #5b21b6, #7c3aed);
-      border-radius: 20px;
-      padding: 32px 36px;
-      color: #ffffff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 20px;
-      margin-bottom: 48px;
-    }
-
-    .promo-banner h3 {
-      font-size: 24px;
-      font-weight: 800;
-      margin-bottom: 6px;
-    }
-
-    .promo-banner p {
-      opacity: 0.9;
-      font-size: 14px;
-    }
-
-    .btn-white {
-      background: #ffffff;
-      color: var(--primary);
-      padding: 12px 24px;
-      border-radius: 12px;
-      font-weight: 800;
-      font-size: 14px;
-      text-decoration: none;
-    }
-
-    /* POPULAR WORKERS GRID */
-    .workers-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-      gap: 20px;
-    }
-
-    .worker-card {
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .worker-top {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
-
+    .worker-top { display: flex; gap: 12px; align-items: center; }
     .avatar {
       width: 54px;
       height: 54px;
@@ -529,75 +462,41 @@
       overflow: hidden;
       flex-shrink: 0;
     }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; }
 
-    .avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .worker-actions {
-      display: flex;
-      gap: 8px;
-      margin-top: auto;
-    }
-
-    .btn-call, .btn-wa {
+    .worker-actions { display: flex; gap: 8px; margin-top: auto; }
+    .btn-call, .btn-wa, .btn-prof {
       flex: 1;
       text-align: center;
-      padding: 9px;
-      border-radius: 10px;
-      font-size: 13px;
+      padding: 8px;
+      border-radius: 9px;
+      font-size: 12px;
       font-weight: 700;
       text-decoration: none;
       color: #fff;
     }
-
     .btn-call { background: #6d28d9; }
     .btn-wa { background: #16a34a; }
+    .btn-prof { background: #f1f5f9; color: #0f172a; border: 1px solid #cbd5e1; }
 
     /* FOOTER */
     .footer {
       background: #0f172a;
       color: #cbd5e1;
-      padding: 40px 24px 24px;
+      padding: 36px 24px 22px;
+      font-size: 13px;
     }
-
     .footer-grid {
       max-width: 1200px;
-      margin: 0 auto 28px;
+      margin: 0 auto 24px;
       display: grid;
       grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 28px;
+      gap: 24px;
     }
-
     @media (max-width: 800px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
-
-    .footer h4 {
-      color: #ffffff;
-      font-size: 15px;
-      margin-bottom: 12px;
-    }
-
-    .footer a {
-      display: block;
-      color: #94a3b8;
-      text-decoration: none;
-      font-size: 13px;
-      margin-bottom: 8px;
-    }
-
-    .footer a:hover { color: #ffffff; }
-
-    .footer-bottom {
-      max-width: 1200px;
-      margin: 0 auto;
-      border-top: 1px solid #1e293b;
-      padding-top: 18px;
-      text-align: center;
-      font-size: 12px;
-      color: #64748b;
-    }
+    .footer h4 { color: #fff; margin-bottom: 10px; }
+    .footer a { display: block; color: #94a3b8; text-decoration: none; margin-bottom: 6px; }
+    .footer-bottom { text-align: center; border-top: 1px solid #1e293b; padding-top: 16px; color: #64748b; }
   </style>
 </head>
 <body>
@@ -621,10 +520,14 @@
       </nav>
 
       <div class="nav-actions">
+        <a href="jobs.html" class="notif-btn" title="Latest Job Notifications">
+          🔔<span class="notif-badge" id="jobNotifCount">0</span>
+        </a>
         <div class="lang-pill">
           <button type="button" class="lang-btn active" id="btnHi" onclick="setLang('hi')">Hindi</button>
           <button type="button" class="lang-btn" id="btnEn" onclick="setLang('en')">English</button>
         </div>
+        <a href="login.html" class="btn-outline">🔑 OTP Login</a>
         <a href="register.html" class="btn-gradient">Get Started →</a>
       </div>
     </div>
@@ -636,10 +539,11 @@
       <div>
         <span class="hero-pill">KODERMA DISTRICT WORK PLATFORM</span>
         <h1 id="heroTitle">Apne Area Mein <span>Kaam Khojein</span> & Karigar Bulayein</h1>
-        <p id="heroSub">Koderma, Jhumri Telaiya, Domchanch, Markacho, Jainagar, Chandwara, Satgawan aur Dhanwar mein 41+ categories ke bharosemand workers aur daily jobs—0% Commission.</p>
+        <p id="heroSub">Koderma ke sabhi 8 blocks, panchayat aur gaon mein 41+ categories ke verified workers aur daily jobs — 5-Star Reviews & Work Proof ke saath.</p>
 
         <form class="search-bar-box" onsubmit="goSearch(event)">
-          <input type="text" id="heroQuery" placeholder="Search Work Here (e.g. Rajmistri, Hal Jutai, AC Repairing)...">
+          <input type="text" id="heroQuery" placeholder="Bol kar ya likh kar khojein (e.g. Rajmistri, Hal Jutai)...">
+          <button type="button" class="mic-btn" id="micBtn" onclick="startVoiceSearch()" title="Bol kar khojein (Voice Search)">🎙️</button>
           <button type="submit" class="btn-gradient">Search</button>
         </form>
 
@@ -649,81 +553,60 @@
         </div>
 
         <div class="hero-stats">
-          <div class="stat-item">
-            <h3>41+</h3>
-            <span>Work Categories</span>
-          </div>
-          <div class="stat-item">
-            <h3>8 Blocks</h3>
-            <span>Koderma District</span>
-          </div>
-          <div class="stat-item">
-            <h3>0%</h3>
-            <span>Commission Fee</span>
-          </div>
+          <div class="stat-item"><h3>41+</h3><span>Work Categories</span></div>
+          <div class="stat-item"><h3>8 Blocks</h3><span>Panchayat & Village</span></div>
+          <div class="stat-item"><h3>0%</h3><span>Commission Fee</span></div>
         </div>
       </div>
 
       <div class="hero-visual">
         <div class="floating-badge">
-          <span>📍 Live District Coverage</span>
-          <strong>Koderma (JH)</strong>
+          <span>⭐ Verified Work Proof</span>
+          <strong>5-Star Ratings</strong>
         </div>
         <div class="floating-badge">
-          <span>🌾 Agriculture & Construction</span>
-          <strong>Direct Call / WA</strong>
+          <span>🔑 Worker & Employer</span>
+          <strong>Mobile OTP Login</strong>
         </div>
         <div class="floating-card-white">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <strong style="font-size:15px;">Quick Registration</strong>
-            <span style="background:#ede9fe; color:#6d28d9; font-size:11px; font-weight:800; padding:3px 8px; border-radius:6px;">FREE</span>
-          </div>
-          <p style="font-size:13px; color:#64748b; margin-bottom:14px;">Apna worker profile banayein ya naya kaam post karein.</p>
+          <strong style="font-size:15px;">Apna Account Banayein Ya Login Karein</strong>
+          <p style="font-size:13px; color:#64748b; margin:6px 0 14px;">Worker apne kiye huye kaam ki photo post karke trust badha sakte hain.</p>
           <div style="display:flex; gap:8px;">
-            <a href="register.html" class="btn-gradient" style="flex:1; justify-content:center; font-size:13px;">Worker Join</a>
-            <a href="employer-register.html" class="btn-outline" style="flex:1; justify-content:center; font-size:13px;">Employer Join</a>
+            <a href="register.html" class="btn-gradient" style="flex:1; justify-content:center;">Worker Join</a>
+            <a href="login.html" class="btn-outline" style="flex:1; justify-content:center;">OTP Login</a>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- TRUST FEATURE STRIP -->
+  <!-- FEATURE STRIP -->
   <div class="feature-strip">
     <div class="strip-card">
       <div class="strip-item">
+        <div class="strip-icon">📸</div>
+        <div><h4>Work Proof Photos</h4><p style="font-size:12px; color:var(--muted);">Kiye gaye kaam ki tasveer</p></div>
+      </div>
+      <div class="strip-item">
+        <div class="strip-icon">⭐</div>
+        <div><h4>5-Star Trust Score</h4><p style="font-size:12px; color:var(--muted);">Quality, Behaviour & Time</p></div>
+      </div>
+      <div class="strip-item">
+        <div class="strip-icon">🎙️</div>
+        <div><h4>Voice Search</h4><p style="font-size:12px; color:var(--muted);">Hindi/English bol kar khojein</p></div>
+      </div>
+      <div class="strip-item">
         <div class="strip-icon">📞</div>
-        <div>
-          <h4>Direct Contact</h4>
-          <p>Seedhe Call ya WhatsApp</p>
-        </div>
-      </div>
-      <div class="strip-item">
-        <div class="strip-icon">✅</div>
-        <div>
-          <h4>Verified Profiles</h4>
-          <p>Admin dwara check kiye gaye</p>
-        </div>
-      </div>
-      <div class="strip-item">
-        <div class="strip-icon">📍</div>
-        <div>
-          <h4>Near Me GPS</h4>
-          <p>Apne gaon/block ke paas</p>
-        </div>
-      </div>
-      <div class="strip-item">
-        <div class="strip-icon">💼</div>
-        <div>
-          <h4>Daily & Contract</h4>
-          <p>Per Day, Per Bigha, Fixed</p>
-        </div>
+        <div><h4>Direct Call & WA</h4><p style="font-size:12px; color:var(--muted);">0% Commission direct baat</p></div>
       </div>
     </div>
   </div>
 
-  <!-- MAIN CONTENT -->
+  <!-- MAIN CONTAINER -->
   <div class="container">
+
+    <!-- LOCAL ADVERTISEMENT BANNER -->
+    <div id="adBannerSlot"></div>
 
     <!-- EXPLORE TOP CATEGORIES -->
     <div class="sec-head">
@@ -732,30 +615,12 @@
     </div>
 
     <div class="cat-grid">
-      <a href="categories.html?group=Construction+Work" class="cat-tile featured">
-        <span class="icon">🏗️</span>
-        <span>Construction</span>
-      </a>
-      <a href="categories.html?group=Agriculture+Work" class="cat-tile">
-        <span class="icon">🌾</span>
-        <span>Agriculture</span>
-      </a>
-      <a href="categories.html?group=Technical+Work" class="cat-tile">
-        <span class="icon">🔧</span>
-        <span>Technical</span>
-      </a>
-      <a href="workers.html?search=Tractor" class="cat-tile">
-        <span class="icon">🚜</span>
-        <span>Tractor Work</span>
-      </a>
-      <a href="categories.html?group=Business+%26+Shop+Work" class="cat-tile">
-        <span class="icon">🏪</span>
-        <span>Business & Shop</span>
-      </a>
-      <a href="categories.html?group=Other+Work" class="cat-tile">
-        <span class="icon">🧹</span>
-        <span>Other & Labour</span>
-      </a>
+      <a href="categories.html?group=Construction+Work" class="cat-tile featured"><span class="icon">🏗️</span><span>Construction</span></a>
+      <a href="categories.html?group=Agriculture+Work" class="cat-tile"><span class="icon">🌾</span><span>Agriculture</span></a>
+      <a href="categories.html?group=Technical+Work" class="cat-tile"><span class="icon">🔧</span><span>Technical</span></a>
+      <a href="workers.html?search=Tractor" class="cat-tile"><span class="icon">🚜</span><span>Tractor Work</span></a>
+      <a href="categories.html?group=Business+%26+Shop+Work" class="cat-tile"><span class="icon">🏪</span><span>Business & Shop</span></a>
+      <a href="categories.html?group=Other+Work" class="cat-tile"><span class="icon">🧹</span><span>Other & Labour</span></a>
     </div>
 
     <!-- LATEST JOBS -->
@@ -764,52 +629,17 @@
       <a href="jobs.html">View All Jobs →</a>
     </div>
 
-    <div class="jobs-grid" id="latestJobsGrid">
-      <div class="job-card">
-        <span class="job-badge">🌾 Agriculture</span>
-        <h3>Hal Jutai (हल जुताई)</h3>
-        <div class="job-info">📍 Jainagar, Koderma • Per Bigha</div>
-        <a href="jobs.html" class="btn-outline" style="justify-content:center; margin-top:auto;">View Details →</a>
-      </div>
-      <div class="job-card">
-        <span class="job-badge">🏗️ Construction</span>
-        <h3>Rajmistri</h3>
-        <div class="job-info">📍 Koderma • Per Day</div>
-        <a href="jobs.html" class="btn-outline" style="justify-content:center; margin-top:auto;">View Details →</a>
-      </div>
-      <div class="job-card">
-        <span class="job-badge">🏗️ Construction</span>
-        <h3>Painting</h3>
-        <div class="job-info">📍 Domchanch, Koderma • Per Day</div>
-        <a href="jobs.html" class="btn-outline" style="justify-content:center; margin-top:auto;">View Details →</a>
-      </div>
-      <div class="job-card">
-        <span class="job-badge">🚜 Agriculture</span>
-        <h3>Tractor Driver</h3>
-        <div class="job-info">📍 Markacho, Koderma • Per Day</div>
-        <a href="jobs.html" class="btn-outline" style="justify-content:center; margin-top:auto;">View Details →</a>
-      </div>
+    <div class="grid-cards" id="latestJobsGrid">
+      <p style="color:var(--muted);">Latest jobs load ho rahi hain...</p>
     </div>
 
-    <!-- PROMO BANNER -->
-    <div class="promo-banner">
-      <div>
-        <h3>Kaam Chahiye Ya Karigar Dhundh Rahe Hain?</h3>
-        <p>Apne gaon aur block ke bharosemand logo se seedhe judiye. Koi middleman nahi.</p>
-      </div>
-      <div style="display:flex; gap:12px; flex-wrap:wrap;">
-        <a href="post-job.html" class="btn-white">+ Post a Job →</a>
-        <a href="register.html" class="btn-white" style="background:rgba(255,255,255,0.18); color:#fff;">Worker Register</a>
-      </div>
-    </div>
-
-    <!-- POPULAR WORKERS -->
+    <!-- AVAILABLE WORKERS -->
     <div class="sec-head">
-      <h2>Available Workers</h2>
+      <h2>Top Rated Workers (With Work Proof)</h2>
       <a href="workers.html">View All Workers →</a>
     </div>
 
-    <div class="workers-grid" id="homeWorkersGrid">
+    <div class="grid-cards" id="homeWorkersGrid">
       <p style="color:var(--muted);">Workers load ho rahe hain...</p>
     </div>
 
@@ -820,32 +650,29 @@
     <div class="footer-grid">
       <div>
         <h4>🛠️ Koderma Work Finder</h4>
-        <p style="font-size:13px; color:#94a3b8; max-width:320px;">Koderma jile ke sabhi 8 prakhando ke karigaron, kisanon aur employers ko digital roop se jodne ka bharosemand madhyam.</p>
+        <p style="color:#94a3b8;">Koderma jile ke sabhi 8 blocks, panchayat aur gaon ke karigaron aur employers ko jodne ka bharosemand platform.</p>
       </div>
       <div>
         <h4>Quick Links</h4>
-        <a href="index.html">Home</a>
         <a href="jobs.html">Find Jobs</a>
         <a href="workers.html">Find Workers</a>
         <a href="categories.html">Categories</a>
+        <a href="post-job.html">Post a Job</a>
       </div>
       <div>
-        <h4>Registration</h4>
+        <h4>Account</h4>
+        <a href="login.html">Mobile OTP Login</a>
         <a href="register.html">Worker Registration</a>
         <a href="employer-register.html">Employer Registration</a>
-        <a href="post-job.html">Post a Job</a>
         <a href="admin.html">Admin Dashboard</a>
       </div>
       <div>
         <h4>Support</h4>
         <a href="about.html">About Us</a>
-        <a href="contact.html">Contact Us</a>
-        <a href="contact.html">Help & Report</a>
+        <a href="contact.html">Contact & Report</a>
       </div>
     </div>
-    <div class="footer-bottom">
-      © 2026 Koderma Work Finder — Koderma, Jhumri Telaiya, Domchanch, Markacho, Jainagar, Chandwara, Satgawan, Dhanwar
-    </div>
+    <div class="footer-bottom">© 2026 Koderma Work Finder — All 8 Blocks of Koderma District</div>
   </footer>
 
   <script>
@@ -854,11 +681,33 @@
       document.getElementById('btnEn').classList.toggle('active', lang === 'en');
       if (lang === 'hi') {
         document.getElementById('heroTitle').innerHTML = 'Apne Area Mein <span>Kaam Khojein</span> & Karigar Bulayein';
-        document.getElementById('heroSub').innerText = 'Koderma ke sabhi 8 blocks mein 41+ categories ke bharosemand workers aur daily jobs—0% Commission.';
+        document.getElementById('heroSub').innerText = 'Koderma ke sabhi 8 blocks, panchayat aur gaon mein 41+ categories ke verified workers aur daily jobs.';
       } else {
         document.getElementById('heroTitle').innerHTML = 'Find Work in <span>Your Local Area</span> & Hire Trusted Workers';
-        document.getElementById('heroSub').innerText = 'Connect directly with skilled workers and daily jobs across all 8 blocks of Koderma District.';
+        document.getElementById('heroSub').innerText = 'Connect directly with verified workers, work proof portfolios, and daily jobs across Koderma District.';
       }
+    }
+
+    function startVoiceSearch() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        alert('Aapke browser mein Voice Search support nahi hai. Chrome browser use karein.');
+        return;
+      }
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'hi-IN';
+      const micBtn = document.getElementById('micBtn');
+      micBtn.classList.add('listening');
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById('heroQuery').value = transcript;
+        micBtn.classList.remove('listening');
+        window.location.href = `workers.html?search=${encodeURIComponent(transcript)}`;
+      };
+      recognition.onerror = () => micBtn.classList.remove('listening');
+      recognition.onend = () => micBtn.classList.remove('listening');
+      recognition.start();
     }
 
     function goSearch(e) {
@@ -869,48 +718,69 @@
 
     async function loadHomeData() {
       try {
-        const [jobsRes, workersRes] = await Promise.all([
+        const [jobsRes, workersRes, adsRes] = await Promise.all([
           fetch('/api/jobs'),
-          fetch('/api/workers')
+          fetch('/api/workers'),
+          fetch('/api/ads')
         ]);
 
-        const jobsJson = await jobsRes.json();
-        const jobs = jobsJson.data || [];
-        if (jobs.length > 0) {
-          document.getElementById('latestJobsGrid').innerHTML = jobs.slice(0, 4).map(j => `
-            <div class="job-card">
-              <span class="job-badge">${j.category_name || 'Work'}</span>
-              <h3>${j.title}</h3>
-              <div class="job-info">📍 ${j.village ? j.village + ', ' : ''}${j.locality_name || 'Koderma'} • ${j.payment_type || 'Per Day'} (${j.wage || 'Negotiable'})</div>
-              <a href="jobs.html" class="btn-outline" style="justify-content:center; margin-top:auto;">Apply / Contact →</a>
+        // Ads
+        const ads = (await adsRes.json()).data || [];
+        if (ads.length > 0) {
+          const ad = ads[0];
+          document.getElementById('adBannerSlot').innerHTML = `
+            <div class="ad-banner">
+              <div>
+                <span class="ad-tag">SPONSORED AD</span>
+                <strong style="font-size:15px;">${ad.title}</strong>
+                <p style="font-size:13px; color:#78350f; margin-top:2px;">${ad.subtitle || ''}</p>
+              </div>
+              <a href="${ad.contact_phone ? 'tel:' + ad.contact_phone : (ad.link_url || 'contact.html')}" class="btn-gradient" style="background:#d97706;">📞 Sampark Karein</a>
+            </div>
+          `;
+        }
+
+        // Jobs
+        const jobs = (await jobsRes.json()).data || [];
+        document.getElementById('jobNotifCount').innerText = jobs.length;
+        const jGrid = document.getElementById('latestJobsGrid');
+        if (jobs.length === 0) {
+          jGrid.innerHTML = '<p style="color:var(--muted);">Abhi koi job live nahi hai. <a href="post-job.html">Pehli job post karein →</a></p>';
+        } else {
+          jGrid.innerHTML = jobs.slice(0, 4).map(j => `
+            <div class="card-box">
+              <span style="align-self:flex-start; background:#ede9fe; color:#6d28d9; font-size:12px; font-weight:700; padding:3px 9px; border-radius:7px;">${j.category_name || 'Work'}</span>
+              <h3 style="font-size:17px; font-weight:800;">${j.title}</h3>
+              <div style="font-size:13px; color:var(--muted);">📍 ${j.village ? j.village + ', ' : ''}${j.locality_name || 'Koderma'} • ${j.payment_type}</div>
+              <a href="jobs.html" class="btn-outline" style="justify-content:center; margin-top:auto;">Apply / Details →</a>
             </div>
           `).join('');
         }
 
-        const workersJson = await workersRes.json();
-        const workers = workersJson.data || [];
+        // Workers
+        const workers = (await workersRes.json()).data || [];
         const wGrid = document.getElementById('homeWorkersGrid');
         if (workers.length === 0) {
-          wGrid.innerHTML = '<p style="color:var(--muted);">Abhi koi worker registered nahi hai. Pehle worker banein!</p>';
+          wGrid.innerHTML = '<p style="color:var(--muted);">Abhi koi worker registered nahi hai.</p>';
         } else {
           wGrid.innerHTML = workers.slice(0, 4).map(w => {
             const phone = (w.phone_number || '').replace(/[^0-9]/g, '');
             const photo = w.profile_photo ? `<img src="${w.profile_photo}" alt="${w.full_name}">` : '👷';
             return `
-              <div class="worker-card">
+              <div class="card-box">
                 <div class="worker-top">
                   <div class="avatar">${photo}</div>
                   <div>
                     <h4 style="font-size:16px; font-weight:800;">${w.full_name} ${w.is_verified ? '✅' : ''}</h4>
                     <span style="font-size:12px; font-weight:700; color:#6d28d9;">${w.category_name || 'Worker'}</span>
+                    <div style="font-size:12px; color:#f59e0b; font-weight:700;">⭐ ${w.avg_rating || '5.0'} • 📸 ${w.portfolio_count || 0} Work Photos</div>
                   </div>
                 </div>
-                <div style="font-size:13px; color:#475569;">
-                  📍 ${w.village ? w.village + ', ' : ''}${w.locality_name || 'Koderma'} • ⏱️ ${w.experience_years || 0} Yrs
-                </div>
+                <div style="font-size:13px; color:#475569;">📍 ${w.village ? w.village + ', ' : ''}${w.locality_name || 'Koderma'}</div>
                 <div class="worker-actions">
+                  <a href="profile.html?id=${w.id}" class="btn-prof">👁️ Profile</a>
                   <a href="tel:${phone}" class="btn-call">📞 Call</a>
-                  <a href="https://wa.me/91${phone}" target="_blank" class="btn-wa">💬 WhatsApp</a>
+                  <a href="https://wa.me/91${phone}" target="_blank" class="btn-wa">💬 WA</a>
                 </div>
               </div>
             `;

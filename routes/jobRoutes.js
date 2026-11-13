@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
 
-// 1. Get Jobs (Public gets approved jobs; Admin with ?all=true gets pending + approved)
+// 1. Get Jobs (Supports Block, Panchayat, Village, Category & Search)
 router.get('/', async (req, res) => {
     try {
         const { category_id, locality_id, search, all } = req.query;
@@ -35,8 +35,8 @@ router.get('/', async (req, res) => {
         }
 
         if (search) {
-            query += ' AND (j.title LIKE ? OR j.description LIKE ? OR c.name LIKE ? OR l.name LIKE ? OR j.village LIKE ?)';
-            params.push(`%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`);
+            query += ' AND (j.title LIKE ? OR j.description LIKE ? OR c.name LIKE ? OR l.name LIKE ? OR j.panchayat LIKE ? OR j.village LIKE ?)';
+            params.push(`%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`);
         }
 
         query += ' ORDER BY j.created_at DESC';
@@ -49,13 +49,14 @@ router.get('/', async (req, res) => {
     }
 });
 
-// 2. Post a New Job
+// 2. Post a New Job (With Panchayat & Village)
 router.post('/', async (req, res) => {
     try {
         const {
             title,
             category_id,
             locality_id,
+            panchayat,
             village,
             wage,
             payment_type,
@@ -68,18 +69,19 @@ router.post('/', async (req, res) => {
         if (!title || !category_id || !locality_id || !employer_name || !employer_phone) {
             return res.status(400).json({
                 success: false,
-                message: 'Job Title, Category, Location, aapka Naam aur Mobile Number zaroori hai.'
+                message: 'Job Title, Category, Block, aapka Naam aur Mobile Number zaroori hai.'
             });
         }
 
         await db.query(
             `INSERT INTO jobs 
-            (title, category_id, locality_id, village, wage, payment_type, description, contact_mode, employer_name, employer_phone, status) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')`,
+            (title, category_id, locality_id, panchayat, village, wage, payment_type, description, contact_mode, employer_name, employer_phone, status) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')`,
             [
                 title.trim(),
                 category_id,
                 locality_id,
+                (panchayat || '').trim(),
                 (village || '').trim(),
                 (wage || 'Negotiable').trim(),
                 (payment_type || 'Per Day').trim(),

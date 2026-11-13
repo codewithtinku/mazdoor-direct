@@ -87,11 +87,17 @@
 
     .nav-links a:hover, .nav-links a.active { color: var(--primary); }
 
+    .nav-right {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
     .btn-outline {
       background: #ffffff;
       color: var(--text);
       text-decoration: none;
-      padding: 8px 16px;
+      padding: 8px 14px;
       border-radius: 10px;
       font-size: 13px;
       font-weight: 700;
@@ -121,7 +127,7 @@
 
     /* FORM CARD */
     .form-wrap {
-      max-width: 720px;
+      max-width: 740px;
       margin: -40px auto 60px;
       padding: 0 20px;
     }
@@ -140,8 +146,14 @@
       gap: 16px;
     }
 
-    @media (max-width: 650px) {
-      .grid-2 { grid-template-columns: 1fr; }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+    }
+
+    @media (max-width: 680px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
     }
 
     .form-group {
@@ -275,14 +287,17 @@
         <a href="about.html">About Us</a>
         <a href="contact.html">Contact</a>
       </nav>
-      <a href="employer-register.html" class="btn-outline">🏢 Employer Register</a>
+      <div class="nav-right">
+        <a href="login.html" class="btn-outline">🔑 OTP Login</a>
+        <a href="employer-register.html" class="btn-outline">🏢 Employer Register</a>
+      </div>
     </div>
   </header>
 
   <!-- HERO -->
   <section class="page-hero">
     <h1>Post a New Job</h1>
-    <p>Apne khet, ghar, dukan ya site ke kaam ki details bharein. Koderma ke workers aapse seedhe judenge.</p>
+    <p>Apne khet, ghar, dukan ya site ke kaam ki details bharein. Block, Panchayat aur Gaon ke workers turant judenge.</p>
   </section>
 
   <!-- FORM -->
@@ -305,17 +320,22 @@
           </div>
         </div>
 
-        <div class="grid-2">
+        <div class="grid-3">
           <div class="form-group">
-            <label>Location - Block (Koderma District) *</label>
+            <label>Block (Koderma) *</label>
             <select id="locality_id" required>
               <option value="">-- Block Chunein --</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label>Village / Mohalla Name</label>
-            <input type="text" id="village" placeholder="e.g. Jainagar / Jhumri Telaiya">
+            <label>Panchayat Name</label>
+            <input type="text" id="panchayat" placeholder="e.g. Beko / Hirodih">
+          </div>
+
+          <div class="form-group">
+            <label>Village / Mohalla</label>
+            <input type="text" id="village" placeholder="e.g. Jainagar / Telaiya">
           </div>
         </div>
 
@@ -379,13 +399,20 @@
       <a href="index.html">Home</a>
       <a href="jobs.html">Find Jobs</a>
       <a href="workers.html">Find Workers</a>
-      <a href="categories.html">Categories</a>
+      <a href="login.html">OTP Login</a>
       <a href="contact.html">Contact Us</a>
     </div>
     <p>© 2026 Koderma Work Finder — Koderma District (Jharkhand)</p>
   </footer>
 
   <script>
+    // Auto-fill if Employer is logged in via OTP
+    const loggedSession = JSON.parse(localStorage.getItem('kw_user') || 'null');
+    if (loggedSession && loggedSession.role === 'employer') {
+      document.getElementById('employer_name').value = loggedSession.user.full_name || '';
+      document.getElementById('employer_phone').value = loggedSession.user.phone_number || '';
+    }
+
     async function loadDropdowns() {
       try {
         const [catRes, locRes] = await Promise.all([
@@ -440,6 +467,7 @@
         title: document.getElementById('title').value,
         category_id: document.getElementById('category_id').value,
         locality_id: document.getElementById('locality_id').value,
+        panchayat: document.getElementById('panchayat').value,
         village: document.getElementById('village').value,
         payment_type: document.getElementById('payment_type').value,
         wage: document.getElementById('wage').value || 'Negotiable',

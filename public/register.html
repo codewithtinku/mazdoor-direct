@@ -87,11 +87,17 @@
 
     .nav-links a:hover { color: var(--primary); }
 
+    .nav-right {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
     .btn-outline {
       background: #ffffff;
       color: var(--text);
       text-decoration: none;
-      padding: 8px 16px;
+      padding: 8px 14px;
       border-radius: 10px;
       font-size: 13px;
       font-weight: 700;
@@ -115,13 +121,13 @@
     .page-hero p {
       color: var(--muted);
       font-size: 15px;
-      max-width: 580px;
+      max-width: 600px;
       margin: 0 auto;
     }
 
     /* FORM CARD */
     .form-wrap {
-      max-width: 740px;
+      max-width: 760px;
       margin: -40px auto 60px;
       padding: 0 20px;
     }
@@ -140,8 +146,14 @@
       gap: 16px;
     }
 
-    @media (max-width: 650px) {
-      .grid-2 { grid-template-columns: 1fr; }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+    }
+
+    @media (max-width: 680px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
     }
 
     .form-group {
@@ -271,14 +283,17 @@
         <a href="about.html">About Us</a>
         <a href="contact.html">Contact</a>
       </nav>
-      <a href="employer-register.html" class="btn-outline">🏢 Employer Register</a>
+      <div class="nav-right">
+        <a href="login.html" class="btn-outline">🔑 OTP Login</a>
+        <a href="employer-register.html" class="btn-outline">🏢 Employer Register</a>
+      </div>
     </div>
   </header>
 
   <!-- HERO -->
   <section class="page-hero">
     <h1>Worker Registration (कारीगर पंजीकरण)</h1>
-    <p>Apna free worker profile banayein. Koderma jile ke employers aapse seedhe Call ya WhatsApp par sampark karenge.</p>
+    <p>Apna free profile banayein. Registration ke baad OTP Login karke apne kiye huye kaam ki photos bhi post kar sakte hain.</p>
   </section>
 
   <!-- FORM -->
@@ -294,7 +309,7 @@
           </div>
 
           <div class="form-group">
-            <label>Mobile Number (WhatsApp) *</label>
+            <label>Mobile Number (WhatsApp & OTP) *</label>
             <input type="tel" name="phone_number" required pattern="[0-9]{10}" placeholder="10-digit mobile number">
           </div>
         </div>
@@ -313,38 +328,38 @@
           </div>
         </div>
 
-        <div class="grid-2">
-          <div class="form-group">
-            <label>District (Jila) *</label>
-            <input type="text" name="district" value="Koderma" readonly style="background:#f8fafc; font-weight:700;">
-          </div>
-
+        <div class="grid-3">
           <div class="form-group">
             <label>Block (Prakhand) *</label>
             <select name="locality_id" id="locality_id" required>
-              <option value="">-- Apna Block Chunein --</option>
+              <option value="">-- Block Chunein --</option>
             </select>
+          </div>
+
+          <div class="form-group">
+            <label>Panchayat Name</label>
+            <input type="text" name="panchayat" placeholder="e.g. Beko / Hirodih">
+          </div>
+
+          <div class="form-group">
+            <label>Village / Mohalla *</label>
+            <input type="text" name="village" required placeholder="e.g. Jainagar / Telaiya">
           </div>
         </div>
 
-        <div class="grid-2">
-          <div class="form-group">
-            <label>Village / Mohalla Name *</label>
-            <input type="text" name="village" required placeholder="e.g. Jainagar / Domchanch">
-          </div>
+        <input type="hidden" name="district" value="Koderma">
 
+        <div class="grid-3">
           <div class="form-group">
             <label>Work Availability *</label>
             <select name="is_available" required>
-              <option value="1">🟢 Available (Kaam ke liye taiyar)</option>
-              <option value="0">🔴 Busy (Abhi vyast hoon)</option>
+              <option value="1">🟢 Available (Taiyar)</option>
+              <option value="0">🔴 Busy (Vyast)</option>
             </select>
           </div>
-        </div>
 
-        <div class="grid-2">
           <div class="form-group">
-            <label>Expected Daily Rate (₹ mein - Optional)</label>
+            <label>Expected Daily Rate (₹)</label>
             <input type="number" name="daily_rate" min="0" placeholder="e.g. 500">
           </div>
 
@@ -370,7 +385,7 @@
       <a href="index.html">Home</a>
       <a href="jobs.html">Find Jobs</a>
       <a href="workers.html">Find Workers</a>
-      <a href="categories.html">Categories</a>
+      <a href="login.html">OTP Login</a>
       <a href="contact.html">Contact Us</a>
     </div>
     <p>© 2026 Koderma Work Finder — Koderma District (Jharkhand)</p>
@@ -410,7 +425,7 @@
         locs.forEach(l => {
           const opt = document.createElement('option');
           opt.value = l.id;
-          opt.textContent = l.name;
+          opt.textContent = `${l.name}, Koderma`;
           locSelect.appendChild(opt);
         });
       } catch (err) {
@@ -437,7 +452,7 @@
         alertBox.style.display = 'block';
         if (data.success) {
           alertBox.className = 'alert-box alert-success';
-          alertBox.innerText = '✅ ' + data.message;
+          alertBox.innerHTML = `✅ ${data.message} <a href="login.html" style="color:#065f46; text-decoration:underline; margin-left:6px;">OTP Login karke Work Photo dalein →</a>`;
           document.getElementById('workerForm').reset();
         } else {
           alertBox.className = 'alert-box alert-error';

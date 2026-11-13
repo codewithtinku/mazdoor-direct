@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OTP Login | Koderma Work Finder</title>
+  <style>
+    :root {
+      --primary: #6d28d9;
+      --primary-light: #ede9fe;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(180deg, #ffffff 0%, #f5f3ff 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+    }
+
+    .nav-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .logo-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #6d28d9, #8b5cf6);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #334155;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover { color: var(--primary); }
+
+    /* LOGIN CARD */
+    .login-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .login-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      max-width: 440px;
+      width: 100%;
+      padding: 32px;
+      box-shadow: 0 16px 36px rgba(109, 40, 217, 0.08);
+    }
+
+    .role-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      background: #f1f5f9;
+      padding: 5px;
+      border-radius: 12px;
+      margin: 18px 0 22px;
+    }
+
+    .role-btn {
+      border: none;
+      background: transparent;
+      padding: 10px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .role-btn.active {
+      background: #ffffff;
+      color: var(--primary);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #1e293b;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 11px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.12);
+    }
+
+    .btn-gradient {
+      width: 100%;
+      background: linear-gradient(135deg, #6d28d9, #7c3aed);
+      color: #ffffff;
+      border: none;
+      padding: 13px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 4px;
+    }
+
+    .alert-box {
+      display: none;
+      padding: 12px 14px;
+      border-radius: 11px;
+      margin-bottom: 16px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .alert-success { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+    .alert-error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+
+    .otp-banner {
+      display: none;
+      background: #ede9fe;
+      color: #4c1d95;
+      border: 1px dashed #8b5cf6;
+      padding: 12px;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .register-links {
+      margin-top: 22px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .register-links a {
+      color: var(--primary);
+      font-weight: 700;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-wrap">
+      <a href="index.html" class="logo">
+        <span class="logo-badge">🛠️</span>
+        <span>KodermaWork</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="jobs.html">Find Jobs</a>
+        <a href="workers.html">Find Workers</a>
+        <a href="categories.html">Categories</a>
+        <a href="post-job.html">Post a Job</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- LOGIN BOX -->
+  <div class="login-container">
+    <div class="login-card">
+      <div style="text-align:center;">
+        <span style="background:#ede9fe; color:#6d28d9; font-size:11px; font-weight:800; padding:4px 10px; border-radius:20px;">SECURE OTP LOGIN</span>
+        <h1 style="font-size:24px; font-weight:900; margin-top:10px;">Apne Account Mein Login Karein</h1>
+        <p style="font-size:13px; color:var(--muted); margin-top:4px;">Apna registered mobile number daal kar OTP verify karein.</p>
+      </div>
+
+      <div class="role-tabs">
+        <button type="button" class="role-btn active" id="tabWorker" onclick="setRole('worker')">👷 Worker Login</button>
+        <button type="button" class="role-btn" id="tabEmployer" onclick="setRole('employer')">🏢 Employer Login</button>
+      </div>
+
+      <div id="alertBox" class="alert-box"></div>
+      <div id="demoOtpBanner" class="otp-banner"></div>
+
+      <!-- STEP 1: SEND OTP -->
+      <form id="sendOtpForm" onsubmit="sendOtp(event)">
+        <div class="form-group">
+          <label>Registered Mobile Number *</label>
+          <input type="tel" id="phoneInput" required pattern="[0-9]{10}" placeholder="10-digit mobile number">
+        </div>
+        <button type="submit" class="btn-gradient" id="sendBtn">📲 Send OTP →</button>
+      </form>
+
+      <!-- STEP 2: VERIFY OTP -->
+      <form id="verifyOtpForm" style="display:none;" onsubmit="verifyOtp(event)">
+        <div class="form-group">
+          <label>6-Digit OTP Dalein *</label>
+          <input type="text" id="otpInput" required maxlength="6" placeholder="e.g. 123456" style="letter-spacing:4px; font-weight:800; text-align:center; font-size:18px;">
+        </div>
+        <button type="submit" class="btn-gradient" id="verifyBtn">✅ Verify OTP & Login</button>
+        <button type="button" onclick="resetOtpStep()" style="width:100%; background:transparent; border:none; color:var(--muted); font-size:13px; font-weight:700; margin-top:10px; cursor:pointer;">← Mobile Number Badlein</button>
+      </form>
+
+      <div class="register-links">
+        Abhi tak account nahi hai?<br>
+        <a href="register.html">👷 Worker Register</a> • <a href="employer-register.html">🏢 Employer Register</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentRole = 'worker';
+
+    function setRole(role) {
+      currentRole = role;
+      document.getElementById('tabWorker').classList.toggle('active', role === 'worker');
+      document.getElementById('tabEmployer').classList.toggle('active', role === 'employer');
+      resetOtpStep();
+    }
+
+    function resetOtpStep() {
+      document.getElementById('sendOtpForm').style.display = 'block';
+      document.getElementById('verifyOtpForm').style.display = 'none';
+      document.getElementById('demoOtpBanner').style.display = 'none';
+      document.getElementById('alertBox').style.display = 'none';
+    }
+
+    async function sendOtp(e) {
+      e.preventDefault();
+      const btn = document.getElementById('sendBtn');
+      const alertBox = document.getElementById('alertBox');
+      const phone_number = document.getElementById('phoneInput').value.trim();
+
+      btn.disabled = true;
+      btn.innerText = 'Sending OTP...';
+      alertBox.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/auth/send-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phone_number, role: currentRole })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          document.getElementById('sendOtpForm').style.display = 'none';
+          document.getElementById('verifyOtpForm').style.display = 'block';
+          const banner = document.getElementById('demoOtpBanner');
+          banner.style.display = 'block';
+          banner.innerText = `🔑 Aapka Verification OTP: ${data.demo_otp}`;
+        } else {
+          alertBox.style.display = 'block';
+          alertBox.className = 'alert-box alert-error';
+          alertBox.innerText = '❌ ' + data.message;
+        }
+      } catch (err) {
+        alertBox.style.display = 'block';
+        alertBox.className = 'alert-box alert-error';
+        alertBox.innerText = '❌ Server connection error!';
+      } finally {
+        btn.disabled = false;
+        btn.innerText = '📲 Send OTP →';
+      }
+    }
+
+    async function verifyOtp(e) {
+      e.preventDefault();
+      const btn = document.getElementById('verifyBtn');
+      const alertBox = document.getElementById('alertBox');
+      const phone_number = document.getElementById('phoneInput').value.trim();
+      const otp_code = document.getElementById('otpInput').value.trim();
+
+      btn.disabled = true;
+      btn.innerText = 'Verifying...';
+
+      try {
+        const res = await fetch('/api/auth/verify-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phone_number, otp_code, role: currentRole })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          localStorage.setItem('kw_user', JSON.stringify({ role: data.role, user: data.user }));
+          if (data.role === 'worker') {
+            window.location.href = `profile.html?id=${data.user.id}`;
+          } else {
+            window.location.href = 'post-job.html';
+          }
+        } else {
+          alertBox.style.display = 'block';
+          alertBox.className = 'alert-box alert-error';
+          alertBox.innerText = '❌ ' + data.message;
+        }
+      } catch (err) {
+        alertBox.style.display = 'block';
+        alertBox.className = 'alert-box alert-error';
+        alertBox.innerText = '❌ Server error verifying OTP';
+      } finally {
+        btn.disabled = false;
+        btn.innerText = '✅ Verify OTP & Login';
+      }
+    }
+  </script>
+</body>
+</html>

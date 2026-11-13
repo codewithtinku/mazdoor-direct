@@ -9,7 +9,7 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, 'worker-' + uniqueSuffix + path.extname(file.originalname));
+        cb(null, 'kw-' + uniqueSuffix + path.extname(file.originalname));
     }
 });
 
@@ -23,7 +23,7 @@ const fileFilter = (req, file, cb) => {
 
 exports.upload = multer({ storage: storage, fileFilter: fileFilter });
 
-// 1. Get All Workers (Supports filtering & Admin all=true)
+// 1. Get All Workers (With Block, Panchayat, Village, Category & Avg Ratings)
 exports.getWorkers = async (req, res) => {
     try {
         const { category_id, locality_id, search, all } = req.query;
@@ -37,6 +37,7 @@ exports.getWorkers = async (req, res) => {
                 w.category_id,
                 w.locality_id,
                 w.district,
+                w.panchayat,
                 w.village,
                 w.daily_rate,
                 w.visiting_charge,
@@ -51,12 +52,14 @@ exports.getWorkers = async (req, res) => {
                 l.pincode,
                 l.latitude,
                 l.longitude,
-                ROUND(AVG(r.rating), 1) AS avg_rating,
-                COUNT(r.id) AS review_count
+                ROUND(AVG(r.overall_rating), 1) AS avg_rating,
+                COUNT(DISTINCT r.id) AS review_count,
+                COUNT(DISTINCT wp.id) AS portfolio_count
             FROM workers w
             LEFT JOIN categories c ON w.category_id = c.id
             LEFT JOIN localities l ON w.locality_id = l.id
             LEFT JOIN reviews r ON w.id = r.worker_id
+            LEFT JOIN worker_portfolio wp ON w.id = wp.worker_id
             WHERE 1=1
         `;
         const params = [];
@@ -76,11 +79,11 @@ exports.getWorkers = async (req, res) => {
         }
 
         if (search) {
-            query += ' AND (w.full_name LIKE ? OR c.name LIKE ? OR l.name LIKE ? OR w.village LIKE ?)';
-            params.push(`%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`);
+            query += ' AND (w.full_name LIKE ? OR c.name LIKE ? OR l.name LIKE ? OR w.panchayat LIKE ? OR w.village LIKE ?)';
+            params.push(`%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`);
         }
 
-        query += ' GROUP BY w.id ORDER BY w.is_verified DESC, w.created_at DESC';
+        query += ' GROUP BY w.id ORDER BY w.is_verified DESC, avg_rating DESC, w.created_at DESC';
 
         const [workers] = await db.query(query, params);
         res.json({ success: true, data: workers });
@@ -90,7 +93,7 @@ exports.getWorkers = async (req, res) => {
     }
 };
 
-// 2. Get Single Worker Profile
+// 2. Get Single Worker Full Profile (Includes Portfolio & Detailed Ratings)
 exports.getWorkerProfile = async (req, res) => {
     try {
         const { id } = req.params;
@@ -101,7 +104,10 @@ exports.getWorkerProfile = async (req, res) => {
                 c.group_name AS category_group,
                 l.name AS locality_name,
                 l.pincode,
-                ROUND(AVG(r.rating), 1) AS avg_rating,
+                ROUND(AVG(r.overall_rating), 1) AS avg_rating,
+                ROUND(AVG(r.work_quality), 1) AS avg_quality,
+                ROUND(AVG(r.behaviour), 1) AS avg_behaviour,
+                ROUND(AVG(r.timely_completion), 1) AS avg_timely,
                 COUNT(r.id) AS review_count
             FROM workers w
             LEFT JOIN categories c ON w.category_id = c.id
@@ -116,14 +122,19 @@ exports.getWorkerProfile = async (req, res) => {
             return res.status(404).json({ success: false, message: 'Karigar nahi mila.' });
         }
 
+        const [portfolio] = await db.query(
+            'SELECT * FROM worker_portfolio WHERE worker_id = ? ORDER BY created_at DESC',
+            [id]
+        );
+
         const [reviews] = await db.query(
-            'SELECT customer_name, rating, comment, created_at FROM reviews WHERE worker_id = ? ORDER BY created_at DESC',
+            'SELECT * FROM reviews WHERE worker_id = ? ORDER BY created_at DESC',
             [id]
         );
 
         res.json({
             success: true,
-            data: { ...worker[0], reviews }
+            data: { ...worker[0], portfolio, reviews }
         });
     } catch (error) {
         console.error('Error in profile API:', error);
@@ -131,7 +142,7 @@ exports.getWorkerProfile = async (req, res) => {
     }
 };
 
-// 3. Register Worker (With District, Village, Availability & Contact Permission)
+// 3. Register Worker (With District, Block, Panchayat, Village & Contact Permission)
 exports.registerWorker = async (req, res) => {
     try {
         const {
@@ -140,6 +151,7 @@ exports.registerWorker = async (req, res) => {
             category_id,
             locality_id,
             district,
+            panchayat,
             village,
             daily_rate,
             visiting_charge,
@@ -160,15 +172,15 @@ exports.registerWorker = async (req, res) => {
 
         const [existing] = await db.query('SELECT id FROM workers WHERE phone_number = ?', [phone_number.trim()]);
         if (existing.length > 0) {
-            return res.status(400).json({ success: false, message: 'Ye mobile number pehle se registered hai.' });
+            return res.status(400).json({ success: false, message: 'Ye mobile number pehle se registered hai. OTP Login use karein.' });
         }
 
         const availFlag = (is_available === '0' || is_available === 'false' || is_available === 'Busy') ? 0 : 1;
 
         await db.query(
             `INSERT INTO workers 
-            (full_name, phone_number, profile_photo, category_id, locality_id, district, village, daily_rate, visiting_charge, experience_years, is_available, contact_permission) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            (full_name, phone_number, profile_photo, category_id, locality_id, district, panchayat, village, daily_rate, visiting_charge, experience_years, is_available, contact_permission) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
                 full_name.trim(),
                 phone_number.trim(),
@@ -176,6 +188,7 @@ exports.registerWorker = async (req, res) => {
                 category_id,
                 locality_id,
                 (district || 'Koderma').trim(),
+                (panchayat || '').trim(),
                 (village || '').trim(),
                 daily_rate || 0,
                 visiting_charge || 0,
@@ -192,7 +205,41 @@ exports.registerWorker = async (req, res) => {
     }
 };
 
-// 4. Toggle Verification Status
+// 4. Add Portfolio Work Post (Worker uploads proof of completed work)
+exports.addPortfolio = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { work_title, work_location, description } = req.body;
+        const work_photo = req.file ? `/uploads/${req.file.filename}` : null;
+
+        if (!work_title || !work_photo) {
+            return res.status(400).json({ success: false, message: 'Kaam ka title aur photo dono zaroori hain.' });
+        }
+
+        await db.query(
+            'INSERT INTO worker_portfolio (worker_id, work_title, work_location, work_photo, description) VALUES (?, ?, ?, ?, ?)',
+            [id, work_title.trim(), (work_location || '').trim(), work_photo, (description || '').trim()]
+        );
+
+        res.status(201).json({ success: true, message: 'Aapka kiya hua kaam profile par post ho gaya!' });
+    } catch (error) {
+        console.error('Portfolio error:', error);
+        res.status(500).json({ success: false, message: 'Server error uploading work proof' });
+    }
+};
+
+// 5. Delete Portfolio Item
+exports.deletePortfolio = async (req, res) => {
+    try {
+        const { portfolioId } = req.params;
+        await db.query('DELETE FROM worker_portfolio WHERE id = ?', [portfolioId]);
+        res.json({ success: true, message: 'Work post delete ho gayi!' });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Server error deleting portfolio item' });
+    }
+};
+
+// 6. Toggle Verification Status
 exports.toggleVerify = async (req, res) => {
     try {
         const { id } = req.params;
@@ -207,7 +254,7 @@ exports.toggleVerify = async (req, res) => {
     }
 };
 
-// 5. Delete Worker
+// 7. Delete Worker
 exports.deleteWorker = async (req, res) => {
     try {
         const { id } = req.params;
@@ -218,19 +265,38 @@ exports.deleteWorker = async (req, res) => {
     }
 };
 
-// 6. Add Review
+// 8. Add Detailed 5-Star Rating & Review (Work Quality, Behaviour, Timely Completion)
 exports.addReview = async (req, res) => {
     try {
         const { id } = req.params;
-        const { customer_name, rating, comment } = req.body;
-        if (!customer_name || !rating) return res.status(400).json({ success: false, message: 'Naam aur rating zaroori hai.' });
+        const {
+            reviewer_name,
+            reviewer_role,
+            work_quality,
+            behaviour,
+            timely_completion,
+            comment
+        } = req.body;
+
+        if (!reviewer_name) {
+            return res.status(400).json({ success: false, message: 'Apna naam zaroor bharein.' });
+        }
+
+        const q = Math.min(5, Math.max(1, parseInt(work_quality) || 5));
+        const b = Math.min(5, Math.max(1, parseInt(behaviour) || 5));
+        const t = Math.min(5, Math.max(1, parseInt(timely_completion) || 5));
+        const overall = Math.round((q + b + t) / 3);
 
         await db.query(
-            'INSERT INTO reviews (worker_id, customer_name, rating, comment) VALUES (?, ?, ?, ?)',
-            [id, customer_name.trim(), rating, comment ? comment.trim() : null]
+            `INSERT INTO reviews 
+            (worker_id, reviewer_name, reviewer_role, overall_rating, work_quality, behaviour, timely_completion, comment) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+            [id, reviewer_name.trim(), reviewer_role || 'Employer', overall, q, b, t, comment ? comment.trim() : '']
         );
-        res.status(201).json({ success: true, message: 'Review submit ho gaya!' });
+
+        res.status(201).json({ success: true, message: 'Aapki rating aur review save ho gayi!' });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Server error' });
+        console.error('Review error:', error);
+        res.status(500).json({ success: false, message: 'Server error submitting review' });
     }
 };

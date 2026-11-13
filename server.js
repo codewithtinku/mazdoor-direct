@@ -23,6 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
 
 // 3. Import Routes
+const authRoutes = require('./routes/authRoutes');
 const metaRoutes = require('./routes/metaRoutes');
 const workerRoutes = require('./routes/workerRoutes');
 const employerRoutes = require('./routes/employerRoutes');
@@ -30,6 +31,7 @@ const jobRoutes = require('./routes/jobRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 
 // 4. Mount APIs
+app.use('/api/auth', authRoutes);
 app.use('/api', metaRoutes);
 app.use('/api/workers', workerRoutes);
 app.use('/api/employers', employerRoutes);
@@ -52,5 +54,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`🚀 Koderma Work Finder Server running on port ${PORT}`);
+    console.log(`🚀 Koderma Work Finder V2.0 Server running on port ${PORT}`);
 });

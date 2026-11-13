@@ -1,242 +1,712 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Karigar Profile | Mazdoor Direct</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Worker Profile & Work Proof | Koderma Work Finder</title>
   <style>
-    .profile-wrap {
-      max-width: 650px;
-      margin: 20px auto;
-      padding: 0 16px;
+    :root {
+      --primary: #6d28d9;
+      --primary-light: #ede9fe;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
     }
-    .profile-card {
-      background: #ffffff;
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
-    .profile-header {
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 14px 24px;
+    }
+
+    .nav-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
       display: flex;
+      justify-content: space-between;
       align-items: center;
       gap: 16px;
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 18px;
-      margin-bottom: 20px;
+      flex-wrap: wrap;
     }
-    .profile-avatar-box {
-      width: 76px;
-      height: 76px;
-      border-radius: 50%;
-      background: #ecfdf5;
-      color: var(--primary);
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .logo-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #6d28d9, #8b5cf6);
+      color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2rem;
+      font-size: 16px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #334155;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover { color: var(--primary); }
+
+    .btn-outline {
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 13px;
       font-weight: 700;
-      border: 2px solid #a7f3d0;
+      text-decoration: none;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    /* MAIN CONTAINER */
+    .container {
+      max-width: 1100px;
+      margin: 32px auto 60px;
+      padding: 0 24px;
+    }
+
+    /* PROFILE HEADER CARD */
+    .profile-hero {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.04);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .profile-left {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .avatar-lg {
+      width: 88px;
+      height: 88px;
+      border-radius: 20px;
+      background: var(--primary-light);
+      color: var(--primary);
+      border: 3px solid #ddd6fe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 38px;
       overflow: hidden;
       flex-shrink: 0;
     }
-    .profile-avatar-box img {
+
+    .avatar-lg img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin: 16px 0;
-      background: #f8fafc;
-      padding: 14px;
+
+    .badge-cat {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 8px;
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+
+    .profile-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 210px;
+    }
+
+    .btn-call, .btn-wa, .btn-report {
+      text-align: center;
+      padding: 10px 16px;
       border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
     }
-    .price-box {
-      font-size: 0.85rem;
-      color: var(--text-muted);
+
+    .btn-call { background: #6d28d9; color: #fff; }
+    .btn-wa { background: #16a34a; color: #fff; }
+    .btn-report { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+
+    /* TRUST RATING SUMMARY */
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 28px;
     }
-    .price-box b {
+
+    @media (max-width: 768px) { .trust-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .trust-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .trust-card span {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .trust-card h3 {
+      font-size: 22px;
+      font-weight: 900;
+      color: #f59e0b;
+      margin-top: 4px;
+    }
+
+    /* SECTION CARDS */
+    .sec-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .sec-card h2 {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    /* PORTFOLIO GRID */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .work-item {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      background: #f8fafc;
+    }
+
+    .work-item img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
       display: block;
-      font-size: 1.15rem;
-      color: #047857;
-      margin-top: 2px;
     }
+
+    .work-body {
+      padding: 14px;
+    }
+
+    .work-body h4 {
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    /* FORMS */
+    .owner-upload-box {
+      display: none;
+      background: #f5f3ff;
+      border: 1px solid #ddd6fe;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 650px) { .grid-3 { grid-template-columns: 1fr; } }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 14px;
+      background: #fff;
+    }
+
+    .btn-gradient {
+      background: linear-gradient(135deg, #6d28d9, #7c3aed);
+      color: #fff;
+      border: none;
+      padding: 11px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* REVIEWS LIST */
     .review-item {
       border-bottom: 1px solid #f1f5f9;
-      padding: 12px 0;
+      padding: 14px 0;
     }
-    .review-item:last-child {
-      border-bottom: none;
+
+    .review-item:last-child { border-bottom: none; }
+
+    /* MODAL */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
     }
-    .review-header {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.88rem;
-      margin-bottom: 4px;
+
+    .modal-box {
+      background: #fff;
+      border-radius: 18px;
+      max-width: 420px;
+      width: 100%;
+      padding: 24px;
     }
   </style>
 </head>
 <body>
 
+  <!-- NAVBAR -->
   <header class="navbar">
-    <div class="brand">
-      <i class="fa-solid fa-person-digging logo-icon"></i>
-      <span class="brand-name">Mazdoor<span>Direct</span></span>
+    <div class="nav-wrap">
+      <a href="index.html" class="logo">
+        <span class="logo-badge">🛠️</span>
+        <span>KodermaWork</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="jobs.html">Find Jobs</a>
+        <a href="workers.html">Find Workers</a>
+        <a href="categories.html">Categories</a>
+        <a href="login.html">OTP Login</a>
+      </nav>
+      <div id="sessionBar">
+        <a href="login.html" class="btn-outline">🔑 Worker OTP Login</a>
+      </div>
     </div>
-    <a href="index.html" class="btn-register-link"><i class="fa-solid fa-arrow-left"></i> Wapas Jayein</a>
   </header>
 
-  <main class="profile-wrap">
-    <div id="loading" class="loading-state">Profile load ho rahi hai...</div>
+  <div class="container">
 
-    <div id="profileContainer" class="profile-card" style="display: none;">
-      <div class="profile-header">
-        <div class="profile-avatar-box" id="avatarBox">M</div>
-        <div>
-          <h2 id="workerName" style="font-size: 1.35rem; margin-bottom: 4px;">-</h2>
-          <span class="worker-category" id="workerCategory">-</span>
-          <span id="verifiedBadge" style="margin-left: 6px;"></span>
-        </div>
+    <!-- WORKER HEADER -->
+    <div class="profile-hero" id="profileHero">
+      <p style="color:var(--muted);">Worker profile load ho rahi hai...</p>
+    </div>
+
+    <!-- TRUST SCORE BREAKDOWN -->
+    <div class="trust-grid">
+      <div class="trust-card">
+        <span>⭐ Overall Rating</span>
+        <h3 id="statOverall">5.0 / 5</h3>
       </div>
-
-      <div style="margin-bottom: 16px;">
-        <span id="starRating" style="color: #f59e0b; font-size: 1.1rem; font-weight: 700;"></span>
-        <span id="reviewCount" style="color: var(--text-muted); font-size: 0.88rem;"></span>
+      <div class="trust-card">
+        <span>🛠️ Work Quality</span>
+        <h3 id="statQuality">5.0 / 5</h3>
       </div>
-
-      <div class="pricing-grid">
-        <div class="price-box">
-          Pura Din (Daily Rate)
-          <b id="dailyRate">₹0</b>
-        </div>
-        <div class="price-box">
-          Visiting / Inspection
-          <b id="visitingRate">₹0</b>
-        </div>
+      <div class="trust-card">
+        <span>🤝 Behaviour</span>
+        <h3 id="statBehaviour">5.0 / 5</h3>
       </div>
-
-      <div class="worker-details" style="font-size: 0.95rem; margin: 18px 0;">
-        <span><i class="fa-solid fa-location-dot"></i> <span id="workerArea">-</span></span>
-        <span><i class="fa-solid fa-briefcase"></i> <span id="workerExp">-</span> saal ka anubhav</span>
-      </div>
-
-      <!-- Action Buttons -->
-      <div class="card-actions" style="margin-top: 24px;">
-        <a id="btnCall" href="#" class="btn-action btn-call" style="font-size: 1rem; padding: 12px 0;">
-          <i class="fa-solid fa-phone"></i> Call Karein
-        </a>
-        <button id="btnWhatsApp" class="btn-action btn-whatsapp" style="border:none; cursor:pointer; font-size: 1rem; padding: 12px 0;">
-          <i class="fa-brands fa-whatsapp"></i> WhatsApp Location
-        </button>
-      </div>
-
-      <!-- Reviews Section -->
-      <div style="margin-top: 30px; border-top: 1px solid var(--border-color); padding-top: 20px;">
-        <h3 style="font-size: 1.05rem; margin-bottom: 12px;">Customer Reviews & Feedback</h3>
-        <div id="reviewsList">
-          <p style="color: var(--text-muted); font-size: 0.88rem;">Abhi tak koi review nahi mila.</p>
-        </div>
+      <div class="trust-card">
+        <span>⏰ Timely Completion</span>
+        <h3 id="statTimely">5.0 / 5</h3>
       </div>
     </div>
-  </main>
+
+    <!-- OWNER ONLY: UPLOAD COMPLETED WORK PHOTO -->
+    <div class="owner-upload-box" id="ownerUploadBox">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h3 style="font-size:18px; font-weight:800; color:#4c1d95;">📸 Apna Kiya Hua Kaam Post Karein (Build Trust)</h3>
+        <button type="button" class="btn-outline" style="color:#dc2626;" onclick="logoutUser()">Logout</button>
+      </div>
+      <p style="font-size:13px; color:#5b21b6; margin-bottom:14px;">Apne kiye gaye kaam ki photo aur jankari dalein taaki customers ko aapke hunar par bharosa ho.</p>
+
+      <form onsubmit="uploadWorkProof(event)" enctype="multipart/form-data">
+        <div class="grid-3">
+          <div class="form-group">
+            <label>Kaam Ka Title *</label>
+            <input type="text" id="workTitle" required placeholder="e.g. Ghar ki Painting / Tractor Jutai">
+          </div>
+          <div class="form-group">
+            <label>Location (Gaon / Block)</label>
+            <input type="text" id="workLocation" placeholder="e.g. Jhumri Telaiya">
+          </div>
+          <div class="form-group">
+            <label>Kaam Ki Photo *</label>
+            <input type="file" id="workPhoto" accept="image/*" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Kaam Ki Details (Optional)</label>
+          <input type="text" id="workDesc" placeholder="e.g. 2 din mein poora kaam safai se complete kiya.">
+        </div>
+        <button type="submit" class="btn-gradient" id="uploadWorkBtn">⬆️ Post Work Photo on Profile</button>
+      </form>
+    </div>
+
+    <!-- COMPLETED WORK PORTFOLIO GALLERY -->
+    <div class="sec-card">
+      <h2>📸 Completed Work Proof (Kiye Gaye Kaam Ki Photos)</h2>
+      <div class="portfolio-grid" id="portfolioGrid">
+        <p style="color:var(--muted);">Loading work gallery...</p>
+      </div>
+    </div>
+
+    <!-- DETAILED RATING & REVIEW SECTION -->
+    <div class="sec-card">
+      <h2>⭐ Customer Ratings & Reviews</h2>
+
+      <form onsubmit="submitDetailedReview(event)" style="background:#f8fafc; padding:18px; border-radius:14px; border:1px solid var(--border); margin-bottom:24px;">
+        <h4 style="font-size:15px; font-weight:800; margin-bottom:12px;">Kaam Poora Hone Ke Baad Apna Feedback Dein</h4>
+        <div class="grid-3">
+          <div class="form-group">
+            <label>Aapka Naam *</label>
+            <input type="text" id="revName" required placeholder="e.g. Rajesh Singh">
+          </div>
+          <div class="form-group">
+            <label>Aapka Role</label>
+            <select id="revRole">
+              <option value="Employer / Customer">Employer / Customer</option>
+              <option value="Farmer / Kisan">Farmer / Kisan</option>
+              <option value="Contractor">Contractor</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>🛠️ Work Quality (1-5 Stars)</label>
+            <select id="revQuality">
+              <option value="5">⭐⭐⭐⭐⭐ (5 - Excellent)</option>
+              <option value="4">⭐⭐⭐⭐ (4 - Good)</option>
+              <option value="3">⭐⭐⭐ (3 - Average)</option>
+              <option value="2">⭐⭐ (2 - Poor)</option>
+              <option value="1">⭐ (1 - Very Bad)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="form-group">
+            <label>🤝 Behaviour (Vyavahar)</label>
+            <select id="revBehaviour">
+              <option value="5">⭐⭐⭐⭐⭐ (5 - Very Polite)</option>
+              <option value="4">⭐⭐⭐⭐ (4 - Good)</option>
+              <option value="3">⭐⭐⭐ (3 - Okay)</option>
+              <option value="2">⭐⭐ (2 - Rude)</option>
+              <option value="1">⭐ (1 - Very Bad)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>⏰ Timely Completion (Samay Par Kaam)</label>
+            <select id="revTimely">
+              <option value="5">⭐⭐⭐⭐⭐ (5 - On Time)</option>
+              <option value="4">⭐⭐⭐⭐ (4 - Good)</option>
+              <option value="3">⭐⭐⭐ (3 - Slight Delay)</option>
+              <option value="2">⭐⭐ (2 - Late)</option>
+              <option value="1">⭐ (1 - Incomplete)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Comment / Anubhav</label>
+            <input type="text" id="revComment" placeholder="Kaam kaisa raha? Likhein...">
+          </div>
+        </div>
+
+        <button type="submit" class="btn-gradient">⭐ Submit 5-Star Review</button>
+      </form>
+
+      <div id="reviewsList"></div>
+    </div>
+
+  </div>
+
+  <!-- REPORT FAKE USER MODAL -->
+  <div class="modal-backdrop" id="reportModal">
+    <div class="modal-box">
+      <h3 style="font-size:19px; font-weight:800; color:#dc2626; margin-bottom:6px;">🚨 Report Fake Worker</h3>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:14px;">Agar ye profile fake hai ya galat jankari di gayi hai, to report karein.</p>
+      <form onsubmit="submitFakeReport(event)">
+        <div class="form-group">
+          <label>Aapka Mobile Number *</label>
+          <input type="tel" id="repPhone" required pattern="[0-9]{10}" placeholder="10-digit mobile number">
+        </div>
+        <div class="form-group">
+          <label>Report Ka Karan *</label>
+          <textarea id="repReason" rows="3" required placeholder="e.g. Galat number hai / Fake profile hai"></textarea>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <button type="submit" class="btn-report" style="flex:1; background:#dc2626; color:#fff;">Submit Report</button>
+          <button type="button" class="btn-outline" onclick="document.getElementById('reportModal').style.display='none'">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const workerId = urlParams.get('id');
+    const params = new URLSearchParams(window.location.search);
+    const workerId = params.get('id');
+    let workerData = null;
 
+    const loggedSession = JSON.parse(localStorage.getItem('kw_user') || 'null');
+    const isOwner = loggedSession && loggedSession.role === 'worker' && String(loggedSession.user.id) === String(workerId);
+
+    if (isOwner) {
+      document.getElementById('ownerUploadBox').style.display = 'block';
+      document.getElementById('sessionBar').innerHTML = `<span style="font-size:13px; font-weight:700; color:#6d28d9;">👋 Logged in: ${loggedSession.user.full_name}</span>`;
+    }
+
+    function logoutUser() {
+      localStorage.removeItem('kw_user');
+      window.location.href = 'login.html';
+    }
+
+    async function loadProfile() {
       if (!workerId) {
-        alert('Karigar ki ID nahi mili.');
-        window.location.href = 'index.html';
+        window.location.href = 'workers.html';
         return;
       }
 
       try {
-        const res = await fetch(`/api/workers/${workerId}/profile`);
-        const result = await res.json();
-
-        if (!result.success || !result.data) {
-          alert('Profile data load nahi ho saka.');
+        const res = await fetch(`/api/workers/${workerId}`);
+        const json = await res.json();
+        if (!json.success) {
+          document.getElementById('profileHero').innerHTML = '<p style="color:red;">Worker nahi mila.</p>';
           return;
         }
 
-        const w = result.data;
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('profileContainer').style.display = 'block';
+        workerData = json.data;
+        const phone = (workerData.phone_number || '').replace(/[^0-9]/g, '');
+        const photo = workerData.profile_photo ? `<img src="${workerData.profile_photo}" alt="${workerData.full_name}">` : '👷';
+        const locParts = [workerData.village, workerData.panchayat, workerData.locality_name, 'Koderma'].filter(Boolean).join(', ');
 
-        // Profile Photo ya Initials
-        const avatarBox = document.getElementById('avatarBox');
-        if (w.profile_photo) {
-          avatarBox.innerHTML = `<img src="${w.profile_photo}" alt="${w.full_name}">`;
+        document.getElementById('profileHero').innerHTML = `
+          <div class="profile-left">
+            <div class="avatar-lg">${photo}</div>
+            <div>
+              <span class="badge-cat">${workerData.category_name || 'Worker'}</span>
+              <h1 style="font-size:26px; font-weight:900;">${workerData.full_name} ${workerData.is_verified ? '✅' : ''}</h1>
+              <p style="font-size:14px; color:#475569; margin-top:4px;">📍 ${locParts}</p>
+              <p style="font-size:13px; color:#64748b; margin-top:4px;">
+                ⏱️ Experience: <strong>${workerData.experience_years || 0} Years</strong> • 
+                💰 Daily Rate: <strong>${workerData.daily_rate ? '₹' + workerData.daily_rate : 'Negotiable'}</strong> • 
+                🟢 <strong>${workerData.is_available ? 'Available' : 'Busy'}</strong>
+              </p>
+            </div>
+          </div>
+
+          <div class="profile-actions">
+            <a href="tel:${phone}" class="btn-call">📞 Call Now (${workerData.phone_number})</a>
+            <a href="https://wa.me/91${phone}" target="_blank" class="btn-wa">💬 WhatsApp Message</a>
+            <button type="button" class="btn-report" onclick="document.getElementById('reportModal').style.display='flex'">🚨 Report Fake Profile</button>
+          </div>
+        `;
+
+        // Trust Scores
+        document.getElementById('statOverall').innerText = `${workerData.avg_rating || '5.0'} / 5 (${workerData.review_count || 0})`;
+        document.getElementById('statQuality').innerText = `${workerData.avg_quality || '5.0'} / 5`;
+        document.getElementById('statBehaviour').innerText = `${workerData.avg_behaviour || '5.0'} / 5`;
+        document.getElementById('statTimely').innerText = `${workerData.avg_timely || '5.0'} / 5`;
+
+        // Portfolio Gallery
+        const pGrid = document.getElementById('portfolioGrid');
+        const portfolio = workerData.portfolio || [];
+        if (portfolio.length === 0) {
+          pGrid.innerHTML = '<p style="color:var(--muted); grid-column:1/-1;">Abhi tak is worker ne kiye gaye kaam ki koi photo upload nahi ki hai.</p>';
         } else {
-          avatarBox.textContent = (w.full_name || 'K').charAt(0).toUpperCase();
-        }
-
-        document.getElementById('workerName').textContent = w.full_name;
-        document.getElementById('workerCategory').textContent = w.category_name;
-        document.getElementById('workerArea').textContent = `${w.locality_name} (${w.pincode})`;
-        document.getElementById('workerExp').textContent = w.experience_years;
-        document.getElementById('dailyRate').textContent = `₹${w.daily_rate}`;
-        document.getElementById('visitingRate').textContent = `₹${w.visiting_charge}`;
-
-        if (w.is_verified) {
-          document.getElementById('verifiedBadge').innerHTML = '<span class="worker-badge-verified"><i class="fa-solid fa-circle-check"></i> Verified</span>';
-        }
-
-        // Ratings
-        if (w.avg_rating) {
-          document.getElementById('starRating').innerHTML = `<i class="fa-solid fa-star"></i> ${w.avg_rating}`;
-          document.getElementById('reviewCount').textContent = ` (${w.review_count} ratings)`;
-        } else {
-          document.getElementById('starRating').textContent = 'Naya Karigar';
-        }
-
-        // Call button
-        document.getElementById('btnCall').href = `tel:${w.phone_number}`;
-
-        // WhatsApp with Location
-        document.getElementById('btnWhatsApp').onclick = () => {
-          const cleanPhone = (w.phone_number || '').replace(/\D/g, '');
-          if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-              (pos) => {
-                const mapsLink = `https://maps.google.com/?q=${pos.coords.latitude},${pos.coords.longitude}`;
-                const msg = `Namaste ${w.full_name}, maine aapki Mazdoor Direct profile dekhi. Mujhe kaam ke liye baat karni hai.\n\n📍 Mera Current Location: ${mapsLink}`;
-                window.open(`https://wa.me/91${cleanPhone}?text=${encodeURIComponent(msg)}`, '_blank');
-              },
-              () => {
-                window.open(`https://wa.me/91${cleanPhone}?text=${encodeURIComponent(`Namaste ${w.full_name}, mujhe kaam ke liye baat karni hai.`)}`, '_blank');
-              },
-              { timeout: 3000 }
-            );
-          } else {
-            window.open(`https://wa.me/91${cleanPhone}?text=${encodeURIComponent(`Namaste ${w.full_name}, mujhe kaam ke liye baat karni hai.`)}`, '_blank');
-          }
-        };
-
-        // Render Reviews
-        const reviewsBox = document.getElementById('reviewsList');
-        if (w.reviews && w.reviews.length > 0) {
-          reviewsBox.innerHTML = w.reviews.map(r => `
-            <div class="review-item">
-              <div class="review-header">
-                <b>${r.customer_name}</b>
-                <span style="color:#f59e0b;">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>
+          pGrid.innerHTML = portfolio.map(p => `
+            <div class="work-item">
+              <img src="${p.work_photo}" alt="${p.work_title}">
+              <div class="work-body">
+                <h4>${p.work_title}</h4>
+                <p style="font-size:12px; color:#64748b;">📍 ${p.work_location || workerData.locality_name || 'Koderma'}</p>
+                ${p.description ? `<p style="font-size:13px; color:#334155; margin-top:6px;">${p.description}</p>` : ''}
+                ${isOwner ? `<button type="button" onclick="deleteWorkPost(${p.id})" style="margin-top:8px; background:#fee2e2; color:#dc2626; border:none; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:700; cursor:pointer;">🗑️ Delete</button>` : ''}
               </div>
-              <p style="font-size:0.86rem; color:#4b5563;">${r.comment || 'Feedback diya gaya.'}</p>
             </div>
           `).join('');
         }
+
+        // Reviews List
+        const rList = document.getElementById('reviewsList');
+        const reviews = workerData.reviews || [];
+        if (reviews.length === 0) {
+          rList.innerHTML = '<p style="color:var(--muted);">Abhi koi review nahi hai. Pehla review dein!</p>';
+        } else {
+          rList.innerHTML = reviews.map(r => `
+            <div class="review-item">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <strong>${r.reviewer_name} <span style="font-size:11px; color:#6d28d9; background:#ede9fe; padding:2px 7px; border-radius:5px;">${r.reviewer_role || 'Customer'}</span></strong>
+                <span style="color:#f59e0b; font-weight:800;">${'⭐'.repeat(r.overall_rating || 5)}</span>
+              </div>
+              <div style="font-size:12px; color:#64748b; margin:4px 0;">
+                Quality: <strong>${r.work_quality}/5</strong> • Behaviour: <strong>${r.behaviour}/5</strong> • Timely: <strong>${r.timely_completion}/5</strong>
+              </div>
+              ${r.comment ? `<p style="font-size:14px; color:#334155;">"${r.comment}"</p>` : ''}
+            </div>
+          `).join('');
+        }
+
       } catch (err) {
-        console.error('Profile fetch failed:', err);
-        document.getElementById('loading').textContent = 'Profile load karne me error aayi. Browser console check karein.';
+        console.error(err);
       }
-    });
+    }
+
+    async function uploadWorkProof(e) {
+      e.preventDefault();
+      const btn = document.getElementById('uploadWorkBtn');
+      btn.disabled = true;
+      btn.innerText = 'Uploading...';
+
+      const formData = new FormData();
+      formData.append('work_title', document.getElementById('workTitle').value);
+      formData.append('work_location', document.getElementById('workLocation').value);
+      formData.append('description', document.getElementById('workDesc').value);
+      formData.append('work_photo', document.getElementById('workPhoto').files[0]);
+
+      try {
+        const res = await fetch(`/api/workers/${workerId}/portfolio`, {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+        alert(data.message);
+        if (data.success) {
+          e.target.reset();
+          loadProfile();
+        }
+      } catch (err) {
+        alert('Upload error!');
+      } finally {
+        btn.disabled = false;
+        btn.innerText = '⬆️ Post Work Photo on Profile';
+      }
+    }
+
+    async function deleteWorkPost(portfolioId) {
+      if (!confirm('Is work photo ko profile se hatayein?')) return;
+      await fetch(`/api/workers/portfolio/${portfolioId}`, { method: 'DELETE' });
+      loadProfile();
+    }
+
+    async function submitDetailedReview(e) {
+      e.preventDefault();
+      const payload = {
+        reviewer_name: document.getElementById('revName').value,
+        reviewer_role: document.getElementById('revRole').value,
+        work_quality: document.getElementById('revQuality').value,
+        behaviour: document.getElementById('revBehaviour').value,
+        timely_completion: document.getElementById('revTimely').value,
+        comment: document.getElementById('revComment').value
+      };
+
+      const res = await fetch(`/api/workers/${workerId}/reviews`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      alert(data.message);
+      if (data.success) {
+        e.target.reset();
+        loadProfile();
+      }
+    }
+
+    async function submitFakeReport(e) {
+      e.preventDefault();
+      const payload = {
+        target_type: 'worker',
+        target_id: workerId,
+        target_name: workerData ? workerData.full_name : 'Worker',
+        reporter_phone: document.getElementById('repPhone').value,
+        reason: document.getElementById('repReason').value
+      };
+
+      const res = await fetch('/api/reports', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      alert(data.message);
+      if (data.success) {
+        document.getElementById('reportModal').style.display = 'none';
+        e.target.reset();
+      }
+    }
+
+    loadProfile();
   </script>
 </body>
 </html>

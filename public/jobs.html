@@ -87,13 +87,30 @@
 
     .nav-links a:hover, .nav-links a.active { color: var(--primary); }
 
+    .nav-right {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn-outline {
+      background: #ffffff;
+      color: var(--text);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      border: 1px solid var(--border);
+    }
+
     .btn-gradient {
       background: linear-gradient(135deg, #6d28d9, #7c3aed);
       color: #ffffff;
       text-decoration: none;
-      padding: 9px 18px;
+      padding: 9px 16px;
       border-radius: 10px;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
       display: inline-flex;
       align-items: center;
@@ -119,8 +136,8 @@
     .page-hero p {
       color: var(--muted);
       font-size: 15px;
-      max-width: 620px;
-      margin: 0 auto 18px;
+      max-width: 640px;
+      margin: 0 auto;
     }
 
     /* FILTER CARD */
@@ -137,16 +154,55 @@
       padding: 18px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.05);
       display: grid;
-      grid-template-columns: 2fr 1.4fr 1.2fr auto;
+      grid-template-columns: 2.1fr 1.3fr 1.2fr auto auto;
       gap: 12px;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 950px) {
       .filter-card { grid-template-columns: 1fr; }
     }
 
-    .filter-card input, .filter-card select {
+    .search-voice-wrap {
+      display: flex;
+      align-items: center;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding-right: 4px;
+      background: #fff;
+    }
+
+    .search-voice-wrap:focus-within {
+      border-color: var(--primary);
+    }
+
+    .search-voice-wrap input {
+      flex: 1;
+      border: none;
+      padding: 11px 14px;
+      font-size: 14px;
+      outline: none;
+      background: transparent;
+    }
+
+    .mic-btn {
+      background: #f5f3ff;
+      color: var(--primary);
+      border: 1px solid #ddd6fe;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .mic-btn.listening {
+      background: #fee2e2;
+      color: #dc2626;
+      border-color: #fecaca;
+    }
+
+    .filter-card select {
       width: 100%;
       padding: 11px 14px;
       border: 1px solid #cbd5e1;
@@ -156,15 +212,57 @@
       background: #fff;
     }
 
-    .btn-reset {
-      background: #f1f5f9;
-      color: #475569;
-      border: 1px solid #cbd5e1;
-      padding: 11px 16px;
+    .btn-fav-filter {
+      background: #fff1f2;
+      color: #e11d48;
+      border: 1px solid #fecdd3;
+      padding: 11px 14px;
       border-radius: 10px;
       font-size: 13px;
       font-weight: 700;
       cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn-fav-filter.active {
+      background: #e11d48;
+      color: #ffffff;
+      border-color: #e11d48;
+    }
+
+    .btn-reset {
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+      padding: 11px 15px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* ADVERTISEMENT BANNER */
+    .ad-banner {
+      background: linear-gradient(90deg, #fffbeb, #fef3c7);
+      border: 1px solid #fde68a;
+      border-radius: 14px;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .ad-tag {
+      background: #d97706;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 5px;
+      margin-right: 8px;
     }
 
     .results-bar {
@@ -177,7 +275,7 @@
     /* JOBS GRID */
     .jobs-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(335px, 1fr));
       gap: 20px;
     }
 
@@ -200,8 +298,9 @@
     .job-top {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      gap: 10px;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
     .cat-tag {
@@ -222,10 +321,35 @@
       border-radius: 8px;
     }
 
-    .job-card h3 {
+    .title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .title-row h3 {
       font-size: 19px;
       font-weight: 800;
       color: var(--text);
+    }
+
+    .save-btn {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      color: #475569;
+    }
+
+    .save-btn.saved {
+      background: #fff1f2;
+      border-color: #fecdd3;
+      color: #e11d48;
     }
 
     .job-desc {
@@ -246,14 +370,14 @@
 
     .job-actions {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       margin-top: auto;
     }
 
     .btn-apply, .btn-call, .btn-wa {
       flex: 1;
       text-align: center;
-      padding: 10px;
+      padding: 10px 8px;
       border-radius: 10px;
       font-size: 13px;
       font-weight: 700;
@@ -266,7 +390,18 @@
     .btn-apply, .btn-call { background: #6d28d9; }
     .btn-wa { background: #16a34a; }
 
-    /* APPLY MODAL */
+    .btn-rep-sm {
+      background: #fef2f2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* MODAL */
     .modal-backdrop {
       display: none;
       position: fixed;
@@ -346,20 +481,26 @@
         <a href="about.html">About Us</a>
         <a href="contact.html">Contact</a>
       </nav>
-      <a href="post-job.html" class="btn-gradient">+ Post a Job</a>
+      <div class="nav-right">
+        <a href="login.html" class="btn-outline">🔑 OTP Login</a>
+        <a href="post-job.html" class="btn-gradient">+ Post a Job</a>
+      </div>
     </div>
   </header>
 
   <!-- HEADER -->
   <section class="page-hero">
     <h1>Find Latest Jobs in Koderma</h1>
-    <p>Kheti-badi, construction, shop aur technical kaam ke liye apne block ke naye jobs dekhein aur turant apply karein.</p>
+    <p>Block, Panchayat aur Gaon ke naye jobs dekhein. Pasandida jobs ko ❤️ Save karein aur turant apply karein.</p>
   </section>
 
   <!-- MAIN CONTAINER -->
   <div class="container">
     <div class="filter-card">
-      <input type="text" id="searchInput" placeholder="🔍 Kaam ka naam ya gaon khojein (e.g. Hal Jutai, Rajmistri)..." oninput="filterJobs()">
+      <div class="search-voice-wrap">
+        <input type="text" id="searchInput" placeholder="🔍 Kaam, Panchayat ya Gaon khojein..." oninput="filterJobs()">
+        <button type="button" class="mic-btn" id="micBtn" onclick="startVoiceSearch()" title="Bol kar khojein (Voice Search)">🎙️</button>
+      </div>
 
       <select id="categoryFilter" onchange="filterJobs()">
         <option value="">सभी काम (All 41 Categories)</option>
@@ -369,8 +510,12 @@
         <option value="">सभी क्षेत्र (All 8 Blocks)</option>
       </select>
 
+      <button type="button" class="btn-fav-filter" id="favFilterBtn" onclick="toggleSavedFilter()">❤️ Saved (<span id="savedCount">0</span>)</button>
       <button type="button" class="btn-reset" onclick="resetFilters()">Reset</button>
     </div>
+
+    <!-- SPONSORED AD BANNER -->
+    <div id="adBannerSlot"></div>
 
     <div class="results-bar">
       <h2 style="font-size:19px; font-weight:800;">Available Jobs</h2>
@@ -410,6 +555,30 @@
     </div>
   </div>
 
+  <!-- REPORT FAKE JOB MODAL -->
+  <div class="modal-backdrop" id="reportJobModal">
+    <div class="modal-box">
+      <h3 style="color:#dc2626;">🚨 Report Fake Job</h3>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:14px;">Agar ye job fake hai ya paisa mangi ja rahi hai, to report karein.</p>
+      <form onsubmit="submitJobReport(event)">
+        <input type="hidden" id="repJobId">
+        <input type="hidden" id="repJobTitle">
+        <div class="form-group">
+          <label>Aapka Mobile Number *</label>
+          <input type="tel" id="repJobPhone" required pattern="[0-9]{10}" placeholder="10-digit mobile number">
+        </div>
+        <div class="form-group">
+          <label>Shikayat Ka Karan *</label>
+          <textarea id="repJobReason" rows="2" required placeholder="e.g. Fake job post / galat number"></textarea>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <button type="submit" class="btn-rep-sm" style="flex:1; background:#dc2626; color:#fff;">Submit Report</button>
+          <button type="button" class="btn-reset" onclick="document.getElementById('reportJobModal').style.display='none'">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- FOOTER -->
   <footer class="footer">
     <div style="margin-bottom:10px;">
@@ -417,6 +586,7 @@
       <a href="workers.html">Find Workers</a>
       <a href="categories.html">Categories</a>
       <a href="post-job.html">Post a Job</a>
+      <a href="login.html">OTP Login</a>
       <a href="contact.html">Contact Us</a>
     </div>
     <p>© 2026 Koderma Work Finder — Koderma District (Jharkhand)</p>
@@ -424,20 +594,83 @@
 
   <script>
     let allJobs = [];
+    let showSavedOnly = false;
+    let savedJobIds = JSON.parse(localStorage.getItem('kw_saved_jobs') || '[]');
     const params = new URLSearchParams(window.location.search);
     const initialCatId = params.get('category_id') || '';
 
+    function updateSavedCount() {
+      document.getElementById('savedCount').innerText = savedJobIds.length;
+    }
+
+    function toggleSaveJob(jobId) {
+      const idStr = String(jobId);
+      if (savedJobIds.includes(idStr)) {
+        savedJobIds = savedJobIds.filter(id => id !== idStr);
+      } else {
+        savedJobIds.push(idStr);
+      }
+      localStorage.setItem('kw_saved_jobs', JSON.stringify(savedJobIds));
+      updateSavedCount();
+      filterJobs();
+    }
+
+    function toggleSavedFilter() {
+      showSavedOnly = !showSavedOnly;
+      document.getElementById('favFilterBtn').classList.toggle('active', showSavedOnly);
+      filterJobs();
+    }
+
+    function startVoiceSearch() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        alert('Aapke browser mein Voice Search support nahi hai. Chrome browser use karein.');
+        return;
+      }
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'hi-IN';
+      const micBtn = document.getElementById('micBtn');
+      micBtn.classList.add('listening');
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById('searchInput').value = transcript;
+        micBtn.classList.remove('listening');
+        filterJobs();
+      };
+      recognition.onerror = () => micBtn.classList.remove('listening');
+      recognition.onend = () => micBtn.classList.remove('listening');
+      recognition.start();
+    }
+
     async function initJobs() {
+      updateSavedCount();
       try {
-        const [catRes, locRes, jobRes] = await Promise.all([
+        const [catRes, locRes, jobRes, adRes] = await Promise.all([
           fetch('/api/categories'),
           fetch('/api/localities'),
-          fetch('/api/jobs')
+          fetch('/api/jobs'),
+          fetch('/api/ads')
         ]);
 
         const cats = (await catRes.json()).data || [];
         const locs = (await locRes.json()).data || [];
         allJobs = (await jobRes.json()).data || [];
+        const ads = (await adRes.json()).data || [];
+
+        if (ads.length > 0) {
+          const ad = ads[0];
+          document.getElementById('adBannerSlot').innerHTML = `
+            <div class="ad-banner">
+              <div>
+                <span class="ad-tag">SPONSORED AD</span>
+                <strong style="font-size:14px;">${ad.title}</strong>
+                <span style="font-size:13px; color:#78350f; margin-left:8px;">${ad.subtitle || ''}</span>
+              </div>
+              <a href="${ad.contact_phone ? 'tel:' + ad.contact_phone : (ad.link_url || 'contact.html')}" class="btn-gradient" style="background:#d97706;">📞 Sampark</a>
+            </div>
+          `;
+        }
 
         const catSelect = document.getElementById('categoryFilter');
         const groups = {};
@@ -480,11 +713,12 @@
       const locId = document.getElementById('localityFilter').value;
 
       const filtered = allJobs.filter(j => {
-        const text = `${j.title || ''} ${j.description || ''} ${j.category_name || ''} ${j.locality_name || ''} ${j.village || ''}`.toLowerCase();
+        const text = `${j.title || ''} ${j.description || ''} ${j.category_name || ''} ${j.locality_name || ''} ${j.panchayat || ''} ${j.village || ''}`.toLowerCase();
         const matchQ = !q || text.includes(q);
         const matchCat = !catId || String(j.category_id) === String(catId);
         const matchLoc = !locId || String(j.locality_id) === String(locId);
-        return matchQ && matchCat && matchLoc;
+        const matchSaved = !showSavedOnly || savedJobIds.includes(String(j.id));
+        return matchQ && matchCat && matchLoc && matchSaved;
       });
 
       renderJobs(filtered);
@@ -492,12 +726,12 @@
 
     function renderJobs(list) {
       const grid = document.getElementById('jobsGrid');
-      document.getElementById('jobCount').innerText = `Kul Approved Jobs: ${list.length}`;
+      document.getElementById('jobCount').innerText = `Kul Jobs: ${list.length}`;
 
       if (list.length === 0) {
         grid.innerHTML = `
           <div style="grid-column:1/-1; text-align:center; padding:40px; background:#fff; border-radius:16px; border:1px solid var(--border);">
-            <h3 style="margin-bottom:8px;">Abhi koi approved job nahi dikh rahi hai</h3>
+            <h3 style="margin-bottom:8px;">Is filter mein koi job nahi dikh rahi hai</h3>
             <p style="color:var(--muted); margin-bottom:16px;">Naya kaam post karein ya filter reset karke dekhein.</p>
             <a href="post-job.html" class="btn-gradient">+ Post a Job</a>
           </div>
@@ -508,14 +742,17 @@
       grid.innerHTML = list.map(j => {
         const phone = (j.employer_phone || '').replace(/[^0-9]/g, '');
         const waMsg = encodeURIComponent(`Namaste ${j.employer_name || ''}, maine aapki "${j.title}" job Koderma Work Finder par dekhi. Main kaam karne ke liye interested hoon.`);
+        const isSaved = savedJobIds.includes(String(j.id));
+        const locString = [j.village, j.panchayat, j.locality_name || 'Koderma', 'Koderma'].filter(Boolean).join(', ');
+        const safeTitle = (j.title || '').replace(/'/g, "\\'");
 
         const contactButtons = j.contact_mode === 'direct'
           ? `
-            <a href="tel:${phone}" class="btn-call">📞 Call Employer</a>
+            <a href="tel:${phone}" class="btn-call">📞 Call</a>
             <a href="https://wa.me/91${phone}?text=${waMsg}" target="_blank" class="btn-wa">💬 WhatsApp</a>
           `
           : `
-            <button type="button" class="btn-apply" onclick="openApplyModal(${j.id}, '${j.title.replace(/'/g, "\\'")}')">📩 Contact Through Website</button>
+            <button type="button" class="btn-apply" onclick="openApplyModal(${j.id}, '${safeTitle}')">📩 Apply / Contact</button>
           `;
 
         return `
@@ -525,17 +762,23 @@
               <span class="pay-tag">💰 ${j.payment_type || 'Per Day'}${j.wage && j.wage !== 'Negotiable' ? ' • ₹' + j.wage : ''}</span>
             </div>
 
-            <h3>${j.title}</h3>
+            <div class="title-row">
+              <h3>${j.title}</h3>
+              <button type="button" class="save-btn ${isSaved ? 'saved' : ''}" onclick="toggleSaveJob(${j.id})">
+                ${isSaved ? '❤️ Saved' : '🤍 Save'}
+              </button>
+            </div>
 
             <div class="job-desc">${j.description || 'Kaam ke liye sampark karein.'}</div>
 
             <div class="job-meta">
-              <div>📍 <strong>Location:</strong> ${j.village ? j.village + ', ' : ''}${j.locality_name || 'Koderma'}, Koderma</div>
+              <div>📍 <strong>Location:</strong> ${locString}</div>
               <div>👤 <strong>Posted by:</strong> ${j.employer_name || 'Employer'}</div>
             </div>
 
             <div class="job-actions">
               ${contactButtons}
+              <button type="button" class="btn-rep-sm" onclick="openJobReport(${j.id}, '${safeTitle}')" title="Report Fake Job">🚨</button>
             </div>
           </div>
         `;
@@ -578,10 +821,41 @@
       }
     }
 
+    function openJobReport(jobId, jobTitle) {
+      document.getElementById('repJobId').value = jobId;
+      document.getElementById('repJobTitle').value = jobTitle;
+      document.getElementById('reportJobModal').style.display = 'flex';
+    }
+
+    async function submitJobReport(e) {
+      e.preventDefault();
+      const payload = {
+        target_type: 'job',
+        target_id: document.getElementById('repJobId').value,
+        target_name: document.getElementById('repJobTitle').value,
+        reporter_phone: document.getElementById('repJobPhone').value,
+        reason: document.getElementById('repJobReason').value
+      };
+
+      const res = await fetch('/api/reports', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      alert(data.message);
+      if (data.success) {
+        document.getElementById('reportJobModal').style.display = 'none';
+        e.target.reset();
+      }
+    }
+
     function resetFilters() {
       document.getElementById('searchInput').value = '';
       document.getElementById('categoryFilter').value = '';
       document.getElementById('localityFilter').value = '';
+      showSavedOnly = false;
+      document.getElementById('favFilterBtn').classList.remove('active');
       filterJobs();
     }
 

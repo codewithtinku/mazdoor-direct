@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
 
-// 1. Get All Categories (Grouped & Ordered)
+// 1. Get All Categories
 router.get('/categories', async (req, res) => {
     try {
         const [rows] = await db.query('SELECT id, group_name, name FROM categories ORDER BY id ASC');
@@ -24,7 +24,38 @@ router.get('/localities', async (req, res) => {
     }
 });
 
-// 3. Submit Contact / Complaint Form
+// 3. Get Active Advertisements (For Home & Jobs Banner)
+router.get('/ads', async (req, res) => {
+    try {
+        const [rows] = await db.query('SELECT * FROM advertisements WHERE is_active = 1 ORDER BY id DESC');
+        res.json({ success: true, data: rows });
+    } catch (error) {
+        console.error('Error fetching ads:', error);
+        res.status(500).json({ success: false, message: 'Server error fetching ads' });
+    }
+});
+
+// 4. Report Fake Worker / Fake Job
+router.post('/reports', async (req, res) => {
+    try {
+        const { target_type, target_id, target_name, reporter_phone, reason } = req.body;
+        if (!target_id || !reporter_phone || !reason) {
+            return res.status(400).json({ success: false, message: 'Mobile number aur report ka karan likhna zaroori hai.' });
+        }
+
+        await db.query(
+            'INSERT INTO user_reports (target_type, target_id, target_name, reporter_phone, reason) VALUES (?, ?, ?, ?, ?)',
+            [target_type || 'worker', target_id, target_name || '', reporter_phone.trim(), reason.trim()]
+        );
+
+        res.status(201).json({ success: true, message: 'Aapki report darj ho gayi hai! Admin jald hi iski jaanch karega.' });
+    } catch (error) {
+        console.error('Report error:', error);
+        res.status(500).json({ success: false, message: 'Server error submitting report' });
+    }
+});
+
+// 5. Submit Contact / Complaint Form
 router.post('/complaints', async (req, res) => {
     try {
         const { sender_name, phone_number, subject, message } = req.body;
